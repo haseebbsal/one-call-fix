@@ -1,0 +1,20 @@
+/* CustomOTPInput.css */
+.otp-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otp-box input {
+  width: 50px !important; /* Width of each input box */
+  height: 50px !important; /* Height of each input box */
+  text-align: center;
+  border: 2px solid #ccc; /* Border color for boxes */
+  font-size: 20px; /* Font size inside the box */
+  border-radius: 5px; /* Border radius for the box */
+}
+
+.otp-box input:focus {
+  border-color: blue; /* Border color when input is focused */
+  outline: none;
+}
