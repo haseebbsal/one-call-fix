@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
             }
             else {
                 console.log('url',config.url)
-                // window.location.href='/login'
+                window.location.href='/login'
             }
         }
         // console.log('token',Cookies.get('accessToken'))
@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use((response:AxiosResponse) => {
         Cookies.remove('refreshToken')
         Cookies.remove('userData')
         Cookies.remove('clientSecret')
-        // window.location.href='/login'
+        window.location.href='/login'
     }
 
     return response
@@ -104,7 +104,7 @@ axiosInstance.interceptors.response.use((response:AxiosResponse) => {
         Cookies.remove('refreshToken')
         Cookies.remove('userData')
         Cookies.remove('clientSecret')
-        // window.location.href='/login'
+        window.location.href='/login'
     }
     console.log('interceptor error', error)
     return Promise.reject(error);
