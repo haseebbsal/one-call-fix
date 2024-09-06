@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 // import { TRADES } from "@/_utils/enums";
 // import { getJobById, resetJob } from "@/lib/features/jobSlice";
@@ -15,16 +15,27 @@ import { TRADES } from "@/_utils/enums";
 import { config } from "@/_utils/helpers/config";
 import Loader from "@/components/common/Loader";
 import LeadCard from "@/components/common/cards/lead-card";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
+import BaseButton from "@/components/common/button/base-button";
 
 export default function Jobs(datas:any) {
   // const queryParams = useParams();
   // const [jobId, setJobId] = useState(queryParams.jobId as String);
   // const dispatch = useAppDispatch();
   // const { job, loading, error }: any = useAppSelector((state) => state.job);
+  const router=useRouter()
+  const queryCient=useQueryClient()
   const [jobId, setJobId] = useState(datas.params.jobId as String);
   const individualJob=useQuery(['individualJob',datas.params.jobId],({queryKey})=>axiosInstance.get(`/job?jobId=${queryKey[1]}`))
+  const bidsQuery=useQuery(['bids',datas.params.jobId],({queryKey})=>axiosInstance.get(`/bid/all?page=1&limit=10&jobId=${queryKey[1]}`))
+  const deleteJob=useMutation(()=>axiosInstance.delete(`/job?jobId=${datas.params.jobId}`),{
+    onSuccess(data, variables, context) {
+      console.log('deleted',data.data)
+      queryCient.invalidateQueries('homeOwnerJobs')
+      router.replace('/homeowner/jobs')
+    },
+  })
   // useEffect(() => {
   //   if (!job && jobId) {
   //     dispatch(getJobById(jobId));
@@ -145,21 +156,29 @@ export default function Jobs(datas:any) {
             Trade People Who Applied For this Job
           </h6>
           <div className="flex gap-2">
-            <LeadCard />
-            <LeadCard />
-            <LeadCard />
+            {bidsQuery.data?.data.data.map((e:any)=><LeadCard imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`}/>)}
+            {/* <LeadCard /> */}
+            {/* <LeadCard /> */}
+            {/* <LeadCard /> */}
           </div>
           <div className="flex gap-4 mt-12">
-            <Button
-              variant="solid"
-              radius="full"
-              className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
+            <BaseButton
+            as={'link'}
+            link={`/homeowner/job/edit?id=${datas.params.jobId}`}
+              // variant="solid"
+              // radius="full"
+              // className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
             >
               Edit Job Post
-            </Button>
+            </BaseButton>
             <Button
               variant="bordered"
               radius="full"
+              isLoading={deleteJob.isLoading}
+              disabled={deleteJob.isLoading}
+              onClick={()=>{
+                deleteJob.mutate()
+              }}
               className="border border-color-6 text-color-6 text-lg w-fit px-16 py-6"
             >
               Delete Job
