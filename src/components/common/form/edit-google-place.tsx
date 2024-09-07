@@ -10,17 +10,20 @@ interface GooglePlacesInputProps {
   control: Control<any>;
   rules: any;
   placeholder?: string;
-  addressKey?: string;
+  addressKey?: any;
   radius?: "none" | "full" | "sm" | "md" | "lg";
+  changeAddressKey:any
 }
 
-const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
+const EditGooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
   control,
   name,
   rules,
   placeholder,
   addressKey,
   radius,
+  changeAddressKey
+  
 }) => {
   const { field } = useController({ name, control, rules });
   const inputRef = useRef<HTMLInputElement>(null);
@@ -121,6 +124,13 @@ console.log('address key',addressKey)
           formattedAddress: place.formatted_address || "",
         };
         console.log(addressDetails, "addressDetails");
+        if(field.value!=undefined){
+            changeAddressKey((prev:any)=>{
+                return {...prev,address:addressDetails}
+     
+             }
+         )
+        }
         
         field.onChange(addressDetails);
       }
@@ -138,10 +148,10 @@ console.log('address key',addressKey)
       rules={rules}
       type="text"
       radius={radius ? radius : "full"}
-      value={addressKey ? field.value?.[addressKey] : field.value}
+      value={field.value==undefined?addressKey!.postalCode:field.value?.postalCode}
       onBlur={handleBlur}
     />
   );
 };
 
-export default GooglePlacesInput;
+export default EditGooglePlacesInput;

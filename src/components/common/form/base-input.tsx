@@ -24,6 +24,7 @@ type Props<T extends FieldValues> = {
   rules?: UseControllerProps<T>["rules"];
   value?: string;
   onBlur?: () => void;
+  onChangee?:any
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 
 const BaseInput = forwardRef<HTMLInputElement, Props<FieldValues>>(
@@ -42,6 +43,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props<FieldValues>>(
       icon,
       value: propValue,
       onBlur,
+      onChangee
     },
     ref,
   ) => {
@@ -68,7 +70,18 @@ const BaseInput = forwardRef<HTMLInputElement, Props<FieldValues>>(
         }}
         radius={radius}
         value={valueToDisplay}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => {
+          if(onChangee){
+            onChangee((prev:any)=>{
+              return {
+                ...prev,
+                headline:e.target.value
+              }
+            })
+          }
+          console.log('input',e.target.value)
+          onChange(e.target.value)}
+        }
         placeholder={placeholder}
         type={type}
         label={label} 

@@ -156,7 +156,7 @@ export default function Jobs(datas:any) {
             Trade People Who Applied For this Job
           </h6>
           <div className="flex gap-2">
-            {bidsQuery.data?.data.data.map((e:any)=><LeadCard imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`}/>)}
+            {bidsQuery.data?.data.data.map((e:any)=><LeadCard bidId={e._id} jobId={datas.params.jobId} id={e.user._id} imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`}/>)}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}

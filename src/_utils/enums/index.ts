@@ -18,6 +18,13 @@ export enum HomeOwnerJobTypes {
   COMPLETED = 2,
 }
 
+export enum TradesPersonProfile {
+  PROFILE = 1,
+  Reviews,
+  Offer
+}
+
+
 export enum EstimatedBudget {
   Under_100 = "Under £100",
   Under_250 = "Under £250",
