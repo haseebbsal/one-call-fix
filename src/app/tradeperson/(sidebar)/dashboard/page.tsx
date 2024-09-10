@@ -5,7 +5,7 @@ import JobListSection from "@/components/modules/tradeperson/job-list-section";
 import ProfileCompletion from "@/components/modules/tradeperson/profile-completion";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 
 
@@ -22,6 +22,22 @@ export default function Dashboard() {
   })
 
   const getStatsQuery=useQuery(['stats'],()=>axiosInstance.get('/trades-person/stats'))
+
+  const jobsInfinite = useInfiniteQuery(
+    ["allJobs",'1'],
+    ({ queryKey, pageParam = 1 }) =>
+      axiosInstance.get(`/job/trades-person?page=${pageParam}&limit=10&type=${queryKey[1]}`),
+    {
+      getNextPageParam: (lastPage:any, pages) => {
+        if(lastPage.page!=lastPage.lastPage){
+          return lastPage.page+=1;
+        }
+        return null;
+      },
+      refetchOnWindowFocus:false
+      // enabled: !!activeDomain,
+    }
+  );
   return (
     <>
       <div className="flex flex-wrap items-center w-full text-gray-800 p-10 bg-gray-100 gap-10">
@@ -38,7 +54,7 @@ export default function Dashboard() {
       <div className="p-5">
         <div className="flex flex-col xl:flex-row lg:gap-10">
           
-          <JobListSection title="Available Jobs" jobItems={JOB_ITEMS} />
+          <JobListSection type={'1'} title="Available Jobs" jobItems={jobsInfinite} />
 
           <div className="w-full lg:max-w-sm flex flex-col">
             <h2 className="text-xl font-semibold mb-4 text-color-17">

@@ -12,7 +12,7 @@ interface GooglePlacesInputProps {
   placeholder?: string;
   addressKey?: any;
   radius?: "none" | "full" | "sm" | "md" | "lg";
-  changeAddressKey:any
+  changeAddressKey?:any
 }
 
 const EditGooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
@@ -148,7 +148,7 @@ console.log('address key',addressKey)
       rules={rules}
       type="text"
       radius={radius ? radius : "full"}
-      value={field.value==undefined?addressKey!.postalCode:field.value?.postalCode}
+      value={field.value==undefined?addressKey?.postalCode:field.value?.postalCode}
       onBlur={handleBlur}
     />
   );

@@ -2,9 +2,10 @@ import React from "react";
 
 interface FileUploadProps {
   labelClass?: string;
+  register?:any
 }
 
-export default function BaseFileUpload({ labelClass }: FileUploadProps) {
+export default function BaseFileUpload({ labelClass,register }: FileUploadProps) {
   return (
     <div className="relative w-full">
       <div className="items-center justify-center max-w-xl mx-auto">
@@ -19,9 +20,10 @@ export default function BaseFileUpload({ labelClass }: FileUploadProps) {
               <span className="font-extrabold ml-[4px]">Browse Files</span>
             </span>
           </span>
-          <input
+          <input 
             type="file"
-            name="file_upload"
+            {...register('file',{required:"Select file"})}
+            // name="file_upload"
             className="hidden"
             accept="image/png,image/jpeg"
           />

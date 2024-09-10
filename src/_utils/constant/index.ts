@@ -557,6 +557,16 @@ export const TRADE_PERSON_SIDEBAR_MENU_ITEMS: sidebarMenuItemType[] = [
     link: "/tradeperson/billing",
   },
   {
+    label: "Refund Requests",
+    icon: "/icons/billing.png",
+    link: "/tradeperson/refund-requests",
+  },
+  {
+    label: "Feedback",
+    icon: "/icons/billing.png",
+    link: "/tradeperson/feedback",
+  },
+  {
     label: "Sign Out",
     icon: "/icons/sign-out.png",
     link: "",

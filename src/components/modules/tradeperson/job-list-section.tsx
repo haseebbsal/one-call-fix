@@ -29,15 +29,19 @@ interface JobItem {
 
 interface JobListSectionProps {
   title: string;
-  jobItems: JobItem[];
+  jobItems: any;
   innerTitle?: string;
   isLoading?: boolean;
   errorMessage?: string | null;
   loadMoreData?: () => void;
   onJobClick?: (jobId: string) => void;
+  type:string;
+  setJob?:any
 }
 
 export default function JobListSection({
+  setJob,
+  type,
   title,
   jobItems,
   innerTitle,
@@ -85,33 +89,7 @@ export default function JobListSection({
 
 
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isLoading:isLoadingApi,
-  }: {
-      data: any,
-      fetchNextPage:any,
-      hasNextPage?: any,
-      isFetching: any,
-      isLoading: any
-} = useInfiniteQuery(
-    ["allJobs"],
-    ({ queryKey, pageParam = 1 }) =>
-      axiosInstance.get(`/job/trades-person?page=${pageParam}&limit=10&type=3`),
-    {
-      getNextPageParam: (lastPage:any, pages) => {
-        if(lastPage.page!=lastPage.lastPage){
-          return lastPage.page+=1;
-        }
-        return null;
-      },
-      refetchOnWindowFocus:false
-      // enabled: !!activeDomain,
-    }
-  );
+  
 
 
   return (
@@ -162,7 +140,7 @@ export default function JobListSection({
             {innerTitle}
           </h2>
         )}
-        {isLoadingApi ? (
+        {jobItems.isLoading ? (
           <div className="flex justify-center w-full h-full">
             <Loader />
           </div>
@@ -171,23 +149,24 @@ export default function JobListSection({
             {errorMessage}
           </p>
         ) : (
-          data?.pages.map((item:any, index:number) => (
+          jobItems.data?.pages.map((item:any, index:number) => (
             item.data.data.map((e:any)=>{
               return <React.Fragment key={index}>
-              {item.shortlistedCount !== undefined && (
+              {type == '3' && (
                 <div className="flex items-center justify-end mb-1">
                   <div className="py-1 px-3 border-2 rounded-lg text-xs font-normal text-white bg-color-21">
-                    {item.shortlistedCount} Tradespeople Shortlisted
+                    {`${e.tradesPersonApplied}`} Tradespeople Shortlisted
                   </div>
                 </div>
               )}
               {/* job div */}
               <div
-                className="mb-8 last:mb-0 flex flex-col sm:flex-row items-start border-b border-color-19"
+                className="mb-8 last:mb-0 flex cursor-pointer flex-col sm:flex-row items-start border-b border-color-19"
                 onClick={() => {
-                  if (item.jobId) {
-                    // onJobClick(item.jobId);
-                  }
+                  setJob(e)
+                  // if (item.jobId) {
+                  //   // onJobClick(item.jobId);
+                  // }
                 }}
               >
                 <Image
@@ -203,7 +182,7 @@ export default function JobListSection({
                         {e.distance} miles away
                       </span>
                     </div>
-                    <Button
+                    {type=='1' && <Button
                       variant="bordered"
                       radius="full"
                       className="border border-[#3571EC] text-color-9 text-lg w-fit px-12 py-4"
@@ -213,7 +192,8 @@ export default function JobListSection({
                       }}
                     >
                       Submit Interest
-                    </Button>
+                    </Button>}
+                    
                   </div>
                   <p className="mt-1 text-sm">{e.issue}</p>
                   <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
@@ -231,17 +211,17 @@ export default function JobListSection({
             })
           ))
         )}
-        {!isLoadingApi && !data ? (
+        {!jobItems.isLoading && !jobItems.data.pages[0].data.data.length ? (
           <p className="text-lg font-bold text-center">No Job Avaliable</p>
         ) : (
           ""
         )}
-        {hasNextPage &&  <BaseButton
-        isLoading={isFetching}
-        disabled={isFetching}
+        {jobItems.hasNextPage &&  <BaseButton
+        isLoading={jobItems.isFetching}
+        disabled={jobItems.isFetching}
           extraClass="bg-color-12 text-white px-7"
           onClick={()=>{
-            fetchNextPage()
+            jobItems.fetchNextPage()
           }}
         >
           Load More

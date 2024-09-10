@@ -2,6 +2,7 @@ import { Image } from "@nextui-org/image";
 import React from "react";
 
 import CustomButton from "@/components/common/button/custom-button";
+import { config } from "@/_utils/helpers/config";
 
 interface Job {
   title: string;
@@ -21,15 +22,17 @@ type JobType = "pending" | "shortlisted" | "myJobs";
 interface JobDetailsProps {
   jobType: JobType;
   job: Job;
+  actualJob:any
 }
 
-export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
+export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetailsProps) {
+  console.log('job data',actualJob)
   const renderJobDetails = () => {
     switch (jobType) {
       case "pending":
         return (
           <>
-            <h3 className="font-semibold text-color-15">${job.price}</h3>
+            <h3 className="font-semibold text-color-15">£{actualJob.price}</h3>
             <span className="text-xs text-color-14">Lead Price</span>
           </>
         );
@@ -37,7 +40,7 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
         return (
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="font-semibold text-color-15">${job.price}</h3>
+              <h3 className="font-semibold text-color-15">£{actualJob.price}</h3>
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -54,7 +57,7 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
         return (
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="font-semibold text-color-15">${job.price}</h3>
+              <h3 className="font-semibold text-color-15">£{actualJob.price}</h3>
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap flex-col justify-center items-center">
@@ -76,10 +79,10 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
         <div className="flex flex-col w-full">
           <div className="p-5 sm:p-8 border-b border-color-19">
             <div className="mb-1 flex flex-col sm:flex-row justify-between">
-              <h3 className="font-semibold">{job.title}</h3>
+              <h3 className="font-semibold">{actualJob.headline}</h3>
             </div>
             <span className="text-xs sm:text-sm text-color-14">
-              {job.description}
+              {actualJob.issue}
             </span>
           </div>
 
@@ -94,20 +97,22 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
               </span>
 
               <span className="text-xs text-color-14">Name:</span>
-              <h3 className="font-semibold text-md mb-2">{job.contactName}</h3>
+              <h3 className="font-semibold text-md mb-2">{actualJob.user.firstName} {actualJob.user.lastName}</h3>
 
               <span className="text-xs text-color-14">Phone Number:</span>
-              <h3 className="font-semibold text-md mb-2">{job.phoneNumber}</h3>
+              <h3 className="font-semibold text-md mb-2">{actualJob.user.phone}</h3>
 
               <span className="text-xs text-color-14">Email:</span>
-              <h3 className="font-semibold text-md mb-2">{job.email}</h3>
+              <h3 className="font-semibold text-md mb-2">{actualJob.user.email}</h3>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+
+            {jobType=='shortlisted' && <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <img src="/icons/warning.png" alt="warning" className="w-5 h-5" />
               <span className="text-xs font-medium text-center sm:text-left">
                 Purchase Job to Reveal Contact Info.
               </span>
-            </div>
+            </div>}
+            
           </div>
 
           <div className="py-2 px-5 sm:py-4 sm:px-8">
@@ -123,12 +128,12 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
 
               <span className="text-sm text-color-14 mb-3">Attachments</span>
               <div className="flex items-center gap-2 mb-5">
-                {job.attachments.map((attachment, index) => (
+                {actualJob.media.map((attachment:any, index:any) => (
                   <Image
-                    src={attachment}
+                    src={`${config.mediaURL}/${attachment}`}
                     alt={`attachment-${index + 1}`}
                     radius="none"
-                    className="w-14 h-16"
+                    className="w-14 h-16 object-contain"
                     key={index}
                   />
                 ))}
@@ -141,7 +146,7 @@ export default function JobDetailsSection({ jobType, job }: JobDetailsProps) {
                   alt="location"
                   className="w-3 h-3"
                 />
-                <span className="text-md">{job.location}</span>
+                <span className="text-md">{actualJob.address.city} {actualJob.address.country}</span>
               </div>
             </div>
           </div>
