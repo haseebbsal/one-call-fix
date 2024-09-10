@@ -4,10 +4,11 @@ import React from "react";
 
 interface BaseModalProps {
   isOpen: boolean;
-  onOpenChange: () => void;
+  onOpenChange?: () => void;
   children: React.ReactNode;
-  header: string;
+  header?: string;
   modalHeaderImage?: string;
+  hideCloseButton?: boolean;
   size?:
     | "md"
     | "xs"
@@ -25,6 +26,7 @@ export default function BaseModal({
   children,
   isOpen,
   onOpenChange,
+  hideCloseButton,
   header,
   modalHeaderImage,
   size,
@@ -36,6 +38,7 @@ export default function BaseModal({
       size={size}
       placement={"center"}
       onOpenChange={onOpenChange}
+      hideCloseButton={hideCloseButton}
       isDismissable={false}
       classNames={{
         body: "",

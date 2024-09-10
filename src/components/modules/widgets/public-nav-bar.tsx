@@ -62,7 +62,7 @@ export default function PublicNavBar() {
           <NavbarItem>
             <BaseButton
               as="link"
-              link="/tradesperson-signup"
+              link="/tradeperson/signup"
               extraClass="!text-base w-[265px] !max-w-full !text-color-4 bg-transparent font-semibold border-3 border-black px-10"
             >
               TRADEPERSON SIGN UP

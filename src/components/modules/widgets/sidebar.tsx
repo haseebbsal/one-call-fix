@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { sidebarMenuItemType } from "@/_utils/types";
+import { useMutation } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
+import BaseButton from "@/components/common/button/base-button";
 
 interface Props {
   menuItems: sidebarMenuItemType[];
@@ -17,6 +20,12 @@ export default function Sidebar({ menuItems }: Props) {
     setCurrentPath(pathname);
   }, [pathname]);
 
+
+  const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
+    onSuccess(data, variables, context) {
+      console.log('logout',data.data)
+    },
+  })
   return (
     <aside
       className="w-72 hidden md:block bg-color-13 min-h-screen"
@@ -91,7 +100,7 @@ export default function Sidebar({ menuItems }: Props) {
                       })}
                     </ul>
                   </details>
-                ) : (
+                ) : item.link?(
                   <Link
                     href={item.link}
                     className={`flex items-center py-2.5 pl-10 pr-2.5 mr-2.5 text-white rounded-tr-lg rounded-br-lg transition-all duration-500 hover:bg-color-12 ${isActive ? "bg-color-12" : ""}`}
@@ -107,7 +116,26 @@ export default function Sidebar({ menuItems }: Props) {
                       {item.label}
                     </span>
                   </Link>
-                )}
+                ):<BaseButton
+                isLoading={logOutMutation.isLoading}
+                disabled={logOutMutation.isLoading}
+                // href={item.link}
+                onClick={()=>{
+                  logOutMutation.mutate()
+                }}
+                extraClass={`flex !w-full items-center justify-start bg-transparent py-2.5 pl-10 pr-2.5 mr-2.5 text-white !rounded-none !max-w-full transition-all duration-500 hover:bg-color-12 ${isActive ? "!bg-color-12" : ""}`}
+              >
+                <Image
+                  src={item.icon}
+                  alt={item.label}
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <span className="ms-3 font-medium text-sm">
+                  {item.label}
+                </span>
+              </BaseButton>}
               </li>
             );
           })}

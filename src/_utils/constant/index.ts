@@ -123,7 +123,7 @@ export const MENU_ITEMS = [
   },
   {
     title: "TRADESPERSON SIGN UP",
-    link: "/tradesperson-signup",
+    link: "/tradeperson/signup",
   },
 ];
 
@@ -559,7 +559,7 @@ export const TRADE_PERSON_SIDEBAR_MENU_ITEMS: sidebarMenuItemType[] = [
   {
     label: "Sign Out",
     icon: "/icons/sign-out.png",
-    link: "#",
+    link: "",
   },
 ];
 
@@ -618,26 +618,31 @@ export const DASHBOARD_INPUT_EXTRA_CLASS = {
 
 export const DASHBOARD_ITEMS = [
   {
+    slug:"leadsPurchased",
     title: "Leads Purchased",
     icon: "/icons/leads.png",
     value: "$150",
   },
   {
+    slug:"leadsWon",
     title: "Leads Won",
     icon: "/icons/leads.png",
     value: "1250",
   },
   {
+    slug:"winPercentage",
     title: "Win Percentage",
     icon: "/icons/win-percentage.png",
     value: "+5.80%",
   },
   {
+    slug:"totalRevenue",
     title: "Total Revenue",
     icon: "/icons/revenue.png",
     value: "$1,005",
   },
   {
+    slug:"totalSpentOnLeads",
     title: "Total Spent On Leads",
     icon: "/icons/revenue.png",
     value: "90%",

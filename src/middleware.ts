@@ -87,7 +87,14 @@ export const config = {
     matcher: [
         '/admin/:path*',
         '/homeowner/job/:path*',
-        '/tradeperson/:path*',
+        '/tradeperson/account-details',
+        '/tradeperson/billing',
+        '/tradeperson/dashboard',
+        '/tradeperson/account-details',
+        '/tradeperson/jobs/:path*',
+        '/tradeperson/profile/:path*',
+        '/tradeperson/reviews',
+        '/tradeperson/vetting/:path*',
         '/homeowner/account-settings/:path*',
         '/homeowner/jobs',
         

@@ -18,13 +18,20 @@ import React, { useState } from "react";
 import { sidebarMenuItemType } from "@/_utils/types";
 
 import { SearchIcon } from "../public/search-icon";
+import BaseButton from "@/components/common/button/base-button";
+import { useMutation } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
 
 interface Props {
   menuItems: sidebarMenuItemType[];
 }
 export default function TradepersonNavBar({ menuItems }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
+    onSuccess(data, variables, context) {
+      console.log('logout',data.data)
+    },
+  })
   return (
     <Navbar
       isBordered
@@ -188,10 +195,10 @@ export default function TradepersonNavBar({ menuItems }: Props) {
                       })}
                     </ul>
                   </details>
-                ) : (
+                ) : item.link?(
                   <Link
                     href={item.link}
-                    className={`flex items-center py-2.5 pl-10 pr-2.5 mr-2.5 text-white rounded-tr-lg rounded-br-lg transition-all duration-500 hover:bg-color-12`}
+                    className={`flex items-center py-2.5 pl-10 pr-2.5 mr-2.5 text-white rounded-tr-lg rounded-br-lg transition-all duration-500 hover:bg-color-12 `}
                   >
                     <Image
                       src={item.icon}
@@ -204,7 +211,26 @@ export default function TradepersonNavBar({ menuItems }: Props) {
                       {item.label}
                     </span>
                   </Link>
-                )}
+                ):<BaseButton
+                isLoading={logOutMutation.isLoading}
+                disabled={logOutMutation.isLoading}
+                // href={item.link}
+                onClick={()=>{
+                  logOutMutation.mutate()
+                }}
+                extraClass={`flex !w-full items-center justify-start bg-transparent py-2.5 pl-10 pr-2.5 mr-2.5 text-white !rounded-none !max-w-full transition-all duration-500 hover:bg-color-12`}
+              >
+                <Image
+                  src={item.icon}
+                  alt={item.label}
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+                <span className="ms-3 font-medium text-sm">
+                  {item.label}
+                </span>
+              </BaseButton>}
               </li>
             </NavbarMenuItem>
           ))}
