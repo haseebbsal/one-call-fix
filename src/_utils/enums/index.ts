@@ -64,3 +64,10 @@ export enum TradesPersonJobTypes {
   Shortlisted = 3,
   My = 4,
 }
+
+
+export enum Symbols{
+  none='',
+  pound='$',
+  percent='%'
+}

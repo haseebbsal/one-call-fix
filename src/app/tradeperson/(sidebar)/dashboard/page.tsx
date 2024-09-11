@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useInfiniteQuery, useQuery } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
+import { Symbols } from "@/_utils/enums";
 
 
 export default function Dashboard() {
@@ -46,7 +47,7 @@ export default function Dashboard() {
             key={index}
             icon={DASHBOARD_ITEMS.find((e)=>e.slug==item)!.icon}
             title={DASHBOARD_ITEMS.find((e)=>e.slug==item)!.title}
-            value={getStatsQuery.data?.data.data[item]}
+            value={`${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}`}
           />
         ))}
       </div>
