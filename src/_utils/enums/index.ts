@@ -68,6 +68,6 @@ export enum TradesPersonJobTypes {
 
 export enum Symbols{
   none='',
-  pound='$',
+  pound='£',
   percent='%'
 }

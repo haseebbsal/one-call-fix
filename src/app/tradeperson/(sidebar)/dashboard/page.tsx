@@ -47,7 +47,7 @@ export default function Dashboard() {
             key={index}
             icon={DASHBOARD_ITEMS.find((e)=>e.slug==item)!.icon}
             title={DASHBOARD_ITEMS.find((e)=>e.slug==item)!.title}
-            value={`${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}`}
+            value={`${DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol=='pound'?`${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}`: `${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}`}`}
           />
         ))}
       </div>
