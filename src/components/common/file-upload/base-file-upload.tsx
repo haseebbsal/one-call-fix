@@ -27,7 +27,7 @@ export default function BaseFileUpload({ labelClass,register,name ,rules}: FileU
             {...register(`${name}`,rules)}
             // name="file_upload"
             className="hidden"
-            accept="image/png,image/jpeg"
+            // accept="image/png,image/jpeg"
           />
         </label>
       </div>

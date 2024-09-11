@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 import CustomButton from "@/components/common/button/custom-button";
 import BaseFileUpload from "@/components/common/file-upload/base-file-upload";
@@ -10,10 +10,12 @@ import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
 import ProfileCompletion from "@/components/modules/tradeperson/profile-completion";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
+import BaseButton from "@/components/common/button/base-button";
+import toast from "react-hot-toast";
 export default function RequiredDocuments() {
-  const { control,register } = useForm();
+  const { control,register,handleSubmit } = useForm();
   const [user,setUser]=useState<any>(null)
   useEffect(()=>{
     const user=JSON.parse(Cookies.get('userData')!)
@@ -24,6 +26,30 @@ export default function RequiredDocuments() {
   const getUserQuery=useQuery(['tradePerson',user?._id],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`),{
     enabled:!!user
   })
+
+  const updateProfileMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
+    onSuccess(data, variables, context) {
+      console.log('update',data.data)
+    },
+    onError(error:any) {
+      if (Array.isArray(error.response.data.message)) {
+        toast.error(error.response.data.message[0]);
+    } else {
+        toast.error(error.response.data.message);
+    }
+    },
+  })
+  function onSubmit(data:FieldValues){
+    console.log('values',data)
+    console.log(Object.entries(data))
+    const filterData=Object.entries(data).filter((e:any[])=>e[1].length)
+    const formData=new FormData()
+    filterData.forEach((e)=>{
+      formData.append(e[0],e[1])
+    })
+    updateProfileMutation.mutate(formData)
+    // console.log(filterData)
+  }
   return (
     <>
       <LayoutWrapper
@@ -31,22 +57,13 @@ export default function RequiredDocuments() {
         sectionOneHeading="Electrician"
         sectionOneChildren={
           <>
-            <div>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <InputWrapper
                 className="mb-8"
                 title="ID (Passport, Driving License)"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <TradepersonCustomInput
-                  name="id"
-                  type="text"
-                  control={control}
-                  variant="bordered"
-                  placeholder="Ex. P4366918 / KJ1220190000001"
-                  radius="full"
-                  size="lg"
-                  extraClass="max-w-xl"
-                />
+                <BaseFileUpload register={register} name="identification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -54,16 +71,7 @@ export default function RequiredDocuments() {
                 title="Part P Qualification"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <TradepersonCustomInput
-                  name="partPQualification"
-                  type="text"
-                  control={control}
-                  variant="bordered"
-                  placeholder="Qualification"
-                  radius="full"
-                  size="lg"
-                  extraClass="max-w-xl"
-                />
+                <BaseFileUpload register={register} name="partPQualification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -71,7 +79,7 @@ export default function RequiredDocuments() {
                 title="17th or 18th Edition Wiring Regulations (BS 7671) Certificate"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload register={register} name="file" rules={{required:"Select File"}} labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -79,18 +87,18 @@ export default function RequiredDocuments() {
                 title="EICR documentation (e.g. City and Guilts 2391-52)"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload register={register} name="file" rules={{required:"Select File"}} labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload register={register} name="eicrDocumentation"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">
-                <CustomButton extraClass="bg-color-12 text-white">
+              <BaseButton isLoading={updateProfileMutation.isLoading} disabled={updateProfileMutation.isLoading} type="submit" extraClass="bg-color-12 text-white">
                   Save Changes
-                </CustomButton>
-                <CustomButton extraClass="bg-white text-white border-2 px-10 border-color-12 text-color-12 font-bold">
+                </BaseButton>
+                {/* <BaseButton extraClass="bg-white text-white border-2 px-10 border-color-12 text-color-12 font-bold">
                   Cancel
-                </CustomButton>
+                </BaseButton> */}
               </div>
-            </div>
+            </form>
           </>
         }
         sectionTwoTitle="Profile"
