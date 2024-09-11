@@ -3,6 +3,8 @@ import React from "react";
 
 import CustomButton from "@/components/common/button/custom-button";
 import { config } from "@/_utils/helpers/config";
+import BaseButton from "@/components/common/button/base-button";
+import { useMutation } from "react-query";
 
 interface Job {
   title: string;
@@ -27,6 +29,7 @@ interface JobDetailsProps {
 
 export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetailsProps) {
   console.log('job data',actualJob)
+  // const markJobMutation=useMutation((data:any)=>ax)
   const renderJobDetails = () => {
     switch (jobType) {
       case "pending":
@@ -61,8 +64,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap flex-col justify-center items-center">
-              <h3 className="font-semibold">Review Link</h3>
-              <span className="text-sm text-color-14">{job.reviewLink}</span>
+              <BaseButton extraClass="!px-4 !text-sm !max-w-full">Mark This Job As Completed</BaseButton>
             </div>
           </div>
         );

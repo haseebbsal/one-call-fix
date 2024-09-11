@@ -98,7 +98,8 @@ export const config = {
         '/homeowner/account-settings/:path*',
         '/homeowner/jobs',
         "/tradeperson/refund-requests",
-        "/tradeperson/feedback"
+        "/tradeperson/feedback",
+         "/tradeperson/job/:path*"
         
     ]
 }

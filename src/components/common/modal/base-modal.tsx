@@ -3,6 +3,7 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
 import React from "react";
 
 interface BaseModalProps {
+  onClose?:any
   isOpen: boolean;
   onOpenChange?: () => void;
   children: React.ReactNode;
@@ -30,9 +31,11 @@ export default function BaseModal({
   header,
   modalHeaderImage,
   size,
+  onClose
 }: BaseModalProps) {
   return (
     <Modal
+    onClose={onClose}
       className="mx-1 md:mx-9"
       isOpen={isOpen}
       size={size}

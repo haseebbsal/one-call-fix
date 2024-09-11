@@ -6,6 +6,8 @@ import BaseModal from "@/components/common/modal/base-modal";
 // import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 // import { getUserInfo } from "@/_utils/helpers/auth";
 import { useRouter } from "next/navigation";
+import { useQuery } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
 
 // const userInfo = getUserInfo();
 // const UserId = userInfo?._id;
@@ -29,10 +31,11 @@ const availableTimes = [
 
 interface SchedulePickerModalProps {
   isOpen: boolean;
+  user?:string
 }
 
 export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
-  isOpen,
+  isOpen,user
 }) => {
   const router = useRouter();
   // const dispatch = useAppDispatch();
@@ -42,6 +45,8 @@ export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
   const [formError, setFromError] = useState<string>("");
+
+  const getUserInfoQuery=useQuery(['getAvailabity',user],({queryKey})=>axiosInstance.get(`/availability?userId=${queryKey[1]}`))
 
   // useEffect(() => {
   //   if (isOpen) {
@@ -140,58 +145,58 @@ export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
   };
 
   return (
-    <>
-    yes
-    </>
-    // <BaseModal isOpen={isOpen} size="xl" hideCloseButton={true}>
-    //   <div className="p-4 rounded-full">
-    //     {loading && <p>Loading...</p>}
-    //     {error && <p>Error: {error}</p>}
-    //     {!loading && !error && (
-    //       <>
-    //         <div className="mb-4 text-center">
-    //           <h3 className="text-lg font-bold">Days Of The Week</h3>
-    //           <div className="flex flex-wrap justify-center gap-1 mt-2">
-    //             {daysOfWeek.map((day) => (
-    //               <button
-    //                 key={day}
-    //                 className={`rounded-full px-4 py-2 border ${selectedDays.includes(day) ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
-    //                 onClick={() => handleDayClick(day)}
-    //               >
-    //                 {day.substring(0, 3)}
-    //               </button>
-    //             ))}
-    //           </div>
-    //         </div>
-    //         <div className="mb-4 text-center">
-    //           <h3 className="text-lg font-bold">Available Times</h3>
-    //           <div className="grid grid-cols-2 gap-2 mt-2">
-    //             {availableTimes.map((time) => (
-    //               <button
-    //                 key={time}
-    //                 className={`rounded-full px-4 py-2 border ${selectedTimes.includes(time) ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
-    //                 onClick={() => handleTimeClick(time)}
-    //               >
-    //                 {time}
-    //               </button>
-    //             ))}
-    //           </div>
-    //         </div>
-    //         {formError ?? (
-    //           <p className="text-[14px] text-red-500 py-1">{formError}</p>
-    //         )}
-    //         <div className="flex items-center justify-center">
-    //           <button
-    //             className="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-full w-48 focus:outline-none focus:shadow-outline"
-    //             onClick={handleContinue}
-    //             disabled={!selectedDays.length && !selectedTimes.length}
-    //           >
-    //             Continue
-    //           </button>
-    //         </div>
-    //       </>
-    //     )}
-    //   </div>
-    // </BaseModal>
+    // <>
+    // yes
+    // </>
+    <BaseModal isOpen={isOpen} size="xl" hideCloseButton={true}>
+      <div className="p-4 rounded-full">
+        {getUserInfoQuery.isLoading && <p>Loading...</p>}
+        {getUserInfoQuery.isError && <p>Error: Error</p>}
+        {!getUserInfoQuery.isLoading && !getUserInfoQuery.isError && (
+          <>
+            <div className="mb-4 text-center">
+              <h3 className="text-lg font-bold">Days Of The Week</h3>
+              <div className="flex flex-wrap justify-center gap-1 mt-2">
+                {daysOfWeek.map((day) => (
+                  <button
+                    key={day}
+                    className={`rounded-full px-4 py-2 border ${selectedDays.includes(day) ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
+                    onClick={() => handleDayClick(day)}
+                  >
+                    {day.substring(0, 3)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mb-4 text-center">
+              <h3 className="text-lg font-bold">Available Times</h3>
+              <div className="grid grid-cols-2 gap-2 mt-2">
+                {availableTimes.map((time) => (
+                  <button
+                    key={time}
+                    className={`rounded-full px-4 py-2 border ${selectedTimes.includes(time) ? "bg-blue-500 text-white" : "bg-white text-blue-500"}`}
+                    onClick={() => handleTimeClick(time)}
+                  >
+                    {time}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {formError ?? (
+              <p className="text-[14px] text-red-500 py-1">{formError}</p>
+            )}
+            <div className="flex items-center justify-center">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-full w-48 focus:outline-none focus:shadow-outline"
+                onClick={handleContinue}
+                disabled={!selectedDays.length && !selectedTimes.length}
+              >
+                Continue
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </BaseModal>
   );
 };

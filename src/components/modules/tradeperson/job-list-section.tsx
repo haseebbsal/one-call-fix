@@ -87,6 +87,8 @@ export default function JobListSection({
   };
 
 
+  console.log('selectedjob',selectedJob)
+
 
 
   
@@ -94,7 +96,7 @@ export default function JobListSection({
 
   return (
     <div className="w-full flex-[2] flex flex-col mb-8 lg:mb-0 h-fit max-h-[670px] overflow-y-auto overflow-x-hidden">
-      <BidFormModel openModal={quoteModal} />
+      <BidFormModel setQuoteModal={setQuoteModal} openModal={quoteModal} />
       <SchedulePickerModal isOpen={sceduleModal} />
       {isOpen ? (
         <BaseModal
@@ -161,9 +163,12 @@ export default function JobListSection({
               )}
               {/* job div */}
               <div
-                className="mb-8 last:mb-0 flex cursor-pointer flex-col sm:flex-row items-start border-b border-color-19"
+                className={`mb-8 last:mb-0 flex ${type=='1'?"cursor-text":"cursor-pointer"} flex-col sm:flex-row items-start border-b border-color-19`}
                 onClick={() => {
-                  setJob(e)
+                  if(setJob){
+                    setJob(e)
+                    
+                  }
                   // if (item.jobId) {
                   //   // onJobClick(item.jobId);
                   // }
@@ -182,17 +187,19 @@ export default function JobListSection({
                         {e.distance} miles away
                       </span>
                     </div>
-                    {type=='1' && <Button
-                      variant="bordered"
-                      radius="full"
-                      className="border border-[#3571EC] text-color-9 text-lg w-fit px-12 py-4"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        applyBid(item);
-                      }}
+                    {type=='1' && <BaseButton
+                    as={'link'}
+                    link={`/tradeperson/job/${e._id}`}
+                      // variant="bordered"
+                      // radius="full"
+                      extraClass="!border !border-[#3571EC] !bg-transparent !text-color-9 text-lg w-fit px-12 py-4"
+                      // onClick={(f) => {
+                      //   f.stopPropagation();
+                      //   applyBid(e);
+                      // }}
                     >
                       Submit Interest
-                    </Button>}
+                    </BaseButton>}
                     
                   </div>
                   <p className="mt-1 text-sm">{e.issue}</p>

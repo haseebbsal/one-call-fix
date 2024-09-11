@@ -11,11 +11,18 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Spacer } from "@nextui-org/spacer";
+import React from "react";
+import { useMutation } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
+import toast from "react-hot-toast";
+import BaseTextArea from "@/components/common/form/base-textarea";
 
 interface BidFormModelProps {
   openModal: boolean;
+  setQuoteModal:React.Dispatch<React.SetStateAction<boolean>>
+  jobid?:string
 }
-export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal }) => {
+export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid}) => {
   const router = useRouter();
   // const dispatch = useAppDispatch();
   // const { data }: any = useAppSelector((state) => state.form);
@@ -24,26 +31,47 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal }) => {
     handleSubmit,
     watch,
     formState: { errors },
+    control
   } = useForm();
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
+
+  const createBidMutation=useMutation((data:any)=>axiosInstance.post('/bid',data),{
+    onSuccess(data, variables, context) {
+      console.log('created bid',data.data)
+    },
+    onError(error:any) {
+      if (Array.isArray(error.response.data.message)) {
+        toast.error(error.response.data.message[0]);
+    } else {
+        toast.error(error.response.data.message);
+    }
+    },
+  })
   const onSubmit = (bid: any) => {
     let bidData: any = {
+      "jobId": jobid,
+    "quoteType": 2,
+    message:bid.message,
+    "useWalletCredits": bid.walletCredits=='1'?true:false,
       directQuote: {
-        quote: bid.quote,
+        quote: Number(bid.quote),
         vatIncluded: bid.vatInclude == "yes" ? true : false,
-        depositAmount: bid.depositAmount,
-        timelineType: JobTimelineType[bid.timelineType],
-        timelineValue: bid.timelineValue,
+        depositAmount: Number(bid.depositAmount),
+        timelineType: Number(bid.timelineType),
+        timelineValue: Number(bid.timelineValue),
       },
     };
+    console.log('biddata',bidData)
+    createBidMutation.mutate(bidData)
+
     // dispatch(
     //   setFormData({
     //     ...bidData,
     //     ...data,
     //   }),
     // );
-    onClose();
-    router.push(`/tradeperson/bid-submission`);
+    // onClose();
+    // router.push(`/tradeperson/bid-submission`);
   };
   return (
     <>
@@ -51,7 +79,10 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal }) => {
         isOpen={openModal}
         onOpenChange={onOpenChange}
         size="md"
-        hideCloseButton={true}
+        onClose={()=>{
+          setQuoteModal(false)
+        }}
+        // hideCloseButton={true}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Spacer y={1} />
@@ -73,6 +104,31 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal }) => {
 
           <Spacer y={1} />
           <div>
+            {/* <label
+              htmlFor="input1"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              
+            </label> */}
+            <BaseTextArea
+            name="message"
+            label="Message"
+            variant="flat"
+            extraClass={{
+              label:"font-semibold ml-0"
+            }}
+            control={control}
+          
+              // type="number"
+              // id="input1"
+              placeholder="Write Message.."
+              // isRequired
+              // {...register("message", { required: true })}
+            />
+          </div>
+
+          <Spacer y={1} />
+          <div>
             <label
               htmlFor="dropdown1"
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -89,6 +145,29 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal }) => {
                 Yes
               </SelectItem>
               <SelectItem key="2" value="no">
+                No
+              </SelectItem>
+            </Select>
+          </div>
+
+          <Spacer y={1} />
+          <div>
+            <label
+              htmlFor="dropdown4"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Use Wallet Credits
+            </label>
+            <Select
+              id="dropdown4"
+              placeholder="Use Wallet Credits"
+              isRequired
+              {...register("walletCredits", { required: true })}
+            >
+              <SelectItem key="1" value="yes">
+                Yes
+              </SelectItem>
+              <SelectItem key="0" value="no">
                 No
               </SelectItem>
             </Select>
