@@ -119,14 +119,14 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
 
           <div className="py-2 px-5 sm:py-4 sm:px-8">
             <div className="flex flex-col justify-between text-gray-600">
-              <span className="text-sm text-color-14 mb-3">About the job</span>
+              {/* <span className="text-sm text-color-14 mb-3">About the job</span>
               <ul className="list-disc text-color-6 px-6">
-                {job.details.map((detail, index) => (
+                {actualJob?.details?.map((detail:any, index:number) => (
                   <li className="mb-3" key={index}>
                     {detail}
                   </li>
                 ))}
-              </ul>
+              </ul> */}
 
               <span className="text-sm text-color-14 mb-3">Attachments</span>
               <div className="flex items-center gap-2 mb-5">
