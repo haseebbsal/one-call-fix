@@ -25,7 +25,7 @@ export default function Feedback(){
                 
             <div className="flex flex-col gap-2">
                 <h1 className="font-semibold">Upload Media</h1>
-            <BaseFileUpload register={register} />
+            <BaseFileUpload register={register} name="file" rules={{required:"Select File"}} />
             {errors.file && <p className="text-red-500">{errors.file.message as any}</p>}
             </div>
             {/* <BaseFileInput rules={{

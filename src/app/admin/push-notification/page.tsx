@@ -73,13 +73,13 @@ export default function PushNotification() {
               />
             </InputWrapper>
 
-            <InputWrapper
+            {/* <InputWrapper
               className="mb-8"
               title="Upload Necessary Media"
               description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
             >
               <BaseFileUpload labelClass="h-20" />
-            </InputWrapper>
+            </InputWrapper> */}
 
             <BaseButton
               type="button"

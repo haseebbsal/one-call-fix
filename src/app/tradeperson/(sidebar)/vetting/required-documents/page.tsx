@@ -8,9 +8,22 @@ import TradepersonCustomInput from "@/components/common/form/tradeperson-custom-
 import InputWrapper from "@/components/modules/dashboard/input-wrapper";
 import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
 import ProfileCompletion from "@/components/modules/tradeperson/profile-completion";
-
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useQuery } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
 export default function RequiredDocuments() {
-  const { control } = useForm();
+  const { control,register } = useForm();
+  const [user,setUser]=useState<any>(null)
+  useEffect(()=>{
+    const user=JSON.parse(Cookies.get('userData')!)
+    console.log(user)
+    setUser(user)
+  },[])
+
+  const getUserQuery=useQuery(['tradePerson',user?._id],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`),{
+    enabled:!!user
+  })
   return (
     <>
       <LayoutWrapper
@@ -58,7 +71,7 @@ export default function RequiredDocuments() {
                 title="17th or 18th Edition Wiring Regulations (BS 7671) Certificate"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload register={register} name="file" rules={{required:"Select File"}} labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -66,7 +79,7 @@ export default function RequiredDocuments() {
                 title="EICR documentation (e.g. City and Guilts 2391-52)"
                 description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload register={register} name="file" rules={{required:"Select File"}} labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">
@@ -83,7 +96,7 @@ export default function RequiredDocuments() {
         sectionTwoTitle="Profile"
         sectionTwoChildren={
           <>
-            <ProfileCompletion />
+            <ProfileCompletion data={getUserQuery.data?.data.data}/>
           </>
         }
       ></LayoutWrapper>
