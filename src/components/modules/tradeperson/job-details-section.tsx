@@ -5,6 +5,14 @@ import CustomButton from "@/components/common/button/custom-button";
 import { config } from "@/_utils/helpers/config";
 import BaseButton from "@/components/common/button/base-button";
 import { useMutation } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
+import { useDisclosure } from "@nextui-org/modal";
+import BaseModal from "@/components/common/modal/base-modal";
+import { toTitleCase } from "@/_utils/helpers";
+import { Input } from "@nextui-org/input";
+import { FieldValues, useController, useForm } from "react-hook-form";
+import { CalendarDate, DateInput } from "@nextui-org/react";
+import toast from "react-hot-toast";
 
 interface Job {
   title: string;
@@ -27,8 +35,52 @@ interface JobDetailsProps {
   actualJob:any
 }
 
+
+enum Status{
+  Pending=1,
+  Approved,
+  Declined
+}
+
+enum Sstatus{
+  Pending='2',
+}
+
+type Accept={
+  status:Status
+}
+type Acceptt={
+  status:Sstatus
+}
+
+// const obj:Acceptt={status:'2'}
+
+
 export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetailsProps) {
   console.log('job data',actualJob)
+
+  const {isOpen,onOpen,onClose}=useDisclosure()
+
+  const acceptJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
+    onSuccess(data) {
+      console.log('accepted',data.data)
+    },
+  })
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    control
+  } = useForm({
+    defaultValues:{
+      completionDate:"",
+      finalQuote:"",
+      tip:""
+
+    }
+  });
   // const markJobMutation=useMutation((data:any)=>ax)
   const renderJobDetails = () => {
     switch (jobType) {
@@ -47,12 +99,16 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <CustomButton extraClass="bg-color-12 text-white px-2 sm:px-7">
-                Purchase Job
-              </CustomButton>
-              <CustomButton extraClass="bg-color-21 text-white px-2 sm:px-7">
+              <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={()=>{
+                acceptJobMutation.mutate({status:2})
+              }} extraClass="bg-color-12 text-white w-max px-2 sm:px-7">
+                Accept Job
+              </BaseButton>
+              <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={()=>{
+                acceptJobMutation.mutate({status:3})
+              }} extraClass="bg-color-21 text-white w-max px-2 sm:px-7">
                 Decline
-              </CustomButton>
+              </BaseButton>
             </div>
           </div>
         );
@@ -64,7 +120,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap flex-col justify-center items-center">
-              <BaseButton extraClass="!px-4 !text-sm !max-w-full">Mark This Job As Completed</BaseButton>
+              <BaseButton onClick={()=>onOpen()} extraClass="!px-4 !text-sm !max-w-full">Mark This Job As Completed</BaseButton>
             </div>
           </div>
         );
@@ -73,6 +129,36 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
         return null;
     }
   };
+
+  // const {field,fieldState}=useController({
+  //   control,name:"completionDate",rules:{
+  //     required:true
+  //   }
+  // })
+
+  console.log('errors',errors)
+  const markCompletedMutation=useMutation((data:any)=>axiosInstance.post(`/job/completion?jobId=${actualJob._id}`,data),{
+    onSuccess(data, variables, context) {
+      console.log('mark completed ',data.data)
+      onClose()
+    },
+    onError(error:any) {
+      if (Array.isArray(error.response.data.message)) {
+        toast.error(error.response.data.message[0]);
+    } else {
+        toast.error(error.response.data.message);
+    }
+    },
+  })
+  
+  const submit=(data:FieldValues)=>{
+    console.log('penisss')
+    markCompletedMutation.mutate({
+      "finalQuote": Number(data.finalQuote),
+      "tip": Number(data.tip),
+      "completionDate": data.completionDate
+  })
+  }
 
   return (
     <div className="w-full flex-1 flex flex-col">
@@ -154,6 +240,98 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
           </div>
         </div>
       </section>
+
+      <BaseModal onClose={onClose} header="Job Completion Form" isOpen={isOpen}>
+      <div>
+      <React.Fragment>
+              
+              {/* job div */}
+              <div
+                className={`mb-8 last:mb-0 flex  flex-col sm:flex-row items-start border-b border-color-19`}
+                
+              >
+                <Image
+                  className="mr-4 h-8 w-8 sm:h-16 sm:w-16"
+                  src="/images/job-bell.png"
+                  alt="bellProfile Picture"
+                />
+                <div className="flex flex-col w-full">
+                  <div className="mb-1 flex flex-col sm:flex-row justify-between text-gray-600">
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-medium">{toTitleCase(actualJob.headline)}</h3>
+                      <span className="text-xs sm:text-sm text-color-14">
+                        {Number(actualJob.distance).toFixed(2)} miles away
+                      </span>
+                    </div>
+                   
+                    
+                  </div>
+                  <p className="mt-1 text-sm">{actualJob.issue}</p>
+                  <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
+                    <span className="text-xs sm:text-sm text-color-14">
+                      Posted {((new Date().getMonth()-new Date(actualJob.createdAt).getMonth())*30 + (new Date().getDate()-new Date(actualJob.createdAt).getDate()))} days ago
+                      {/* {item.posted} */}
+                    </span>
+                    <div className="py-1 px-9 border-2 rounded-lg text-sm font-semibold text-color-15">
+                      £{actualJob.price}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit(submit)} className="flex gap-4 flex-wrap">
+              <div>
+            <label
+              htmlFor="input1"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Final Quote
+            </label>
+            <Input
+              type="number"
+              id="input1"
+              placeholder="$53"
+              isRequired
+              {...register("finalQuote", { required: true })}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="input2"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              How Much Tip (Optional)
+            </label>
+            <Input
+              type="number"
+              id="input2"
+              placeholder="$53"
+              isRequired
+              {...register("tip", { required: true })}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="input4"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              How Much Tip (Optional)
+            </label>
+            <Input
+              type="text"
+              id="input4"
+              placeholder="mm/dd/yyyy"
+              isRequired
+              // {...field}
+              {...register("completionDate", { required: true })}
+            />
+          </div>
+          {/* <DateInput {...field} onChange={()=>{}} label={"Job Completion Date"} labelPlacement="outside" classNames={{label:"text-gray-700 text-sm font-bold"}} className="max-w-sm" /> */}
+            <BaseButton type="submit">Submit Form</BaseButton>
+              </form>
+            </React.Fragment>
+      </div>
+      </BaseModal>
     </div>
   );
 }

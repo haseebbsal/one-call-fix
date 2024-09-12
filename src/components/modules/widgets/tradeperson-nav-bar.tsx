@@ -13,7 +13,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { sidebarMenuItemType } from "@/_utils/types";
 
@@ -21,12 +21,21 @@ import { SearchIcon } from "../public/search-icon";
 import BaseButton from "@/components/common/button/base-button";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
-
+import Cookies from "js-cookie";
+import { config } from "@/_utils/helpers/config";
 interface Props {
   menuItems: sidebarMenuItemType[];
 }
 export default function TradepersonNavBar({ menuItems }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const [user,setUser]=useState<any>(null)
+  useEffect(()=>{
+    const user=JSON.parse(Cookies.get('userData')!)
+    console.log('user',user)
+    setUser(user)
+  },[])
+
   const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
     onSuccess(data, variables, context) {
       console.log('logout',data.data)
@@ -89,7 +98,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
         <NavbarItem className="hidden sm:block">
           <Button
             as={Link}
-            href="#"
+            href='/tradeperson/feedback'
             className="bg-color-12 text-white rounded-md h-9"
           >
             Feedback
@@ -119,12 +128,12 @@ export default function TradepersonNavBar({ menuItems }: Props) {
 
         <div className="flex items-center p-2 space-x-4 mb-5">
           <Image
-            src="/images/profile-photo.png"
+            src={user?.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${user?.profilePicture}`}
             alt="profile-photo"
             className="w-12 h-12 rounded-full dark:bg-gray-500"
           />
           <div>
-            <h2 className="text-md font-normal text-white">Jhon Clark</h2>
+            <h2 className="text-md font-normal text-white">{user?.firstName} {user?.lastName}</h2>
           </div>
         </div>
 

@@ -10,7 +10,7 @@ export default function MyJobs() {
   const [job,setJob]=useState(null)
 
   const jobsInfinite = useInfiniteQuery(
-    ["allJobs",'3'],
+    ["allJobs",'4'],
     ({ queryKey, pageParam = 1 }) =>
       axiosInstance.get(`/job/trades-person?page=${pageParam}&limit=10&type=${queryKey[1]}`),
     {
@@ -20,7 +20,13 @@ export default function MyJobs() {
         }
         return null;
       },
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus:false,
+      onSuccess(data) {
+        if(data.pages[0].data.data.length){
+          setJob(data.pages[0].data.data[0])
+        }
+        // console.log('success',data.pages[0].data.data)
+      },
       // enabled: !!activeDomain,
     }
   );

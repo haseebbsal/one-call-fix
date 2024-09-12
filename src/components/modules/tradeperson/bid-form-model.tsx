@@ -21,8 +21,9 @@ interface BidFormModelProps {
   openModal: boolean;
   setQuoteModal:React.Dispatch<React.SetStateAction<boolean>>
   jobid?:string
+  setDataPayment?:any
 }
-export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid}) => {
+export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid,setDataPayment}) => {
   const router = useRouter();
   // const dispatch = useAppDispatch();
   // const { data }: any = useAppSelector((state) => state.form);
@@ -51,8 +52,8 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
     let bidData: any = {
       "jobId": jobid,
     "quoteType": 2,
-    message:bid.message,
-    "useWalletCredits": bid.walletCredits=='1'?true:false,
+    // message:bid.message,
+    // "useWalletCredits": bid.walletCredits=='1'?true:false,
       directQuote: {
         quote: Number(bid.quote),
         vatIncluded: bid.vatInclude == "yes" ? true : false,
@@ -61,8 +62,12 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
         timelineValue: Number(bid.timelineValue),
       },
     };
-    console.log('biddata',bidData)
-    createBidMutation.mutate(bidData)
+
+    setDataPayment(bidData)
+    setQuoteModal(false)
+
+    // console.log('biddata',bidData)
+    // createBidMutation.mutate(bidData)
 
     // dispatch(
     //   setFormData({
@@ -102,30 +107,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
             />
           </div>
 
-          <Spacer y={1} />
-          <div>
-            {/* <label
-              htmlFor="input1"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              
-            </label> */}
-            <BaseTextArea
-            name="message"
-            label="Message"
-            variant="flat"
-            extraClass={{
-              label:"font-semibold ml-0"
-            }}
-            control={control}
           
-              // type="number"
-              // id="input1"
-              placeholder="Write Message.."
-              // isRequired
-              // {...register("message", { required: true })}
-            />
-          </div>
 
           <Spacer y={1} />
           <div>
@@ -150,7 +132,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
             </Select>
           </div>
 
-          <Spacer y={1} />
+          {/* <Spacer y={1} />
           <div>
             <label
               htmlFor="dropdown4"
@@ -171,7 +153,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
                 No
               </SelectItem>
             </Select>
-          </div>
+          </div> */}
 
           <Spacer y={1} />
           <div>

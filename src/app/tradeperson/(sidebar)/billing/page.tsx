@@ -24,22 +24,14 @@ import BillingCard from "@/components/common/cards/billing-card";
 import BaseTable from "@/components/common/table/base-table";
 import { ChevronDownIcon } from "@/components/modules/public/chevron-down-icon";
 import usePagination from "@/hooks/use-pagination";
+import BaseButton from '@/components/common/button/base-button';
 
 const column: columnType[] = [
   {
     title: "Date",
   },
   {
-    title: "Activity",
-  },
-  {
-    title: "Description",
-  },
-  {
-    title: "Form",
-  },
-  {
-    title: "Order",
+    title: "Headline",
   },
   {
     title: "Amount",
@@ -124,7 +116,9 @@ const stripePromise = loadStripe('pk_test_51PdxQzJIYZ5rXPiNWB72z0vGbq85xwfdVqd1P
 export default function UpdateCard() {
     const [clientSecret, setClientSecret] = useState(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
+    const [page,setPage]=useState(1)
 
+    const getPayments=useQuery(['payments',page],({queryKey})=>axiosInstance.get(`/payment/all/trades-person?page=${queryKey[1]}&limit=10`))
     const savedCardQuery = useQuery(['savedCard'], () => axiosInstance.get('/payment/card'));
 
     const getClientSecret = useMutation(() => axiosInstance.put('/payment/card'), {
@@ -180,7 +174,7 @@ export default function UpdateCard() {
             </section>
 
             <section className="flex-1 p-4 sm:p-8 rounded-md border bg-color-16 text-left text-gray-600">
-              <div className="flex gap-5 mb-7">
+              {/* <div className="flex gap-5 mb-7">
                 <Dropdown>
                   <DropdownTrigger className="hidden sm:flex">
                     <Button
@@ -227,15 +221,15 @@ export default function UpdateCard() {
                     ))}
                   </DropdownMenu>
                 </Dropdown>
-              </div>
-              <div className="flex justify-between mb-4">
+              </div> */}
+              {/* <div className="flex justify-between mb-4">
                 <span className="text-xs sm:text-sm text-color-14">
                   Showing Results 1-50 Of 141
                 </span>
                 <span className="text-xs sm:text-sm text-color-14 underline cursor-pointer">
                   Email Activity Report
                 </span>
-              </div>
+              </div> */}
               <BaseTable
                 columns={column}
                 page={adminData?.page ?? 1}
@@ -246,34 +240,21 @@ export default function UpdateCard() {
                 // changePage={changePage}
               >
                 <tbody>
-                  {adminData?.data.map((el, index) => (
+                  {getPayments?.data?.data.data.map((el:any, index:number) => (
                     <tr key={el._id} className="border-b border-stroke text-sm">
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.date}
+                          {new Date(el.createdAt).toLocaleDateString()}
                         </span>
                       </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.activity}
-                        </span>
-                      </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.description || "-"}
-                        </span>
-                      </td>
+                      
 
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.form}
+                          {el.job.headline}
                         </span>
                       </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.order}
-                        </span>
-                      </td>
+                      
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
                           {el.amount}
@@ -283,6 +264,13 @@ export default function UpdateCard() {
                   ))}
                 </tbody>
               </BaseTable>
+              
+              <div className='flex gap-4'>
+              {page!=getPayments.data?.data.lastPage && <BaseButton onClick={()=>setPage(page+1)}>Next Page</BaseButton> }
+              {page!=1 && <BaseButton onClick={()=>setPage(page-1)}>Previous Page</BaseButton> } 
+                   
+              </div>
+              
             </section>
           </div>
         </div>

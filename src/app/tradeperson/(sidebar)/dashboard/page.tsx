@@ -39,9 +39,11 @@ export default function Dashboard() {
       // enabled: !!activeDomain,
     }
   );
+
+  const getCreditsQuery=useQuery(['credits'],()=>axiosInstance.get('/wallet'))
   return (
     <>
-      <div className="flex flex-wrap items-center w-full text-gray-800 p-10 bg-gray-100 gap-10">
+      <div className="flex flex-wrap items-center justify-center w-full text-gray-800 p-10 bg-gray-100 gap-10">
         {getStatsQuery.data?.data && Object.keys(getStatsQuery.data?.data.data).map((item:any, index) => (
           <DashboardCard
             key={index}
@@ -50,6 +52,15 @@ export default function Dashboard() {
             value={`${DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol=='pound'?`${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}`: `${Number(getStatsQuery.data?.data.data[item]).toFixed(2)}${Symbols[DASHBOARD_ITEMS.find((e)=>e.slug==item)!.symbol as 'none'|'pound'|'percent']}`}`}
           />
         ))}
+
+        {!getCreditsQuery.isLoading && 
+          <DashboardCard
+          // key={index}
+          icon={"/icons/revenue.png"}
+          title={"Wallet Credits"}
+          value={`£${getCreditsQuery.data?.data.data.amount}`}
+        />
+        }
       </div>
 
       <div className="p-5">

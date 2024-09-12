@@ -2,7 +2,7 @@ import React from "react";
 
 interface InputWrapperProps {
   title: string;
-  description: string;
+  description?: string;
   className?: string;
   children: React.ReactNode;
 }
@@ -18,9 +18,9 @@ export default function InputWrapper({
       className={`flex flex-col justify-center w-full max-w-xl ${className}`}
     >
       <h3 className="font-bold mb-1">{title}</h3>
-      <span className="text-xs md:text-sm text-color-14 mb-3">
+      {description && <span className="text-xs md:text-sm text-color-14 mb-3">
         {description}
-      </span>
+      </span>}
       {children}
     </div>
   );

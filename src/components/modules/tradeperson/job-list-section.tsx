@@ -97,7 +97,7 @@ export default function JobListSection({
   return (
     <div className="w-full flex-[2] flex flex-col mb-8 lg:mb-0 h-fit max-h-[670px] overflow-y-auto overflow-x-hidden">
       <BidFormModel setQuoteModal={setQuoteModal} openModal={quoteModal} />
-      <SchedulePickerModal isOpen={sceduleModal} />
+      <SchedulePickerModal setSceduleModal={setSceduleModal} isOpen={sceduleModal} />
       {isOpen ? (
         <BaseModal
           isOpen={isOpen}
@@ -184,7 +184,7 @@ export default function JobListSection({
                     <div className="flex flex-col gap-1">
                       <h3 className="font-medium">{toTitleCase(e.headline)}</h3>
                       <span className="text-xs sm:text-sm text-color-14">
-                        {e.distance} miles away
+                        {Number(e.distance).toFixed(2)} miles away
                       </span>
                     </div>
                     {type=='1' && <BaseButton

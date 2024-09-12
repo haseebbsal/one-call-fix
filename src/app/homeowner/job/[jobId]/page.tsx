@@ -18,6 +18,7 @@ import LeadCard from "@/components/common/cards/lead-card";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
+import toast from "react-hot-toast";
 
 export default function Jobs(datas:any) {
   // const queryParams = useParams();
@@ -26,6 +27,18 @@ export default function Jobs(datas:any) {
   // const { job, loading, error }: any = useAppSelector((state) => state.job);
   const router=useRouter()
   const queryCient=useQueryClient()
+  const getMoreLeadsMutation=useMutation(()=>axiosInstance.put(`/job/request-quote?jobId=${datas.params.jobId}`),{
+    onSuccess(data) {
+      console.log('more leads',data.data)
+    },
+    onError(error:any) {
+      if (Array.isArray(error.response.data.message)) {
+        toast.error(error.response.data.message[0]);
+    } else {
+        toast.error(error.response.data.message);
+    }
+    },
+  })
   const [jobId, setJobId] = useState(datas.params.jobId as String);
   const individualJob=useQuery(['individualJob',datas.params.jobId],({queryKey})=>axiosInstance.get(`/job?jobId=${queryKey[1]}`))
   const bidsQuery=useQuery(['bids',datas.params.jobId],({queryKey})=>axiosInstance.get(`/bid/all?page=1&limit=10&jobId=${queryKey[1]}`))
@@ -85,7 +98,7 @@ export default function Jobs(datas:any) {
                   Trade People Applied:
                 </h6>
                 <p className="flex-1 text-color-6 text-[15px] font-semibold">
-                  00
+                  {individualJob.data?.data?.data.bidCount}
                 </p>
               </div>
             </div>
@@ -124,7 +137,7 @@ export default function Jobs(datas:any) {
             <h6 className="text-black py-2.5 font-[700] text-[18px]">
               Attachments
             </h6>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between flex-wrap gap-2 items-center">
               <div className="flex items-center gap-2.5">
                 {individualJob.data?.data?.data.media.map((item: any, index: any) =>
                   item.isVideo ? (
@@ -147,9 +160,11 @@ export default function Jobs(datas:any) {
                   ),
                 )}
               </div>
-              <p className="underline text-color-9 mr-4 text-medium">
+              <BaseButton onClick={()=>{
+                getMoreLeadsMutation.mutate()
+              }} extraClass="!underline !m-auto bg-transparent !text-color-9 !mr-4 !text-medium">
                 Need More Leads
-              </p>
+              </BaseButton>
             </div>
           </div>
           <h6 className="text-black py-2.5 font-[700] text-[18px]">

@@ -9,13 +9,21 @@ import { sidebarMenuItemType } from "@/_utils/types";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
-
+import Cookies from "js-cookie";
+import { config } from "@/_utils/helpers/config";
 interface Props {
   menuItems: sidebarMenuItemType[];
 }
 export default function Sidebar({ menuItems }: Props) {
   const [currentPath, setCurrentPath] = useState("");
   const pathname = usePathname();
+
+  const [user,setUser]=useState<any>(null)
+  useEffect(()=>{
+    const user=JSON.parse(Cookies.get('userData')!)
+    console.log('user',user)
+    setUser(user)
+  },[])
   useEffect(() => {
     setCurrentPath(pathname);
   }, [pathname]);
@@ -34,14 +42,14 @@ export default function Sidebar({ menuItems }: Props) {
       <div className="h-full pb-4 overflow-y-auto">
         <div className="flex justify-center items-center gap-3 my-7">
           <Image
-            src="/images/profile-photo.png"
+            src={user?.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${user?.profilePicture}`}
             alt="profile-photo"
             width={60}
             height={60}
             className="rounded-full"
           />
           <div>
-            <h2 className="text-base font-medium text-white">John Clark</h2>
+            <h2 className="text-base font-medium text-white">{user?.firstName} {user?.lastName}</h2>
           </div>
         </div>
 

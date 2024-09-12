@@ -19,7 +19,13 @@ export default function PendingJobs() {
         }
         return null;
       },
-      refetchOnWindowFocus:false
+      refetchOnWindowFocus:false,
+      onSuccess(data) {
+        if(data.pages[0].data.data.length){
+          setJob(data.pages[0].data.data[0])
+        }
+        // console.log('success',data.pages[0].data.data)
+      },
       // enabled: !!activeDomain,
     }
   );

@@ -10,13 +10,14 @@ import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
 import ProfileCompletion from "@/components/modules/tradeperson/profile-completion";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 export default function AdditionalDocuments() {
   const { control,register,handleSubmit } = useForm();
   const [user,setUser]=useState<any>(null)
+  const queryClient=useQueryClient()
   useEffect(()=>{
     const user=JSON.parse(Cookies.get('userData')!)
     console.log(user)
@@ -30,6 +31,7 @@ export default function AdditionalDocuments() {
   const updateProfileMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
     onSuccess(data, variables, context) {
       console.log('update',data.data)
+      queryClient.invalidateQueries('tradePerson')
     },
     onError(error:any) {
       if (Array.isArray(error.response.data.message)) {
@@ -45,7 +47,7 @@ export default function AdditionalDocuments() {
     const filterData=Object.entries(data).filter((e:any[])=>e[1].length)
     const formData=new FormData()
     filterData.forEach((e)=>{
-      formData.append(e[0],e[1])
+      formData.append(e[0],e[1][0])
     })
     updateProfileMutation.mutate(formData)
     // console.log(filterData)
@@ -61,7 +63,7 @@ export default function AdditionalDocuments() {
               <InputWrapper
                 className="mb-8"
                 title="Attach Screenshot Proving You Are Part Of The Competent Persons Register"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseFileUpload register={register} name="competentPersonRegister"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
@@ -69,7 +71,7 @@ export default function AdditionalDocuments() {
               <InputWrapper
                 className="mb-8"
                 title="NVQ Level 3 Qualification"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseFileUpload register={register} name="nvqQualification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
@@ -77,7 +79,7 @@ export default function AdditionalDocuments() {
               <InputWrapper
                 className="mb-8"
                 title="EAL Qualification"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseFileUpload register={register} name="ealQualification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
@@ -85,7 +87,7 @@ export default function AdditionalDocuments() {
               <InputWrapper
                 className="mb-8"
                 title="Public Liability Insurance"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseFileUpload register={register} name="publicLiabilityInsurance"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
@@ -93,7 +95,7 @@ export default function AdditionalDocuments() {
               <InputWrapper
                 className="mb-8"
                 title="Trustmark"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseFileUpload register={register} name="trustMark"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
