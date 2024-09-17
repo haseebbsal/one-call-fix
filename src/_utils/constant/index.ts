@@ -584,31 +584,31 @@ export const ADMIN_SIDEBAR_MENU_ITEMS: sidebarMenuItemType[] = [
     icon: "/icons/people.png",
     link: "/admin/trade-person-management",
   },
-  {
-    label: "Jobs Management",
-    icon: "/icons/service.png",
-    link: "/admin/jobs-management",
-  },
+  // {
+  //   label: "Jobs Management",
+  //   icon: "/icons/service.png",
+  //   link: "/admin/jobs-management",
+  // },
   {
     label: "Financial Management",
     icon: "/icons/finance.png",
     link: "/admin/financial-management",
   },
-  {
-    label: "Dispute Resolution",
-    icon: "/icons/info-circle.png",
-    link: "/admin/dispute-resolution",
-  },
-  {
-    label: "Feedback",
-    icon: "/icons/reviews.png",
-    link: "/admin/feedback",
-  },
-  {
-    label: "Verifications Requests",
-    icon: "/icons/stats.png",
-    link: "/admin/verification-requests",
-  },
+  // {
+  //   label: "Dispute Resolution",
+  //   icon: "/icons/info-circle.png",
+  //   link: "/admin/dispute-resolution",
+  // },
+  // {
+  //   label: "Feedback",
+  //   icon: "/icons/reviews.png",
+  //   link: "/admin/feedback",
+  // },
+  // {
+  //   label: "Verifications Requests",
+  //   icon: "/icons/stats.png",
+  //   link: "/admin/verification-requests",
+  // },
   {
     label: "Refund Requests",
     icon: "/icons/coin.png",
@@ -617,7 +617,7 @@ export const ADMIN_SIDEBAR_MENU_ITEMS: sidebarMenuItemType[] = [
   {
     label: "Sign Out",
     icon: "/icons/sign-out.png",
-    link: "#",
+    link: "",
   },
 ];
 
@@ -661,6 +661,53 @@ export const DASHBOARD_ITEMS = [
     title: "Total Spent On Leads",
     icon: "/icons/revenue.png",
     value: "90%",
+    symbol:"percent"
+  },
+];
+
+
+
+export const DASHBOARD_ITEMS_ADMIN = [
+  {
+    slug:"tradesPersonSignedUp",
+    title: "Tradespeople Signed Up",
+    icon: "/icons/leads.png",
+    value: "150",
+    symbol:"pound"
+  },
+  {
+    slug:"activeTradesPerson",
+    title: "Active Tradepeople",
+    icon: "/icons/leads.png",
+    value: "1250",
+    symbol:"none"
+  },
+  // {
+  //   slug:"winPercentage",
+  //   title: "Suspended Tradepeople",
+  //   icon: "/icons/win-percentage.png",
+  //   value: "5.80",
+  //   symbol:"percent"
+  // },
+  {
+    slug:"totalJobs",
+    title: "Jobs Posted",
+    icon: "/icons/revenue.png",
+    value: "1,005",
+    symbol:"pound"
+  },
+  {
+    slug:"jobsCompleted",
+    title: "Jobs Completed",
+    icon: "/icons/revenue.png",
+    value: "90",
+    symbol:"percent"
+  },
+  {
+    slug:"totalRefunds",
+    title: "Total Refunds",
+    icon: "/icons/revenue.png",
+    value: "90",
     symbol:"percent"
   },
 ];

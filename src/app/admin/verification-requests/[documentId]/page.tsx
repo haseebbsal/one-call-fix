@@ -7,9 +7,58 @@ import React from "react";
 import BaseButton from "@/components/common/button/base-button";
 import BaseModal from "@/components/common/modal/base-modal";
 import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
+import { TRADES } from "@/_utils/enums";
+import { config } from "@/_utils/helpers/config";
 
-export default function VerificationDocument() {
+// {
+//   "verifyId": false, done
+//   "verifyGasSafe": false, done
+//   "verifyPublicLiabilityInsurance": false, there
+//   "verifyProfessionalIndemnityInsurance": false, not there
+//   "verifyTrustMark": false, there
+//   "verifyWaterSafe": false, not there
+//   "verifyNVQQualified": false, there done
+//   "verifyEALQualified": false there
+// }
+
+
+// const data={
+//   "verifyId": false, done
+//   "verifyGasSafe": false, done
+//   "verifyPublicLiabilityInsurance": false, there done
+//   "verifyProfessionalIndemnityInsurance": false,
+//   "verifyTrustMark": false, there done
+//   "verifyWaterSafe": false,
+//   "verifyNVQQualified": false, there done
+//   "verifyEALQualified": false there done
+// }
+
+
+// wiringRegulationsCertificate done
+// eicrDocumentation done
+// competentPersonRegister: "" done
+// nvqQualification: "" done
+// ealQualification: "" done
+// publicLiabilityInsurance: "" done
+// trustMark done
+// identification: "" done
+// gasSafeId done 
+// diploma done
+// partPQualification done
+// cityGuildQualification done
+export default function VerificationDocument(datas:any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
+  const queryClient=useQueryClient()
+  const verifyMutation=useMutation((data:any)=>axiosInstance.put(`/trades-person/verify?userId=${datas.params.documentId}`,data),{
+    onSuccess(data, variables, context) {
+      onOpen()
+      queryClient.invalidateQueries('individualAdminTrade')
+    },
+  })
+  const getUserQuery=useQuery(['individualAdminTrade',datas.params.documentId],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`))
+  
   return (
     <>
       <BaseModal
@@ -36,30 +85,20 @@ export default function VerificationDocument() {
         sectionOneTitle="Verifications Requests"
         sectionOneChildren={
           <div>
-            <h2 className="text-lg font-medium mb-6 text-color-17">
+            {!getUserQuery.isLoading && <>
+              <h2 className="text-lg font-medium mb-6 text-color-17">
               Verification Details
             </h2>
             <div className="flex flex-col gap-5">
-              <h3 className="text-color-23 text-lg font-medium pb-10">
-                Applied For Electrician
+              <h3 className=" text-lg font-semibold ">
+                Applied For {TRADES[getUserQuery.data?.data.data.profile.trade]}
               </h3>
-              <div className="mb-8">
+              {getUserQuery.data?.data.data.profile.documents.required.identification && !getUserQuery.data?.data.data.profile.isIdVerified && <div className="mb-8">
                 <h5 className="text-color-20 text-base font-medium pb-2">
                   ID (Passport, Driving License)
                 </h5>
-                <p className="text-color-13 text-xl">PHRT92793048028203K9</p>
-              </div>
-              <div className="mb-8">
-                <h5 className="text-color-20 text-base font-medium pb-2">
-                  Part P Qualification
-                </h5>
-                <p className="text-color-13 text-xl">Qualification</p>
-              </div>
-              <div className="mb-8">
-                <h5 className="text-color-20 text-base font-medium pb-2">
-                  17th or 18th Edition Wiring Regulations (BS 7671) Certificate
-                </h5>
-                <button type="button">
+                {/* <p className="text-color-13 text-xl">PHRT92793048028203K9</p> */}
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.required.identification}`} target="_blank">
                   <Image
                     src="/images/certificate.png"
                     alt="Qualification"
@@ -67,24 +106,70 @@ export default function VerificationDocument() {
                     height={144}
                     className="object-contain"
                   />
-                </button>
-              </div>
-              <div>
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyId": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.required.gasSafeId && !getUserQuery.data?.data.data.profile.isGasSafeVerified && TRADES[getUserQuery.data?.data.data.profile.trade]=='PLUMBER' && <div className="mb-8">
                 <h5 className="text-color-20 text-base font-medium pb-2">
-                  EICR Documentation (e.g: city , guilts 2391-52)
+                  Gas Safe ID
                 </h5>
-                <button type="button">
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.required.gasSafeId}`} target="_blank">
                   <Image
-                    src="/images/file.png"
-                    alt="File"
+                    src="/images/certificate.png"
+                    alt="Qualification"
                     width={144}
                     height={144}
                     className="object-contain"
                   />
-                </button>
-              </div>
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyGasSafe": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
             </div>
-            <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.additional.partPQualification && <div className="mb-8">
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                  Part P Qualification
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.partPQualification}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
               <BaseButton
                 type="button"
                 onClick={() => onOpen()}
@@ -92,14 +177,234 @@ export default function VerificationDocument() {
               >
                 Accept
               </BaseButton>
-              <BaseButton
+              {/* <BaseButton
                 type="button"
                 onClick={() => onOpen()}
                 extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
               >
                 Reject
-              </BaseButton>
+              </BaseButton> */}
             </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.additional.wiringRegulationsCertificate  && <div className="mb-8">
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                  17th or 18th Edition Wiring Regulations (BS 7671) Certificate
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.wiringRegulationsCertificate}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.additional.eicrDocumentation && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                  EICR Documentation (e.g: city , guilts 2391-52)
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.eicrDocumentation}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+              </div>}
+
+
+
+
+
+{getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                City Guild Qualification
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.additional.diploma && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                Diploma
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.diploma}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.required.trustMark && !getUserQuery.data?.data.data.profile.isTrustMarkVerified && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                TrustMark
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.trustMark}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyTrustMark": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.required.publicLiabilityInsurance && !getUserQuery.data?.data.data.profile.isPublicLiabilityInsuranceVerified && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                Public Liability Insurance
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.publicLiabilityInsurance}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyPublicLiabilityInsurance": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.required.ealQualification && !getUserQuery.data?.data.data.profile.isEALQualified && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                Eal Qualification
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.ealQualification}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyEALQualified": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.required.nvqQualification && !getUserQuery.data?.data.data.profile.isNVQQualified && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                Nvq Qualification
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.nvqQualification}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+              <BaseButton
+                type="button"
+                onClick={() => verifyMutation.mutate({
+                  "verifyNVQQualified": true})}
+                extraClass="max-w-[190px] bg-color-9 "
+              >
+                Accept
+              </BaseButton>
+              {/* <BaseButton
+                type="button"
+                onClick={() => onOpen()}
+                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+              >
+                Reject
+              </BaseButton> */}
+            </div>
+              </div>}
+              {getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister && <div>
+                <h5 className="text-color-20 text-base font-medium pb-2">
+                Competent Person Register
+                </h5>
+                <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister}`} target="_blank">
+                  <Image
+                    src="/images/certificate.png"
+                    alt="Qualification"
+                    width={144}
+                    height={144}
+                    className="object-contain"
+                  />
+                </a>
+                
+              </div>}
+              
+            </div>
+            </>}
           </div>
         }
       />

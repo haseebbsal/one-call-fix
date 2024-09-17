@@ -15,25 +15,23 @@ import BillingCard from "@/components/common/cards/billing-card";
 import BaseTable from "@/components/common/table/base-table";
 import { ChevronDownIcon } from "@/components/modules/public/chevron-down-icon";
 import usePagination from "@/hooks/use-pagination";
+import NewBillingCard from "@/components/common/cards/new-billing-card";
+import { useQuery } from "react-query";
+import axiosInstance from "@/_utils/helpers/axiosInstance";
+import { useEffect, useState } from "react";
 
 const column: columnType[] = [
   {
     title: "Date",
   },
   {
-    title: "Activity",
-  },
-  {
-    title: "Description",
-  },
-  {
-    title: "Form",
-  },
-  {
-    title: "Order",
+    title: "Job Headline",
   },
   {
     title: "Amount",
+  },
+  {
+    title: "User Name",
   },
 ];
 
@@ -109,9 +107,22 @@ const adminData = {
 };
 
 const limit = 10;
-
+import Cookies from 'js-cookie'
+import BaseButton from "@/components/common/button/base-button";
 export default function FinancialManagement() {
-  const { page, changePage } = usePagination();
+  // const { page, changePage } = usePagination();
+  const [page,setPage]=useState(1)
+  const [user,setUser]=useState<any>(null)
+  useEffect(()=>{
+    const user=JSON.parse(Cookies.get('userData')!)
+    console.log(user)
+    setUser(user)
+  },[])
+  const getPaymentsAdmin=useQuery(['paymentsAdmin',page],({queryKey})=>axiosInstance.get(`/payment/all/trades-person?page=${queryKey[1]}&limit=10`),{
+    enabled:!!user
+  })
+
+  const getPaymentStats=useQuery(['paymentStatsAdmin'],()=>axiosInstance.get('/payment/stats'))
 
   return (
     <>
@@ -124,66 +135,17 @@ export default function FinancialManagement() {
 
             <section className="mb-5 lg:max-w-screen-xl ">
               <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-7">
-                <BillingCard title={"Total Balance"} value={"25,324.01"} />
-                <BillingCard title={"This Week Earnings"} value={"2,388.00"} />
-                <BillingCard title={"Expenses To Date"} value={"5,345.00"} />
+                <BillingCard title={"Total Balance"} value={getPaymentStats.data?.data.data.totalBalance} />
+                <BillingCard title={"Total Completed Jobs"} value={getPaymentStats.data?.data.data.totalCompletedJobs} />
+                {/* <BillingCard title={"Monthly Revenue"} value={"2,388.00"} /> */}
+                {/* <NewBillingCard title="" value={"2,388.00"} secondTitle="Revenue From Completed Jobs"/> */}
+                {/* <BillingCard title={"Expenses To Date"} value={"5,345.00"} /> */}
               </div>
             </section>
 
             <section className="flex-1 p-4 sm:p-8 rounded-md border bg-color-16 text-left text-gray-600">
-              <div className="flex gap-5 mb-7">
-                <Dropdown>
-                  <DropdownTrigger className="hidden sm:flex">
-                    <Button
-                      endContent={<ChevronDownIcon className="text-small" />}
-                      variant="bordered"
-                      radius="sm"
-                      className="border-2 border-color-12 text-color-12 font-semibold"
-                    >
-                      Date Range
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    disallowEmptySelection
-                    closeOnSelect={false}
-                    selectionMode="multiple"
-                  >
-                    {FILTER_ITEMS.map((item) => (
-                      <DropdownItem key={item.id} className="capitalize">
-                        {item.value}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-                <Dropdown>
-                  <DropdownTrigger className="hidden sm:flex">
-                    <Button
-                      endContent={<ChevronDownIcon className="text-small" />}
-                      variant="bordered"
-                      radius="sm"
-                      className="border-2 border-color-12 text-color-12 font-semibold"
-                    >
-                      Activity
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    disallowEmptySelection
-                    closeOnSelect={false}
-                    selectionMode="multiple"
-                  >
-                    {FILTER_ITEMS.map((item) => (
-                      <DropdownItem key={item.id} className="capitalize">
-                        {item.value}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-              </div>
-              <div className="flex justify-between mb-4">
-                <span className="text-xs sm:text-sm text-color-14">
-                  Showing Results 1-50 Of 141
-                </span>
-              </div>
+              
+              
               <BaseTable
                 columns={column}
                 page={adminData?.page ?? 1}
@@ -191,46 +153,44 @@ export default function FinancialManagement() {
                 limit={limit}
                 currentEntriesLength={adminData?.data.length ?? 1}
                 summary={adminData?.total ?? 200}
-                changePage={changePage}
+                // changePage={changePage}
               >
                 <tbody>
-                  {adminData?.data.map((el, index) => (
+                {getPaymentsAdmin?.data?.data.data.map((el:any, index:number) => (
                     <tr key={el._id} className="border-b border-stroke text-sm">
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.date}
+                          {new Date(el.createdAt).toLocaleDateString()}
                         </span>
                       </td>
+                      
+
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.activity}
+                          {el.job.headline}
                         </span>
                       </td>
+                      
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.description || "-"}
+                          {el.amount}
                         </span>
                       </td>
 
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.form}
-                        </span>
-                      </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.order}
-                        </span>
-                      </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.amount}
+                          {el.user.firstName} {el.user.lastName}
                         </span>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </BaseTable>
+              <div className="flex justify-center gap-8">
+                {page!=getPaymentsAdmin.data?.data.lastPage && <BaseButton onClick={()=>setPage(page+1)}>Next Page</BaseButton>}
+                {page!=1 && <BaseButton onClick={()=>setPage(page-1)}>Previous Page</BaseButton>}
+
+              </div>
             </section>
           </div>
         </div>

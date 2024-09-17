@@ -41,7 +41,7 @@ export default function DisputeResolution() {
           </BaseButton>
         </div>
       </BaseModal>
-      <div className={"flex items-center w-full justify-end pt-10 px-5"}>
+      {/* <div className={"flex items-center w-full justify-end pt-10 px-5"}>
         <BaseButton
           as="link"
           link="/admin/push-notification"
@@ -49,24 +49,12 @@ export default function DisputeResolution() {
         >
           Set up Push Notification
         </BaseButton>
-      </div>
-      <LayoutWrapper
-        sectionOneTitle="Dispute Management"
-        sectionTwoClassname="!flex-[2]"
-        sectionOneChildren={
-          <div>
-            <h2 className="text-lg font-medium mb-6 text-color-17">Reviews</h2>
-            <div className="flex flex-col gap-5">
-              {[1, 2, 3, 4, 5].map((el) => (
-                <div className="pb-6 border-b border-b-color-19" key={el}>
-                  <ReviewCard description="Great service competitively priced. Lexus was great and very detail oriented hope that's who they send next time too!" />
-                </div>
-              ))}
-            </div>
-          </div>
-        }
-        sectionTwoChildren={
-          <div>
+      </div> */}
+      <div className="px-8 mt-8">
+      <h2 className="text-xl font-semibold mb-4 text-color-17">
+              Dispute Management
+            </h2>
+            <div className="w-full bg-white rounded-lg p-4">
             <h2 className="text-lg font-medium mb-6 text-color-17">
               Complaints
             </h2>
@@ -86,9 +74,8 @@ export default function DisputeResolution() {
                 </div>
               ))}
             </div>
+            </div>
           </div>
-        }
-      />
     </>
   );
 }

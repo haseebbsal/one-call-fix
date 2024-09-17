@@ -13,9 +13,9 @@ export default function AdminLayout({
     <>
       <main className="flex flex-col min-h-screen">
         <AdminNav menuItems={ADMIN_SIDEBAR_MENU_ITEMS} />
-        <div className="flex">
+        <div className="flex w-full">
           <Sidebar menuItems={ADMIN_SIDEBAR_MENU_ITEMS} />
-          <main className="flex-1 flex flex-col bg-gray-100">{children}</main>
+          <main className="flex-1 flex flex-col bg-gray-100 w-full">{children}</main>
         </div>
       </main>
     </>

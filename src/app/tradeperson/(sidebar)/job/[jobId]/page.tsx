@@ -224,7 +224,7 @@ console.log('data payment',dataPayment)
               <h2 className="text-lg font-semibold text-gray-900">
                 {getUserQuery.data?.data.data.headline}
               </h2>
-              <p className="text-sm text-blue-500">18 mins away from PO167GZ</p>
+              <p className="text-sm text-blue-500">{Number(getUserQuery.data?.data.data.distance).toFixed(2)} miles away</p>
             </div>
           </div>
           <p className="text-gray-700 mb-2">{getUserQuery.data?.data.data.issue}</p>

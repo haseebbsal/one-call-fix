@@ -28,13 +28,23 @@ export default function VerificationRequestCard({ description }: Props) {
             Document Verification
           </h3>
           <p className="text-color-20 text-[300] text-sm pb-3">{description}</p>
+          <div className="flex gap-2">
           <BaseButton
             as="link"
             link={`/admin/verification-requests/abc`}
             extraClass="max-w-[190px] bg-color-9 "
           >
-            View
+           Accept
           </BaseButton>
+          <BaseButton
+            as="link"
+            link={`/admin/verification-requests/abc`}
+            extraClass="max-w-[190px] border-2 !text-color-9 border-color-9  bg-transparent"
+          >
+           Reject
+          </BaseButton>
+          </div>
+          
         </div>
       </div>
     </div>
