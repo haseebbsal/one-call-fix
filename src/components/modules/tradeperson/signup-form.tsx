@@ -243,10 +243,12 @@ export default function HomeOwnerSignUpForm() {
       {/* gas safe registered */}
       {/* show only for plumber trade */}
       {trade == TRADES.PLUMBER && (
-        <div>
+        <div className="flex flex-col gap-2">
           <h3 className="text-xl lg:text-2xl font-bold text-color-6 py-1">
             Are you gas safe registered ?
           </h3>
+
+          <p className="text-sm text-red-500">We'll need to verify your Gas Safe ID Card before you can win any gas-related jobs</p>
 
           <BaseRadioGroupSimple
             name="gasSafeRegistered"

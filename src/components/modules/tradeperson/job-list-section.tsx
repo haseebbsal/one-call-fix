@@ -52,6 +52,7 @@ export default function JobListSection({
 }: JobListSectionProps) {
   // const dispatch = useAppDispatch();
   const router = useRouter();
+  console.log('job items',jobItems)
 
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const [selectedJob, setSelectedJob] = useState<JobItem>({
@@ -218,7 +219,7 @@ export default function JobListSection({
             })
           ))
         )}
-        {!jobItems.isLoading && !jobItems.data.pages[0].data.data.length ? (
+        {!jobItems.isLoading && !jobItems.data? (
           <p className="text-lg font-bold text-center">No Job Avaliable</p>
         ) : (
           ""

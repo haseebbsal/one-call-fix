@@ -3,7 +3,7 @@ import PageTopSection from "@/components/modules/widgets/page-top-section";
 
 const pageTopSection = {
   title: "CONTACT US",
-  text: "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
+  text: "Get in contact with our customer service team with any query you may have!",
 };
 
 export default function ContactUs() {
@@ -15,10 +15,9 @@ export default function ContactUs() {
           <h3 className="text-2xl font-bold sm:text-3xl mb-2 text-color-1">
             CONTACT
           </h3>
-          <p className="text-color-6 text-base sm:text-xl font-light">
-            Access Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
-            amet, cons tetuer
-          </p>
+          {/* <p className="text-color-6 text-base sm:text-xl font-light">
+          Get in contact with our customer service team with any query you may have!
+          </p> */}
           <ContactForm />
         </div>
       </section>

@@ -146,13 +146,19 @@ export default function EditProfile(datas:any) {
         ...filteredData,
       }
       const formData=new FormData()
-      formData.append('servicesOffered',services as any)
+      // console.log('services',services)
+      // formData.append('servicesOffered',services as any)
+      services.forEach(item => {
+        formData.append('servicesOffered', item);
+       })
+       formData.append('servicesOffered', ' ');
+
       formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
       formData.append('externalReviews',filteredData.externalReviews)
       formData.append('trade',filteredData.trade)
       formData.append('website',filteredData.website)
   
-      console.log('payload3',payload)
+      console.log('payload3',[...formData.entries()])
       editTradepersonMutation.mutate(formData)
       return 
     }
@@ -330,11 +336,12 @@ export default function EditProfile(datas:any) {
               </div>
             </div>
             <div
-              className={`mt-6 ${watch("trade") === "1" ? "block" : "hidden"}`}
+              className={`mt-6 ${watch("trade") === "1" ? "flex" : "hidden"} flex-col gap-2`}
             >
-              <label className="block text-lg font-medium text-black mb-2">
+              <label className="block text-lg font-medium text-black ">
                 Are you gas safe registered?
               </label>
+              <p className="text-sm text-red-500">We'll need to verify your Gas Safe ID Card before you can win any gas-related jobs</p>
               <div className="flex items-center space-x-4">
                 <label className="inline-flex items-center">
                   <input
@@ -376,6 +383,8 @@ export default function EditProfile(datas:any) {
             </div>
             <div className="mt-4">
               {services.map((service, index) => (
+
+                service.trim()!='' && 
                 <span
                   key={index}
                   className="inline-block bg-blue-600 text-white px-3 py-1 rounded-lg text-lg mr-2 mb-2"

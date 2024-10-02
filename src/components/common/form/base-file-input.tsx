@@ -133,7 +133,7 @@ const BaseFileInput = <T extends FieldValues>({
         <p className="text-center text-gray-500">
           <TbCloudUpload className="w-6 h-6 inline mx-auto mr-2" />
           Drop Items here or
-          <span className="font-bold cursor-pointer" onClick={open}>
+          <span className="font-bold cursor-pointer ml-1" onClick={open}>
             Browse Files
           </span>
         </p>

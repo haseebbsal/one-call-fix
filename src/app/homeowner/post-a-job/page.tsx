@@ -4,7 +4,7 @@ import { Image } from "@nextui-org/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { set, useForm, useWatch } from "react-hook-form";
-import {RadioGroup, Radio} from "@nextui-org/react";
+import {RadioGroup, Radio, useDisclosure} from "@nextui-org/react";
 import {CheckboxGroup, Checkbox} from "@nextui-org/react";
 import { TRADES } from "@/_utils/enums";
 import {
@@ -34,6 +34,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import { data } from "framer-motion/client";
+import BaseModal from "@/components/common/modal/base-modal";
 
 type Issue={
   trade:number,
@@ -98,6 +99,9 @@ type ChatData={
   answerIndex:number
 }
 export default function PostAJob() {
+
+  const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
+
   // const dispatch = useAppDispatch();
   // const [selected, setSelected] = useState("london");
 
@@ -139,6 +143,7 @@ export default function PostAJob() {
   },[])
   const createJobMutation=useMutation((data:any)=>axiosInstance.postForm('/job',data),{
     onSuccess(data) {
+      onOpen()
       console.log('create job',data.data)
     },
   })
@@ -358,6 +363,26 @@ console.log('ref',headlineForm.current)
 // console.log('chatid',chatId)
   return (
     <main>
+      <BaseModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="Job Created SuccessFully"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+          Job Created SuccessFully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={onClose}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
       {stepper === STEPPER.SELECT_TRADES_PEOPLE && (
         <>
           <PageTopSection pageTopSection={selectTopSection} />

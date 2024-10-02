@@ -152,13 +152,13 @@ export default function Home() {
             <div>
               {TRADESPERSON.map((item, index) => (
                 <div key={index} className="mb-4">
-                  <p className="text-color-6 font-bold">{item.title}:</p>
+                  <p className="text-color-6  font-bold">{item.title}:</p>
                   <p className="text-color-6">{item.desc}</p>
                 </div>
               ))}
               <div>
-                <BaseButton as="link" link="#" extraClass="bg-color-9 mt-10">
-                  TRADE SIGNUP
+                <BaseButton as="link" link="/tradeperson/signup" extraClass="bg-color-9 mt-10 w-max max-w-[100%]">
+                Tradesperson Sign Up
                 </BaseButton>
               </div>
             </div>

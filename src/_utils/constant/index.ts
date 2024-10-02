@@ -9,7 +9,7 @@ export const FOOTER_COLUMNS = [
     title: "About Us",
     links: [
       { text: "About Us", href: "/about-us" },
-      { text: "Contact Us", href: "/contact-us" },
+      // { text: "Contact Us", href: "/contact-us" },
       { text: "Complaints Policy", href: "/complaints-policy" },
       { text: "FAQ", href: "/faq" },
       { text: "Privacy Policy", href: "/privacy-policy" },
@@ -18,9 +18,11 @@ export const FOOTER_COLUMNS = [
   {
     title: "Homeowners",
     links: [
-      { text: "Post a Job", href: "#" },
-      { text: "How it Works", href: "#" },
-      { text: "Customer Support", href: "/customer-support" },
+      { text: "Post a Job", href: "/homeowner/post-a-job" },
+      // { text: "How it Works", href: "#" },
+      { text: "Contact Us", href: "/contact-us" },
+
+      // { text: "Customer Support", href: "/customer-support" },
       { text: "Request a quote", href: "#" },
       { text: "Homeowner FAQ", href: "/homeowner-faq" },
     ],
@@ -28,9 +30,11 @@ export const FOOTER_COLUMNS = [
   {
     title: "Tradespeople",
     links: [
-      { text: "Signup as a Tradesperson", href: "/tradesperson-signup" },
-      { text: "How it Works", href: "#" },
-      { text: "Tradesperson Refund", href: "/tradesperson-refund-policy" },
+      { text: "Sign up as a Tradesperson", href: "/tradeperson/signup" },
+      { text: "Contact Us", href: "/contact-us" },
+
+      // { text: "How it Works", href: "#" },
+      { text: "Refund Policy", href: "/tradesperson-refund-policy" },
       { text: "Code of Conduct", href: "/code-of-conduct" },
       { text: "Tradesperson FAQ", href: "/tradesperson-faq" },
     ],

@@ -6,10 +6,11 @@ import { FOOTER_COLUMNS, FOOTER_TEXT } from "@/_utils/constant";
 export default function SiteFooter() {
   return (
     <footer>
-      <div className="mx-auto max-w-screen-xl  px-4 py-16 sm:px-6  lg:px-8">
-        <Image width={300} src="/logos/original-logo.png" alt="Logo" />
+      <div className="mx-auto max-w-screen-xl flex flex-wrap px-4 py-16 sm:px-6  lg:px-8">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
-          <div>
+          <div className="">
+        <Image width={300} src="/logos/original-logo.png" alt="Logo" />
+
             <p className="max-w-xs text-color-6 font-bold">
               {FOOTER_TEXT.DESC}
             </p>
@@ -39,7 +40,7 @@ export default function SiteFooter() {
 
         <ul className="mt-8 flex gap-6">
           <span>Follow :</span>
-          <li>
+          {/* <li>
             <a
               href="#"
               rel="noreferrer"
@@ -61,11 +62,11 @@ export default function SiteFooter() {
                 />
               </svg>
             </a>
-          </li>
+          </li> */}
 
           <li>
             <a
-              href="#"
+              href="https://www.facebook.com/profile.php?id=61558856376619 "
               rel="noreferrer"
               target="_blank"
               className="text-gray-700 transition hover:opacity-75"
@@ -87,7 +88,7 @@ export default function SiteFooter() {
             </a>
           </li>
 
-          <li>
+          {/* <li>
             <a
               href="#"
               rel="noreferrer"
@@ -105,7 +106,7 @@ export default function SiteFooter() {
                 <path d="M12 0C5.372 0 0 5.372 0 12c0 4.627 2.664 8.633 6.53 10.432-.09-.888-.17-2.258.036-3.23.186-.807 1.213-5.143 1.213-5.143s-.31-.62-.31-1.536c0-1.44.835-2.515 1.875-2.515.883 0 1.31.664 1.31 1.46 0 .888-.567 2.218-.863 3.45-.245 1.033.52 1.873 1.54 1.873 1.845 0 3.263-1.946 3.263-4.748 0-2.482-1.78-4.219-4.327-4.219-2.944 0-4.671 2.207-4.671 4.493 0 .888.34 1.84.765 2.36.084.1.097.188.073.29-.08.35-.265 1.096-.3 1.246-.047.204-.155.248-.36.15-1.34-.62-2.173-2.566-2.173-4.126 0-3.372 2.45-6.465 7.078-6.465 3.714 0 6.605 2.654 6.605 6.202 0 3.68-2.317 6.644-5.54 6.644-1.08 0-2.093-.56-2.438-1.223l-.664 2.524c-.24.913-.89 2.06-1.333 2.75.998.31 2.056.48 3.165.48 6.628 0 12-5.372 12-12S18.628 0 12 0z" />
               </svg>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
 
@@ -114,11 +115,11 @@ export default function SiteFooter() {
           <p>Copyright © 2024 All rights reserved.</p>
         </div>
         <div className="space-x-2">
-          <Link href="#" className="text-white">
+          <Link href="/privacy-policy" className="text-white">
             Cookies
           </Link>
           <span>|</span>
-          <Link href="#" className="text-white">
+          <Link href="/privacy-policy" className="text-white">
             Privacy Policy
           </Link>
         </div>

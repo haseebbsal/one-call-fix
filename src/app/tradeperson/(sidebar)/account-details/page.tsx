@@ -111,7 +111,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Business Name"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="businessName"
@@ -129,7 +129,7 @@ export default function AccountDetails() {
               {/* <InputWrapper
                 className="mb-8"
                 title="Account Email"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="accountEmail"
@@ -146,7 +146,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Account First Name"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="accountFirstName"
@@ -163,7 +163,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Account Last Name"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="accountLastName"
@@ -179,7 +179,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Phone Number"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="phoneNumber"
@@ -196,7 +196,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Business Address"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <EditGooglePlacesInput
                     // changeAddressKey={setMandatoryAnswers}
@@ -213,7 +213,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Old Password"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="oldPassword"
@@ -229,7 +229,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="New Password"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                
@@ -247,7 +247,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Confirm Password"
-                description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                

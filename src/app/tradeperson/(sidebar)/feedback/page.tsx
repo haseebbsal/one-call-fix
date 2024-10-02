@@ -51,8 +51,8 @@ export default function Feedback() {
             <div className="flex flex-col gap-4 px-4 h-full">
                 <p className="font-semibold text-xl">Feedback</p>
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col border-1 rounded-lg gap-8 p-4">
-                    <p className="font-semibold">Provide Feedback About Your Hunt Experience</p>
-                    <div className="flex flex-col gap-2 ">
+                    <p className="font-semibold">Let us know how we can improve!</p>
+                    {/* <div className="flex flex-col gap-2 ">
                         <p className="font-semibold">Provide Rating</p>
                         <div className="flex gap-2">
                         <ReactStars
@@ -66,7 +66,7 @@ export default function Feedback() {
                         size={40}
                         color2={'#ffd700'} />
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="flex flex-col ">
                         <p className="font-semibold">Provide Descriptive Comment</p>

@@ -90,25 +90,23 @@ export default function ViewProfile() {
 
           {/* Links Section */}
           <div className="mt-8 grid grid-cols-2">
-            <div>
+            <div className="flex flex-col gap-2">
               <h4 className="text-xl font-semibold">
                 Link To External Reviews
               </h4>
-              <a
-                href="http://www.google.com/"
-                className="text-blue-500 underline text-lg"
-              >
-                {getUserQuery.data?.data.data.profile.externalReviews}
-              </a>
+              <BaseButton as="link" link={`${getUserQuery.data?.data.data.profile.externalReviews}`}>
+              Take Me There
+
+              </BaseButton>
+             
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
               <h4 className="text-xl font-semibold">Website</h4>
-              <a
-                href="http://www.google.com/"
-                className="text-blue-500 underline text-lg"
-              >
-                {getUserQuery.data?.data.data.profile.website}
-              </a>
+              <BaseButton as="link" link={`${getUserQuery.data?.data.data.profile.website}`}>
+              Take Me There
+
+              </BaseButton>
+              
             </div>
           </div>
 
