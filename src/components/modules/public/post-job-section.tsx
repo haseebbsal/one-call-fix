@@ -9,7 +9,7 @@ export default function PostJobSection() {
         </p>
       </div>
       <div className="w-full md:w-auto md:mr-36 flex justify-center md:justify-end">
-        <BaseButton as="link" link="#">
+        <BaseButton  as="link" link="/homeowner/post-a-job">
           POST A JOB
         </BaseButton>
       </div>

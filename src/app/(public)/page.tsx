@@ -7,6 +7,7 @@ import HorizontalLine from "@/components/common/horizontal-line/horizontal-line"
 import FeaturesSection from "@/components/modules/public/features-section";
 import PostJobSection from "@/components/modules/public/post-job-section";
 import ReviewStar from "@/components/modules/public/review-star";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -35,9 +36,9 @@ export default function Home() {
               radius="full"
               className="hidden custom-sm:inline-block"
             />
-            <button className="rounded-3xl bg-color-9 px-8 py-2 text-sm font-medium text-white focus:outline-none custom-sm:absolute top-0 right-0 h-full">
+            <Link href={'/homeowner/post-a-job'} className="rounded-3xl bg-color-9 px-8 py-2 text-sm font-medium text-white focus:outline-none custom-sm:absolute top-0 right-0 h-full">
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
         <div className="w-64 relative h-96 lg:w-80">

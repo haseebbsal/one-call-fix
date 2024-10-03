@@ -15,9 +15,11 @@ import { useState } from "react";
 
 import { MENU_ITEMS } from "@/_utils/constant";
 import BaseButton from "@/components/common/button/base-button";
+import { usePathname } from "next/navigation";
 
 export default function PublicNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname=usePathname()
 
   return (
     <>
@@ -44,17 +46,17 @@ export default function PublicNavBar() {
           justify="end"
         >
           <NavbarItem>
-            <Link href="/" className="text-sm font-semibold">
+            <Link href="/" className={`text-sm font-semibold ${pathname=='/'?'text-color-5':""} hover:text-color-5`}>
               HOME
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href={'/homeowner/post-a-job'} className="text-sm font-semibold">
+            <Link href={'/homeowner/post-a-job'} className={`text-sm font-semibold ${pathname=='/homeowner/post-a-job'?'text-color-5':""} hover:text-color-5 `}>
               POST A JOB
             </Link>
           </NavbarItem>
           <NavbarItem className="mr-5">
-            <Link href="/login" className="text-sm font-semibold">
+            <Link href="/login" className={` ${pathname=='/login'?'text-color-5':""} text-sm font-semibold hover:text-color-5`}>
               LOGIN
             </Link>
           </NavbarItem>
@@ -63,7 +65,7 @@ export default function PublicNavBar() {
             <BaseButton
               as="link"
               link="/tradeperson/signup"
-              extraClass="!text-base w-[265px] !max-w-full !text-color-4 bg-transparent font-semibold border-3 border-black px-10"
+              extraClass="!text-base  w-[265px] !max-w-full !text-color-4 bg-transparent font-semibold border-3 border-black  px-10"
             >
               TRADEPERSON SIGN UP
             </BaseButton>
@@ -75,7 +77,7 @@ export default function PublicNavBar() {
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 // color="foreground"
-                className="text-lg font-semibold"
+                className="text-lg font-semibold !text-red-500"
                 href={item.link}
               >
                 {item.title}
