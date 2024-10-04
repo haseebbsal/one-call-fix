@@ -3,19 +3,26 @@ import {
   HOMEOWNER_SERVICE,
   TRADESPEOPLE_SERVICE,
 } from "@/_utils/constant";
+import BaseButton from "@/components/common/button/base-button";
 import HorizontalLine from "@/components/common/horizontal-line/horizontal-line";
 import FeaturesSection from "@/components/modules/public/features-section";
 import PostJobSection from "@/components/modules/public/post-job-section";
+import Video from "@/components/modules/public/Video";
+import { Poppins } from "next/font/google";
+const poppins=Poppins({
+  weight:'300',
+  subsets:['latin']
+})
 
 export default function AboutUs() {
   return (
-    <main>
+    <main className={`${poppins.className}`}>
       <section className="bg-[url('/shapes/ellipse-bg.png')]">
         <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex">
           <div className="mx-auto max-w-xl text-center">
-            <h1 className="text-3xl font-extrabold sm:text-5xl">ABOUT US</h1>
+            <h1 className={`text-3xl font-extrabold sm:text-5xl ${poppins.className}`}>ABOUT US</h1>
 
-            <p className="mt-4 sm:text-xl/relaxed text-color-6">
+            <p className={`mt-4 sm:text-xl/relaxed text-color-6 ${poppins.className}`}>
               Finding a reliable tradesperson is not always the easiest of
               tasks. From constant phone calls, constant home visits, constant
               vetting, the list goes on!
@@ -27,7 +34,7 @@ export default function AboutUs() {
       <HorizontalLine />
 
       <section className="mx-auto max-w-screen-xl px-4 pt-32 pb-16 lg:flex">
-        <div className="w-1/2 mx-auto max-w-xl">
+        <div className={`${poppins.className} w-1/2 mx-auto max-w-xl`}>
           <h1 className="text-3xl font-extrabold sm:text-5xl mb-6">
             Our Mission
           </h1>
@@ -60,7 +67,9 @@ export default function AboutUs() {
           </p>
         </div>
         <div className="w-1/2 mx-auto max-w-xl mt-auto">
-          <img src="/images/about-us-video-image.png" alt="video-image" />
+        <Video extraClass="!static h-[40rem]" url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
+        
+          {/* <img src="/images/about-us-video-image.png" alt="video-image" /> */}
         </div>
       </section>
 
@@ -76,9 +85,9 @@ export default function AboutUs() {
               </li>
             ))}
           </ul>
-          <button className="rounded-3xl bg-color-5 px-8 py-2 text-sm font-medium text-white focus:outline-none h-12 mt-6">
+          <BaseButton as="link" link="/homeowner/post-a-job">
             POST A JOB
-          </button>
+          </BaseButton>
         </div>
 
         <div>
@@ -92,9 +101,9 @@ export default function AboutUs() {
               </li>
             ))}
           </ul>
-          <button className="rounded-3xl bg-color-5 px-8 py-2 text-sm font-medium text-white focus:outline-none h-12 mt-6">
+          <BaseButton as="link" extraClass="max-w-max" link="/tradeperson/signup">
             SIGN UP AS A TRADE
-          </button>
+          </BaseButton>
         </div>
       </section>
 

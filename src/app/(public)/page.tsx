@@ -8,6 +8,7 @@ import FeaturesSection from "@/components/modules/public/features-section";
 import PostJobSection from "@/components/modules/public/post-job-section";
 import ReviewStar from "@/components/modules/public/review-star";
 import Link from "next/link";
+import Video from "@/components/modules/public/Video";
 
 export default function Home() {
   return (
@@ -53,12 +54,8 @@ export default function Home() {
         <HorizontalLine />
 
         {/* VIDEO SECTION */}
-        <div className="w-full flex justify-center items-center relative -mt-16 z-10">
-          <img
-            alt="home-video-image"
-            src="/images/home-video-image.png"
-            className="w-full max-w-screen-lg h-auto absolute top-20 lg:top-24"
-          />
+        <div className="w-full  flex justify-center items-center relative -mt-16 z-10">
+        <Video url="/videos/how.mp4" imgUrl="/images/home-video-image.png"/>
         </div>
       </section>
 
@@ -159,7 +156,7 @@ export default function Home() {
               ))}
               <div>
                 <BaseButton as="link" link="/tradeperson/signup" extraClass="bg-color-9 mt-10 w-max max-w-[100%]">
-                Tradesperson Sign Up
+                Learn More
                 </BaseButton>
               </div>
             </div>

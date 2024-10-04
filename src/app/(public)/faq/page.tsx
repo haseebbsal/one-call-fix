@@ -26,7 +26,7 @@ export default function Faq() {
           <h1 className="font-bold">Tradespeople</h1>
           <Image src={'/images/pl (1).svg'} height={200} width={200} alt="homeowner"/>
           <p className="text-medium">Want to know more about how our service works for tradespeople? Click the button below to learn more</p>
-          <BaseButton as="link" link="/tradesperson-faq">I'm A Tradeperson</BaseButton>
+          <BaseButton as="link" link="/tradesperson-faq">I'm A Trade</BaseButton>
         </div>
 
       </div>

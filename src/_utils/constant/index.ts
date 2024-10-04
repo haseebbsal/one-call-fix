@@ -279,32 +279,39 @@ export const COMPLAINTS_POLICY = [
 
 export const TRADESPERSON_REFUND_POLICY = [
   {
-    title: "Cons Tetuer Lorem Ipsum",
+    title: "We understand that sometimes leads may not respond, despite your best efforts to reach out to them.",
     desc: [
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
+      "1. Lead Unresponsiveness:If you are unable to establish contact with a lead within 48 hours of receiving their contact information through our platform, you are eligible for a refund.",
+      "2. Refund Request Deadline: All refund requests must be submitted within 7 days of purchasing the lead.",
+      "3. Documentation:  You must provide evidence of your attempts to contact the lead, such as screenshots of call logs, emails, or messages sent through our platform.",
+      "4. Refund Process: Refund requests will be processed promptly upon review and approval by our team. Refunds will be issued in the form of account credits, which are non-transferable and cannot be exchanged for cash or transferred to bank accounts",
+      "5. Limitations: Refunds are subject to limitations. Refunds may not be applicable if the lead has explicitly stated they are no longer seeking services, or if they have already hired another tradesperson.",
+      "6. Cancellation of Service: We reserve the right to modify or cancel the refund policy at any time without prior notice. However, any changes will not affect refund requests submitted prior to the effective date of the change.",
+      "By adhering to these conditions, we aim to provide a fair and transparent process for handling refund requests and ensuring the satisfaction of our tradespeople members.Best Practices for Contacting Leads",
+      'To improve your chances of successfully contacting leads and avoid issues, please follow these best practices'
     ],
   },
   {
-    title: "Cons Tetuer Lorem Ipsum",
-    desc: [
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-    ],
-  },
-  {
-    title: "Cons Tetuer Lorem Ipsum",
-    desc: [
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-      "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuerLorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
-    ],
-  },
+    type:"bullet",
+    items:[
+      {
+        bold:"Provide",
+        content:"detailed information about contact attempts, including screenshots and timestamps."
+      },
+      {
+        bold:"Contact",
+        content:"customers at different times of the day without excessive attempts."
+      },
+      {
+        bold:"Call",
+        content:"immediately after receiving the lead’s contact details, then again in the evening or the next morning"
+      },
+      {
+        bold:"Email",
+        content:"or text the lead with an introductory message, as leads may not pick up calls from unknown numbers."
+      }
+    ]
+  }
 ];
 
 export const FAQ = [
