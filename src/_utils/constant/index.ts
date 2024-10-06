@@ -64,27 +64,27 @@ export const FEATURES = [
   {
     imgSrc: "/icons/quote.png",
     heading: "Receive Quotes Directly Online:",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio exercitationem velit fugiat, rem aliquid dicta porro animi. Incidunt, soluta.",
+    desc: "Our AI-Assisted form improves the level of detail provided to tradespeople, increasing your chances of receiving a quote directly online.",
   },
   {
     imgSrc: "/icons/clock.png",
-    heading: "Receive Quotes Directly Online:",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio exercitationem velit fugiat, rem aliquid dicta porro animi. Incidunt, soluta.",
+    heading: "Vetted Tradespeople:",
+    desc: "We vet all tradespeople before they can submit an offer, saving you the time and effort.  ",
   },
   {
     imgSrc: "/icons/feedback.png",
     heading: "Trusted Feedback:",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio exercitationem velit fugiat, rem aliquid dicta porro animi. Incidunt, soluta.",
+    desc: "All reviews are verified as previous customers, helping you to make a confident decision when selecting a tradesperson.",
   },
   {
     imgSrc: "/icons/lock.png",
-    heading: "Receive Quotes Directly Online:",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio exercitationem velit fugiat, rem aliquid dicta porro animi. Incidunt, soluta.",
+    heading: "You’re in Control:",
+    desc: "Review profiles and shortlist the tradespeople you choose. Your details are only shared with the tradespeople you choose.",
   },
   {
     imgSrc: "/icons/home.png",
-    heading: "Receive Quotes Directly Online:",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio exercitationem velit fugiat, rem aliquid dicta porro animi. Incidunt, soluta.",
+    heading: "Streamlined Job Details:",
+    desc: "If a home visit is not required, skip the hassle of lengthy conversations. Get all the vital information you need upfront, from deposit requirements to project timelines, without the back-and-forth.",
   },
 ];
 
