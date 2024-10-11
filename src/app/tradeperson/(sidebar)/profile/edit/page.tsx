@@ -209,6 +209,8 @@ export default function EditProfile(datas:any) {
   const closeModel = () => {
     // dispatch(resetTradePerson());
     // dispatch(resetUser());
+    toast.success("Profile Updated Successfully")
+    
     onClose();
     // router.replace("/tradeperson/profile/view");
   };

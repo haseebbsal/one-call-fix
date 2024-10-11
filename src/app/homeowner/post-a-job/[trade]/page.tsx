@@ -99,18 +99,18 @@ type ChatData={
   chatId:string,
   answerIndex:number
 }
-export default function PostAJob() {
+export default function PostAJob(datas:any) {
 
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
 
   // const dispatch = useAppDispatch();
   // const [selected, setSelected] = useState("london");
-
+console.log('id',)
   const headlineForm=useRef<any>()
   const [isLoggedin,setIsloggedIn]=useState(false)
   const [stepper, setStepper] = useState(STEPPER.SELECT_TRADES_PEOPLE);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [trade, setTrade] = useState<TRADES>(TRADES.ELECTRICIAN);
+  const [trade, setTrade] = useState<TRADES>(Number(datas.params.trade));
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [mandatoryQuestionsCompleted,setMandatoryQuestionsCompleted]=useState(false)
   const [isJobFormCompleted, setIsJobFormCompleted] = useState(false);
@@ -388,62 +388,8 @@ console.log('ref',headlineForm.current)
           </BaseButton>
         </div>
       </BaseModal>
-      {stepper === STEPPER.SELECT_TRADES_PEOPLE && (
-        <>
-          <PageTopSection pageTopSection={selectTopSection} />
-          <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
-            <div className="bg-white max-w-[280px] py-5 px-4 border-color-8 border shadow-xs flex flex-col items-center gap-7">
-              <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
-                Electrician
-              </h4>
-              <div className="w-[120px] h-[120px]">
-                <Image
-                  src="/images/electrician.png"
-                  alt="Electrician"
-                  width={120}
-                  height={120}
-                  className="object-contain"
-                />
-              </div>
-              <p className="text-center font-[300] text-sm lg:text-base text-color-6">
-                Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
-                amet, cons tetuer Lorem.
-              </p>
-              <BaseButton
-                type="button"
-                onClick={() => handleTradeChange(TRADES.ELECTRICIAN)}
-              >
-                I Need Electrician
-              </BaseButton>
-            </div>
-            <div className="bg-white max-w-[280px] py-5 px-4 border-color-8 border shadow-xs flex flex-col items-center gap-7">
-              <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
-                Plumber
-              </h4>
-              <div className="w-[120px] h-[120px] flex items-center justify-center">
-                <Image
-                  src="/images/plumber.png"
-                  alt="Plumber"
-                  width={120}
-                  height={120}
-                  className="object-contain"
-                />
-              </div>
-              <p className="text-center font-[300] text-sm lg:text-base text-color-6">
-                Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
-                amet, cons tetuer Lorem.
-              </p>
-              <BaseButton
-                type="button"
-                onClick={() => handleTradeChange(TRADES.PLUMBER)}
-              >
-                I Need Plumber
-              </BaseButton>
-            </div>
-          </div>
-        </>
-      )}
-      {stepper === STEPPER.POST_JOB && (
+     
+    
         <>
           <PageTopSection pageTopSection={postJobTopSection} />
           <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
@@ -611,7 +557,6 @@ console.log('ref',headlineForm.current)
             {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
           </div>
         </>
-      )}
     </main>
   );
 }

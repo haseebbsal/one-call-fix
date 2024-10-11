@@ -1,3 +1,4 @@
+'use client';
 import { Image } from "@nextui-org/image";
 import { Input } from "@nextui-org/input";
 
@@ -9,8 +10,18 @@ import PostJobSection from "@/components/modules/public/post-job-section";
 import ReviewStar from "@/components/modules/public/review-star";
 import Link from "next/link";
 import Video from "@/components/modules/public/Video";
+import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+export const animals = [
+  {label: "Plumber", value: 1},
+  {label: "Electrician", value: 2},
+ 
+];
 
 export default function Home() {
+  const router=useRouter()
+  const [selectedKey,setSelectedKey]=useState<any>(null)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       {/* GET STARTED SECTION */}
@@ -30,16 +41,38 @@ export default function Home() {
           </p>
 
           <div className="relative text-center w-fit m-auto custom-sm:m-0 custom-sm:text-start custom-sm:w-450px">
-            <Input
+          <Autocomplete
+      isRequired
+      variant="bordered"
+      radius="full"
+      className="hidden custom-sm:inline-block"
+      // label="Favorite Animal"
+      onSelectionChange={(key)=>{
+        setSelectedKey(key!)
+      }}
+      defaultItems={animals}
+      placeholder="You are looking for Electrician or Plumber?"
+      defaultSelectedKey="cat"
+      // className="max-w-xs"
+    >
+      {(item) => 
+      <AutocompleteItem  key={item.value}>
+        {item.label}
+
+      </AutocompleteItem>}
+    </Autocomplete>
+            {/* <Input
               type="email"
               variant="bordered"
               placeholder="You are looking for Electrician or Plumber?"
               radius="full"
               className="hidden custom-sm:inline-block"
-            />
-            <Link href={'/homeowner/post-a-job'} className="rounded-3xl bg-color-9 px-8 py-2 text-sm font-medium text-white focus:outline-none custom-sm:absolute top-0 right-0 h-full">
+            /> */}
+            <Button onClick={()=>{
+              router.push(`/homeowner/post-a-job/${selectedKey}`)
+            }} disabled={!selectedKey} className="rounded-3xl bg-color-9 px-8 py-2 !opacity-100 hover:bg-color-9  text-sm font-medium text-white focus:outline-none custom-sm:absolute top-0 right-0 h-full">
               Get Started
-            </Link>
+            </Button>
           </div>
         </div>
         <div className="w-64 relative h-96 lg:w-80">
