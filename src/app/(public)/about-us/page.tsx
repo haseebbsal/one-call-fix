@@ -34,7 +34,7 @@ export default function AboutUs() {
       <HorizontalLine />
 
       <section className="mx-auto max-w-screen-xl px-4 pt-32 pb-16 lg:flex">
-        <div className={`${poppins.className} w-1/2 mx-auto max-w-xl`}>
+        <div className={`${poppins.className} sm:w-1/2 mx-auto max-w-xl`}>
           <h1 className="text-3xl font-extrabold sm:text-5xl mb-6">
             Our Mission
           </h1>
@@ -66,7 +66,7 @@ export default function AboutUs() {
             work, helping to win more jobs tomorrow.
           </p>
         </div>
-        <div className="w-1/2 mx-auto max-w-xl mt-auto">
+        <div className="sm:w-1/2 mx-auto max-w-xl mt-auto">
         <Video extraClass="!static h-[40rem]" url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
         
           {/* <img src="/images/about-us-video-image.png" alt="video-image" /> */}

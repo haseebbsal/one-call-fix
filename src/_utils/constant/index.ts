@@ -30,7 +30,7 @@ export const FOOTER_COLUMNS = [
   {
     title: "Tradespeople",
     links: [
-      { text: "Sign up as a Tradesperson", href: "/tradeperson/signup" },
+      { text: "Sign up ", href: "/tradeperson/signup" },
       { text: "Contact Us", href: "/contact-us" },
 
       // { text: "How it Works", href: "#" },

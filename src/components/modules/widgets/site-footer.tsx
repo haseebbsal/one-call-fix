@@ -115,7 +115,7 @@ export default function SiteFooter() {
           <p>Copyright © 2024 All rights reserved.</p>
         </div>
         <div className="space-x-2">
-          <Link href="/privacy-policy" className="text-white">
+          <Link href="/cookies-policy" className="text-white">
             Cookies
           </Link>
           <span>|</span>

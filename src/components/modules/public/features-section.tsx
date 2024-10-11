@@ -14,7 +14,7 @@ export default function FeaturesSection({ features }: FeaturesProps) {
   return (
     <section>
       <div className="mb-8 sm:mb-14">
-        <h2 className="text-2xl font-extrabold text-center sm:text-3xl md:text-4xl">
+        <h2 className="text-2xl font-extrabold text-center sm:text-3xl md:text-4xl p-[1.8rem]">
           We Do The Hard Work For You
         </h2>
       </div>

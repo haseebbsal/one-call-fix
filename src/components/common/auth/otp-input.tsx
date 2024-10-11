@@ -27,6 +27,7 @@ export default function CustomOTPInput({
   const handleResendCode = () => {
     // Logic to resend the code
     // Reset the countdown
+    onChange('')
     resendOTPService();
     setCountdownKey((prevKey) => prevKey + 1);
     setIsCountdownActive(true);
@@ -34,6 +35,7 @@ export default function CustomOTPInput({
 
   useEffect(() => {
     handleResendCode();
+  
   }, []);
 
   // Renderer callback with condition

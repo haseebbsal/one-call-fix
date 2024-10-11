@@ -70,9 +70,9 @@ export default function ContactInfo() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="my-8">
-          <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
+          {/* <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
             Old Password
-          </h3>
+          </h3> */}
           <BaseInput
             name="previousPassword"
             type="password"
@@ -89,9 +89,9 @@ export default function ContactInfo() {
           />
         </div>
         <div className="my-8">
-          <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
+          {/* <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
             New Password
-          </h3>
+          </h3> */}
           <BaseInput
             name="newPassword"
             type="password"
@@ -111,9 +111,9 @@ export default function ContactInfo() {
           />
         </div>
         <div className="mt-8 mb-4">
-          <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
+          {/* <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
             Confirm New Password
-          </h3>
+          </h3> */}
           <BaseInput
             name="confirmPassword"
             type="password"

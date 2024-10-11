@@ -12,6 +12,10 @@ import Cookies from "js-cookie";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
+// import ReactCrop, { type Crop } from 'react-image-crop'
+// import 'react-image-crop/dist/ReactCrop.css'
+import Cropper from "react-easy-crop";
+ 
 interface Props {
   children: React.ReactNode;
 }
@@ -32,6 +36,11 @@ export default function AccountSettingsLayout({ children }: Props) {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [customError, setCustomError] = useState<string>("");
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const onCropComplete = (croppedArea:any, croppedAreaPixels:any) => {
+    console.log(croppedArea, croppedAreaPixels)
+  }
 
   // const dispatch = useAppDispatch();
   // const { loading, error, user } = useAppSelector((state) => state.auth);
@@ -124,19 +133,27 @@ export default function AccountSettingsLayout({ children }: Props) {
               />
               <div className="rounded-full w-[97px] h-[97px] flex items-center justify-center p-5 bg-[#C2C2C2] border border-color-8">
                 <label htmlFor="fileInput">
-                  <Image
-                    src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc}
-                    width={200}
-                    height={200}
-                    alt="user"
-                    className="cursor-pointer object-contain"
-                  />
+                {/* <Cropper
+      image={imageSrc.includes('placeholder')?'/images/user.png':imageSrc}
+      crop={crop}
+      zoom={zoom}
+      aspect={4 / 3}
+      onCropChange={setCrop}
+      onCropComplete={onCropComplete}
+      onZoomChange={setZoom}
+    /> */}
+      <img src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
+
+                {/* <ReactCrop circularCrop crop={crop} onChange={c => setCrop(c)}>
+      <img src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
+    </ReactCrop> */}
+                  
                 </label>
               </div>
               <div>
-                <h6 className="pb-2.5 text-color-22 text-sm lg:text-base font-bold text-nowrap">
+                <label  className="pb-2.5 text-color-22 text-sm lg:text-base font-bold text-nowrap">
                   Update Your Profile
-                </h6>
+                </label>
                 <BaseButton
                   type="button"
                   extraClass="!rounded !p-2.5 !text-xs max-w-[120px]"
