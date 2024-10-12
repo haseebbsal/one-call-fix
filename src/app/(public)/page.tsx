@@ -13,7 +13,7 @@ import Video from "@/components/modules/public/Video";
 import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-export const animals = [
+const animals = [
   {label: "Plumber", value: 1},
   {label: "Electrician", value: 2},
  

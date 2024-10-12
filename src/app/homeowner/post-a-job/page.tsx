@@ -147,9 +147,7 @@ export default function PostAJob() {
       onOpen()
       console.log('create job',data.data)
       toast.success("Job Created Successfully")
-      if(isLoggedin){
-        router.push('/homeowner/jobs')
-      }
+      
     },
   })
   const chatStartMutation=useMutation((data:Issue)=>axiosInstance.post('/chat',data),{
@@ -369,6 +367,11 @@ console.log('ref',headlineForm.current)
   return (
     <main>
       <BaseModal
+      onClose={()=>{
+        if(isLoggedin){
+          router.push('/homeowner/jobs')
+        }
+      }}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         size="md"
@@ -381,7 +384,12 @@ console.log('ref',headlineForm.current)
           </h5>
           <BaseButton
             type="button"
-            onClick={onClose}
+            onClick={()=>{
+              onClose()
+              if(isLoggedin){
+                router.push('/homeowner/jobs')
+              }
+            }}
             extraClass="bg-color-9 !max-w-[350px] w-full text-white"
           >
             Okay
