@@ -45,6 +45,7 @@ const BaseFileInput = <T extends FieldValues>({
 
   const onDrop = (acceptedFiles: File[]) => {
     const newFiles = [...files, ...acceptedFiles];
+    localStorage.setItem('filess',JSON.stringify(newFiles))
     setFiles(newFiles);
     onChange(newFiles);
   };

@@ -16,6 +16,7 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import BaseInputPassword from "@/components/common/form/base-password";
 
 interface LoginFormValues {
   email: string;
@@ -106,10 +107,11 @@ export default function LoginForm() {
           },
         }}
       />
-      <BaseInput
+      <BaseInputPassword
         name={"password"}
         type="password"
         control={control}
+        rules={{required:"Enter Password"}}
         placeholder="Password *"
         // rules={{
         //   required: "Password is required",

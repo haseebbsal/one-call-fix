@@ -146,7 +146,7 @@ export default function PostAJob() {
     onSuccess(data) {
       onOpen()
       console.log('create job',data.data)
-      toast.success("Job Created Successfully")
+      // toast.success("Job Created Successfully")
       
     },
   })
@@ -181,33 +181,13 @@ export default function PostAJob() {
     },
   })
 
-  // const answerMutation2=useMutation((data:ChatData)=>axiosInstance.put(`/chat?chatId=${data.chatId}`,{answerIndex:data.answerIndex}),{
-  //   onSuccess(data) {
-  //     console.log('next chat 2',data.data.data)
-  //     if(isFormCompleted){
-  //       const questionsLength=(questions.length+mandatoryQuestionsInitial.length)-1
-  //       setCurrentQuestionIndex((prev)=>{
-  //         if(prev==questionsLength){
-  //           setMandatoryQuestionsCompleted(true)
-  //         }
-  //         return prev
-  //       })
 
-  //     }
-  //   },
-  // })
   
   const issue = watch("issue"); // Watching the form state managed by react-hook-form
   const formValues = useWatch({ control });
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (isFormCompleted) {
-  //     // Check if all required fields are filled
-  //     const allFieldsFilled = Object.values(formValues).every((value) => value);
-  //     setIsJobFormCompleted(allFieldsFilled);
-  //   }
-  // }, [formValues]);
+ 
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
@@ -234,10 +214,6 @@ export default function PostAJob() {
 
     createJobMutation.mutate(formData)
 
-    // const response: any = await dispatch(createJob(formData));
-    // if (response.payload.message === "Success") {
-    //   router.replace(`/homeowner/job/${response.payload.data._id}`);
-    // }
   };
 
   const currentQuestionValue = formValues[`question_${currentQuestionIndex}`]; // Watching the form state managed by react-hook-form
@@ -271,78 +247,10 @@ export default function PostAJob() {
     issue,
     trade
   };
-  // questions & conclusion
-  // const { questions, conclusion, chatId, loading, isChatCompleted } =
-  //   useAppSelector((state) => state.chat);
 
-  // const { user } = useAppSelector((state) => state.auth);
-  // rename above loading name
-  // const {
-  //   loading: jobLoading,
-  //   error: jobError,
-  //   job,
-  // } = useAppSelector((state) => state.job);
-
-
-  // useEffect(() => {
-  //   dispatch(resetJob());
-  //   setIsFormCompleted(false);
-  //   setStepper(STEPPER.SELECT_TRADES_PEOPLE);
-  //   dispatch(resetChat());
-  //   setValue("issue", "");
-  //   if (job) {
-  //     // Redirect or show success message
-  //     // refresh the page
-  //     // refresh the page
-  //     router.refresh();
-  //   }
-  // }, [job, router]);
-
-  
-
-  // const handleNextQuestion = () => {
-  //   if (currentQuestionIndex < questions.length - 1) {
-  //     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  //   }
-  // };
-
-  // const handleMandatoryQuestions = () => {
-  //   if (!isChatCompleted) return;
-  //   // show mandatory questions
-  //   const firstQuestion = mandatoryQuestions.shift();
-  //   if (!firstQuestion) {
-  //     if (chatId) setIsFormCompleted(true);
-  //     return;
-  //   }
-  //   const updatedQuestions = [...questions, firstQuestion];
-  //   dispatch(updateQuestions(updatedQuestions));
-  // };
-
-  // update current question index when the current question value changes
-  // useEffect(() => {
-  //   handleNextQuestion();
-  // }, [questions]);
-
-  // add question to the form, when conclusion updated
-  // useEffect(() => {
-  //   handleMandatoryQuestions();
-  // }, [conclusion]);
 
   const handleContinue = () => {
-    // if (isChatCompleted) {
-    //   handleMandatoryQuestions();
-    //   return;
-    // }
 
-    // if (chatId) {
-    //   // update chat
-    //   const arg: UpdateChatPayload = {
-    //     chatId,
-    //     answerIndex: parseInt(currentQuestionValue),
-    //   };
-    //   dispatch(updateChat(arg));
-    //   return;
-    // }
     if(isFormCompleted){
       setQuestions((prev:any):any=>{
         return (
@@ -358,6 +266,20 @@ export default function PostAJob() {
       answerMutation.mutate({chatId:chatId!,answerIndex:currentQuestionValuee})
     }
   }
+
+  useEffect(()=>{
+    const getAllQuestions=document.getElementById('questionsGenerated')
+    const getQuestion=document.getElementsByClassName('questions')
+    if(getQuestion.length){
+      console.log('elements',getAllQuestions)
+      const pos=getAllQuestions!.getBoundingClientRect()
+      const secondPos=getQuestion[getQuestion.length-1].getBoundingClientRect()
+      console.log('pos',pos)
+      // console.log('pos',getAllQuestions[getAllQuestions.length-1].getBoundingClientRect())
+      window.scrollTo(0,pos.height-secondPos.height)
+      // console.log('questions html',getAllQuestions)
+    }
+  },[questions])
     
     // dispatch(initializeChat(arg));
 console.log('questions',questions)
@@ -454,7 +376,7 @@ console.log('ref',headlineForm.current)
       {stepper === STEPPER.POST_JOB && (
         <>
           <PageTopSection pageTopSection={postJobTopSection} />
-          <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
+          <div id="questionsGenerated" className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
             <form onSubmit={handleSubmit(newSubmit)} className="mb-20">
               <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                 Please describe your issue.
@@ -481,7 +403,7 @@ console.log('ref',headlineForm.current)
             
             {/* questions */}
               {questions.map((question:any, index) => (
-              <div key={index} className="mb-20">
+              <div  key={index} className="mb-20 questions">
                 <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                   {question.question} {/* Dynamically display the question */}
                 </h3>
@@ -553,7 +475,7 @@ console.log('ref',headlineForm.current)
                     <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                       Pictures/videos upload
                     </h3>
-                    <BaseFileInput name="files" control={control} />
+                    <BaseFileInput  name="files" control={control} />
                   </div>
 
                   {/* Post Code */}
@@ -616,7 +538,7 @@ console.log('ref',headlineForm.current)
               </>
             )}
             {/* signup/login */}
-            {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
+            {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm onOpen={onOpen} headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
           </div>
         </>
       )}

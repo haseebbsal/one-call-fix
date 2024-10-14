@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
+import BaseInputPassword from "@/components/common/form/base-password";
 
 export default function ContactInfo() {
   // const dispatch = useAppDispatch();
@@ -73,7 +74,7 @@ export default function ContactInfo() {
           {/* <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
             Old Password
           </h3> */}
-          <BaseInput
+          <BaseInputPassword
             name="previousPassword"
             type="password"
             placeholder="Previous Password"
@@ -92,7 +93,7 @@ export default function ContactInfo() {
           {/* <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
             New Password
           </h3> */}
-          <BaseInput
+          <BaseInputPassword
             name="newPassword"
             type="password"
             placeholder="New Password"

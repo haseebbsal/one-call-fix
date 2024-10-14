@@ -18,6 +18,7 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 import axios from "axios";
+import BaseInputPassword from "@/components/common/form/base-password";
 
 interface SignUpFormValues {
   firstName: string;
@@ -33,9 +34,10 @@ interface SignUpFormValues {
 export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   headlineRef,
   chatId,
-  mandatoryAnswers
+  mandatoryAnswers,
+  onOpen
 }:{headlineRef?:any,chatId?:any,
-  mandatoryAnswers?:any}) {
+  mandatoryAnswers?:any,onOpen:any}) {
   const router = useRouter();
 
   // const dispatch = useAppDispatch();
@@ -47,6 +49,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   },{
     onSuccess(data) {
       console.log('create job',data.data)
+      onOpen()
+    //   toast.success("Job Created Successfully")
     },
   })
   const signUpMutation=useMutation((data:SignUpPayload)=>axiosInstance.post('/auth/signup',data),{
@@ -181,7 +185,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           },
         }}
       />
-      <BaseInput
+      <BaseInputPassword
         name="password"
         type="password"
         control={control}
@@ -195,7 +199,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           // },
         }}
       />
-      <BaseInput
+      <BaseInputPassword
         name="confirmPassword"
         type="password"
         control={control}

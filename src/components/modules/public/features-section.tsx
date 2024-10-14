@@ -5,21 +5,50 @@ type Feature = {
   heading: string;
   desc: string;
 };
+import { MdCancel } from "react-icons/md";
+
+
+import { FaCheck } from "react-icons/fa";
 
 type FeaturesProps = {
   features: Feature[];
 };
+const otherPlatforms=[
+  'Money Lost if No Response from Lead',
+  'Pay to Get your Name in Front of Lead',
+  'Too Much Competition per Lead',
+  'No Understanding of Profitability',
+  'Pricy Contracts Without Guarranteeing Jobs'
+]
+
+const ourPlatform=[
+  'Credits Back if No Response from Lead',
+  'Get Your Name in Front of Lead for FREE',
+  'Only 3 tradespeople per job',
+  'Data insights on profitability',
+  'No Contracts/Obligations - Pay per Lead'
+]
 
 export default function FeaturesSection({ features }: FeaturesProps) {
   return (
     <section>
-      <div className="mb-8 sm:mb-14">
+      <div className="mb-2 sm:mb-4">
         <h2 className="text-2xl font-extrabold text-center sm:text-3xl md:text-4xl p-[1.8rem]">
           We Do The Hard Work For You
         </h2>
       </div>
-
-      <div className="w-full sm:w-5/6 m-auto flex flex-wrap gap-8 sm:gap-10 md:gap-20 justify-center mb-20 sm:mb-32 md:mb-48">
+      <div className="flex justify-center  flex-wrap px-8 py-2 mb-9">
+        <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-red-200 font-bold text-red-500 shadow-2xl">
+          <p className="text-xl">Other Platforms</p>
+          {otherPlatforms.map((e)=><div className="flex items-start gap-4 w-full"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+        </div>
+        <div className="flex sm:w-1/3 w-full flex-col gap-2 items-center px-4 sm:px-16 py-4 bg-green-200 font-bold text-green-700 shadow-xl">
+          <p className="text-xl">OneCallFix Platform</p>
+          {ourPlatform.map((e)=><div className="flex items-start gap-4 w-full"> <FaCheck className="w-[40%]  sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+        </div>
+        
+      </div>
+      {/* <div className="w-full sm:w-5/6 m-auto flex flex-wrap gap-8 sm:gap-10 md:gap-20 justify-center mb-20 sm:mb-32 md:mb-48">
         {features.map((feature, index) => (
           <div
             key={index}
@@ -36,7 +65,8 @@ export default function FeaturesSection({ features }: FeaturesProps) {
             </div>
           </div>
         ))}
-      </div>
+
+      </div> */}
     </section>
   );
 }

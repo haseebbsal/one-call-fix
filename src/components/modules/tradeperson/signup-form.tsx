@@ -17,6 +17,7 @@ import GooglePlacesInput from "@/components/common/form/google-places-input";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
+import BaseInputPassword from "@/components/common/form/base-password";
 
 interface SignUpFormValues {
   firstName: string;
@@ -172,7 +173,7 @@ export default function HomeOwnerSignUpForm() {
         }}
       />
 
-      <BaseInput
+      <BaseInputPassword
         name="password"
         type="password"
         control={control}
@@ -186,7 +187,7 @@ export default function HomeOwnerSignUpForm() {
         //   },
         // }}
       />
-      <BaseInput
+      <BaseInputPassword
         name="confirmPassword"
         type="password"
         control={control}

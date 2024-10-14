@@ -360,6 +360,21 @@ console.log('id',)
       answerMutation.mutate({chatId:chatId!,answerIndex:currentQuestionValuee})
     }
   }
+
+
+  useEffect(()=>{
+    const getAllQuestions=document.getElementById('questionsGenerated')
+    const getQuestion=document.getElementsByClassName('questions')
+    if(getQuestion.length){
+      console.log('elements',getAllQuestions)
+      const pos=getAllQuestions!.getBoundingClientRect()
+      const secondPos=getQuestion[getQuestion.length-1].getBoundingClientRect()
+      console.log('pos',pos)
+      // console.log('pos',getAllQuestions[getAllQuestions.length-1].getBoundingClientRect())
+      window.scrollTo(0,pos.height-secondPos.height)
+      // console.log('questions html',getAllQuestions)
+    }
+  },[questions])
     
     // dispatch(initializeChat(arg));
 console.log('questions',questions)
@@ -392,7 +407,7 @@ console.log('ref',headlineForm.current)
     
         <>
           <PageTopSection pageTopSection={postJobTopSection} />
-          <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
+          <div id="questionsGenerated" className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
             <form onSubmit={handleSubmit(newSubmit)} className="mb-20">
               <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                 Please describe your issue.
@@ -419,7 +434,7 @@ console.log('ref',headlineForm.current)
             
             {/* questions */}
               {questions.map((question:any, index) => (
-              <div key={index} className="mb-20">
+              <div key={index} className="mb-20 questions">
                 <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                   {question.question} {/* Dynamically display the question */}
                 </h3>
@@ -554,7 +569,7 @@ console.log('ref',headlineForm.current)
               </>
             )}
             {/* signup/login */}
-            {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
+            {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm onOpen={onOpen} headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
           </div>
         </>
     </main>
