@@ -68,6 +68,9 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
       console.log('sign up',data.data)
       const{access_token,refresh_token}=data.data.data.tokens
       const {user}=data.data.data
+      localStorage.setItem('accessToken',access_token)
+      localStorage.setItem('refreshToken',refresh_token)
+      localStorage.setItem('userData',JSON.stringify(user))
       if(headlineRef){
         const formData = new FormData();
         const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
@@ -143,6 +146,10 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           } else {
             router.push("/admin/dashboard");
           }
+         
+          // if(data.data.data.user.role === ROLES.TRADESPERSON){
+          //   cardClientSecretMutation.mutate()
+          // }
         }
         else{
         router.push(`/email-verify/${data.data.data.user._id}`)
