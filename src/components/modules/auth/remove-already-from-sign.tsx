@@ -19,6 +19,7 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 import axios from "axios";
 import BaseInputPassword from "@/components/common/form/base-password";
+import BaseModal from "@/components/common/modal/base-modal";
 
 interface SignUpFormValues {
   firstName: string;
@@ -31,6 +32,15 @@ interface SignUpFormValues {
   marketing: boolean;
 }
 
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
+
+import { LoginPayload } from "@/_utils/types";
+import { useDisclosure } from "@nextui-org/modal";
+
+
 export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   headlineRef,
   chatId,
@@ -39,13 +49,13 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
 }:{headlineRef?:any,chatId?:any,
   mandatoryAnswers?:any,onOpen:any}) {
   const router = useRouter();
+  const { isOpen, onOpenChange, onOpen:onOpen2, onClose } = useDisclosure();
+
 
   // const dispatch = useAppDispatch();
   const createJobMutation=useMutation((data:any)=>{
-    const accessToken=localStorage.getItem('accessToken')
-    return axios.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data,{
-      headers:{Authorization:`Bearer ${accessToken}`}
-    })
+    return axiosInstance.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data)
+    
   },{
     onSuccess(data) {
       console.log('create job',data.data)
@@ -58,9 +68,6 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
       console.log('sign up',data.data)
       const{access_token,refresh_token}=data.data.data.tokens
       const {user}=data.data.data
-      localStorage.setItem('accessToken',access_token)
-      localStorage.setItem('refreshToken',refresh_token)
-      localStorage.setItem('userData',JSON.stringify(user))
       if(headlineRef){
         const formData = new FormData();
         const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
@@ -74,12 +81,17 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         formData.append("address[city]", city);
         formData.append("address[country]", country);
         formData.append("chatId", chatId!);
-
-        for (const file of files) {
-          formData.append("files", file);
+        if(files){
+          for (const file of files) {
+            formData.append("files", file);
+          }
         }
+        Cookies.set('accessToken',access_token)
+        Cookies.set('refreshToken',refresh_token)
+        Cookies.set('userData',JSON.stringify(user))
         createJobMutation.mutate(formData)
       }
+
       router.push(`/email-verify/${user._id}`)
 
     },
@@ -91,6 +103,96 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
     }
     }
   })
+
+  const loginMutation=useMutation((data:LoginPayload)=>axiosInstance.post('/auth/login',data),{
+    onSuccess(data) {
+      console.log('data',data.data)
+      const {tokens:{access_token,refresh_token}}=data.data.data
+      if(headlineRef){
+        const formData = new FormData();
+        const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
+        formData.append("completion", mandatoryAnswers.completion);
+        formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
+        formData.append("headline", headline);
+        formData.append("address[postalCode]", postalCode);
+        formData.append("address[formattedAddress]", formattedAddress);
+        formData.append("address[latitude]", latitude);
+        formData.append("address[longitude]", longitude);
+        formData.append("address[city]", city);
+        formData.append("address[country]", country);
+        formData.append("chatId", chatId!);
+        if(files){
+
+          for (const file of files) {
+            formData.append("files", file);
+          }
+        }
+        // localStorage.setItem('accessToken',access_token)
+        Cookies.set('accessToken',access_token)
+        Cookies.set('refreshToken',refresh_token)
+        Cookies.set('userData',JSON.stringify(data.data.data.user))
+
+        createJobMutation.mutate(formData)
+
+
+        if(data.data.data.user.isApproved){
+          if (data.data.data.user.role === ROLES.HOMEOWNER) {
+            router.push("/homeowner/jobs");
+          } else if (data.data.data.user.role === ROLES.TRADESPERSON) {
+            router.push("/tradeperson/dashboard");
+          } else {
+            router.push("/admin/dashboard");
+          }
+        }
+        else{
+        router.push(`/email-verify/${data.data.data.user._id}`)
+        }
+      }
+      
+        
+
+    },
+    onError(error: any) {
+      if (Array.isArray(error.response.data.message)) {
+        toast.error(error.response.data.message[0]);
+    } else {
+        toast.error(error.response.data.message);
+    }
+    }
+  })
+  const cardClientSecretMutation=useMutation(()=>axiosInstance.put('/payment/card'),{
+    onSuccess(data) {
+      console.log('data client secret',data.data)
+      Cookies.set('clientSecret',data.data.data.clientSecret)
+    },
+  })
+  const { control:control2, handleSubmit:handleSubmit2, watch:watch2 } = useForm<any>();
+  // reroute to specific page based on user role
+  // useEffect(() => {
+  //   if (user) {
+  //     if (user.role === ROLES.HOMEOWNER) {
+  //       router.push("/homeowner/jobs");
+  //     } else if (user.role === ROLES.TRADESPERSON) {
+  //       router.push("/tradeperson/dashboard");
+  //     } else {
+  //       router.push("/admin/dashboard");
+  //     }
+  //   }
+  // }, [user]);
+
+  const onSubmitt = async (data: LoginFormValues) => {
+    // dispatch(resetError());
+    // console.log('im here')
+    const payload: LoginPayload = {
+      email: data.email,
+      password: data.password,
+    };
+    loginMutation.mutate(payload)
+    // cardClientSecretMutation.mutate()
+    // await dispatch(loginUser(payload));
+    // await dispatch(getClientSecertKey());
+  };
+
   // const { loading, error, user } = useAppSelector((state) => state.auth);
   const validateUKPhoneNumber = (value: any) => {
     // UK phone number regex
@@ -121,6 +223,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   };
 
   return (
+    <>
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mt-10 flex flex-col gap-4"
@@ -225,14 +328,91 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         />
       </div>
 
-      <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-2.5">
+      <div className="w-full flex flex-wrap flex-row gap-4 items-start gap-2.5">
         <BaseButton type="submit" 
-        // isLoading={loading} disabled={loading}
+        isLoading={signUpMutation.isLoading} disabled={signUpMutation.isLoading}
         >
           Sign Up
         </BaseButton>
+
+        <BaseButton onClick={onOpen2} type="button" 
+        // isLoading={loading} disabled={loading}
+        >
+          Log In
+        </BaseButton>
+
       </div>
       
     </form>
+        <BaseModal isDismissable={true} onClose={onClose} isOpen={isOpen}>
+        <div className="pt-4 pb-6 px-5  border border-[#E1E1E1] bg-white shadow-lg rounded-lg w-full md:max-w-[700px] 2xl:max-w-[800px]">
+        <h3 className="text-2xl font-bold sm:text-3xl mb-2 text-color-1">
+          Login
+        </h3>
+        <p className="text-color-6 text-base sm:text-xl font-light">
+          Access your OneCallFix account.
+        </p>
+        <form
+      className="mt-10 flex flex-col gap-4"
+      onSubmit={handleSubmit2(onSubmitt)}
+    >
+      <BaseInput
+        name={"email"}
+        type="email"
+        control={control2}
+        placeholder="Email Address *"
+        rules={{
+          required: "Email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+            message: "Invalid email address",
+          },
+        }}
+      />
+      <BaseInputPassword
+        name={"password"}
+        type="password"
+        control={control2}
+        rules={{required:"Enter Password"}}
+        placeholder="Password *"
+        // rules={{
+        //   required: "Password is required",
+        //   pattern: {
+        //     value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
+        //     message:
+        //       "Password must contain at least 8 characters, one uppercase letter and one number",
+        //   },
+        // }}
+      />
+      <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-2.5">
+        <BaseButton type="submit" 
+        isLoading={loginMutation.isLoading}
+        disabled={loginMutation.isLoading}
+        >
+          Login
+        </BaseButton>
+        {/* <Link
+          href={"/forgot-password"}
+          className="text-xs text-color-9 transition-all duration-400 hover:opacity-80 text-right w-full"
+        >
+          Forgotten Password?
+        </Link> */}
+      </div>
+      {/* <div className="mt-4">
+        <p className="text-xs md:text-base text-color-10 w-full">
+          <Link
+            href={"/homeowner/signup"}
+            className="text-color-9 transition-all duration-400 hover:opacity-80"
+          >
+            Create An Account
+          </Link>
+          <span> {` if you don't have one.`}</span>
+        </p>
+      </div> */}
+    </form>
+        </div>
+        
+        </BaseModal>
+        </>
   );
 }

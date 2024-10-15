@@ -22,7 +22,7 @@ export default function CustomOTPInput({
   resendOTPService,
 }: CustomOTPInputProps) {
   const [countdownKey, setCountdownKey] = useState(0);
-  const [isCountdownActive, setIsCountdownActive] = useState(true);
+  const [isCountdownActive, setIsCountdownActive] = useState(false);
 
   const handleResendCode = () => {
     // Logic to resend the code
@@ -33,10 +33,10 @@ export default function CustomOTPInput({
     setIsCountdownActive(true);
   };
 
-  useEffect(() => {
-    handleResendCode();
+  // useEffect(() => {
+  //   handleResendCode();
   
-  }, []);
+  // }, []);
 
   // Renderer callback with condition
   const renderer = ({ minutes, seconds }: RendererProps) => {
@@ -54,6 +54,7 @@ export default function CustomOTPInput({
         <p className="text-color-6 text-lg mr-4">Verification code</p>
         {isCountdownActive ? (
           <Countdown
+          
             key={countdownKey}
             date={Date.now() + 30000}
             renderer={renderer}

@@ -166,7 +166,9 @@ export default function PostAJob() {
       setCurrentQuestionValue(null)
       setQuestions(data.data.data.questionAnswers)
       const isCompleted=data.data.data.conclusion.length==0?false:true
+
       setIsFormCompleted(isCompleted)
+      // setMandatoryQuestionsCompleted(!!questions.find((e:any)=>e.name=='completion'))
       if(isCompleted){
         setQuestions((prev:any):any=>{
             return(
@@ -197,6 +199,7 @@ export default function PostAJob() {
       return;
     }
 
+    console.log('address',data.address)
     formData.append("completion", mandatoryAnswers.completion);
     formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
     formData.append("headline", data.headline);
@@ -204,12 +207,15 @@ export default function PostAJob() {
     formData.append("address[formattedAddress]", data.address.formattedAddress);
     formData.append("address[latitude]", data.address.latitude);
     formData.append("address[longitude]", data.address.longitude);
+    console.log('city',data.address.city)
     formData.append("address[city]", data.address.city);
     formData.append("address[country]", data.address.country);
     formData.append("chatId", chatId!);
 
-    for (const file of data.files) {
-      formData.append("files", file);
+    if(data.files){
+      for (const file of data.files) {
+        formData.append("files", file);
+      }
     }
 
     createJobMutation.mutate(formData)
@@ -251,7 +257,7 @@ export default function PostAJob() {
 
   const handleContinue = () => {
 
-    if(isFormCompleted){
+    if(isFormCompleted && !questions.find((e:any)=>e.name=='completion')){
       setQuestions((prev:any):any=>{
         return (
           [
@@ -260,12 +266,19 @@ export default function PostAJob() {
           ]
         )
       })
+      // setMandatoryQuestionsCompleted(true)
+    }
+    else if (isFormCompleted && questions.find((e:any)=>e.name=='completion')
+    ){
       setMandatoryQuestionsCompleted(true)
+
     }
     else{
       answerMutation.mutate({chatId:chatId!,answerIndex:currentQuestionValuee})
     }
   }
+
+  console.log('current value',currentQuestionValuee)
 
   useEffect(()=>{
     const getAllQuestions=document.getElementById('questionsGenerated')
@@ -274,6 +287,7 @@ export default function PostAJob() {
       console.log('elements',getAllQuestions)
       const pos=getAllQuestions!.getBoundingClientRect()
       const secondPos=getQuestion[getQuestion.length-1].getBoundingClientRect()
+      console.log('element of pos',getQuestion[getQuestion.length-1])
       console.log('pos',pos)
       // console.log('pos',getAllQuestions[getAllQuestions.length-1].getBoundingClientRect())
       window.scrollTo(0,pos.height-secondPos.height)
@@ -283,7 +297,7 @@ export default function PostAJob() {
     
     // dispatch(initializeChat(arg));
 console.log('questions',questions)
-console.log('ref',headlineForm.current)
+// console.log('ref',headlineForm.current)
 // console.log('selected',selected)
 // console.log('chatid',chatId)
   return (
@@ -538,7 +552,8 @@ console.log('ref',headlineForm.current)
               </>
             )}
             {/* signup/login */}
-            {!isLoggedin && mandatoryQuestionsCompleted && <RemoveAlreadyFromHomeOwnerSignUpForm onOpen={onOpen} headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
+            {!isLoggedin && mandatoryQuestionsCompleted && 
+            <RemoveAlreadyFromHomeOwnerSignUpForm onOpen={onOpen} headlineRef={getValues} chatId={chatId} mandatoryAnswers={mandatoryAnswers} />}
           </div>
         </>
       )}

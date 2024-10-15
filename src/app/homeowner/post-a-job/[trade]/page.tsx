@@ -168,7 +168,9 @@ console.log('id',)
       setCurrentQuestionValue(null)
       setQuestions(data.data.data.questionAnswers)
       const isCompleted=data.data.data.conclusion.length==0?false:true
+
       setIsFormCompleted(isCompleted)
+      // setMandatoryQuestionsCompleted(!!questions.find((e:any)=>e.name=='completion'))
       if(isCompleted){
         setQuestions((prev:any):any=>{
             return(
@@ -273,79 +275,9 @@ console.log('id',)
     issue,
     trade
   };
-  // questions & conclusion
-  // const { questions, conclusion, chatId, loading, isChatCompleted } =
-  //   useAppSelector((state) => state.chat);
-
-  // const { user } = useAppSelector((state) => state.auth);
-  // rename above loading name
-  // const {
-  //   loading: jobLoading,
-  //   error: jobError,
-  //   job,
-  // } = useAppSelector((state) => state.job);
-
-
-  // useEffect(() => {
-  //   dispatch(resetJob());
-  //   setIsFormCompleted(false);
-  //   setStepper(STEPPER.SELECT_TRADES_PEOPLE);
-  //   dispatch(resetChat());
-  //   setValue("issue", "");
-  //   if (job) {
-  //     // Redirect or show success message
-  //     // refresh the page
-  //     // refresh the page
-  //     router.refresh();
-  //   }
-  // }, [job, router]);
-
   
-
-  // const handleNextQuestion = () => {
-  //   if (currentQuestionIndex < questions.length - 1) {
-  //     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  //   }
-  // };
-
-  // const handleMandatoryQuestions = () => {
-  //   if (!isChatCompleted) return;
-  //   // show mandatory questions
-  //   const firstQuestion = mandatoryQuestions.shift();
-  //   if (!firstQuestion) {
-  //     if (chatId) setIsFormCompleted(true);
-  //     return;
-  //   }
-  //   const updatedQuestions = [...questions, firstQuestion];
-  //   dispatch(updateQuestions(updatedQuestions));
-  // };
-
-  // update current question index when the current question value changes
-  // useEffect(() => {
-  //   handleNextQuestion();
-  // }, [questions]);
-
-  // add question to the form, when conclusion updated
-  // useEffect(() => {
-  //   handleMandatoryQuestions();
-  // }, [conclusion]);
-
   const handleContinue = () => {
-    // if (isChatCompleted) {
-    //   handleMandatoryQuestions();
-    //   return;
-    // }
-
-    // if (chatId) {
-    //   // update chat
-    //   const arg: UpdateChatPayload = {
-    //     chatId,
-    //     answerIndex: parseInt(currentQuestionValue),
-    //   };
-    //   dispatch(updateChat(arg));
-    //   return;
-    // }
-    if(isFormCompleted){
+    if(isFormCompleted && !questions.find((e:any)=>e.name=='completion')){
       setQuestions((prev:any):any=>{
         return (
           [
@@ -354,7 +286,12 @@ console.log('id',)
           ]
         )
       })
+      // setMandatoryQuestionsCompleted(true)
+    }
+    else if (isFormCompleted && questions.find((e:any)=>e.name=='completion')
+    ){
       setMandatoryQuestionsCompleted(true)
+
     }
     else{
       answerMutation.mutate({chatId:chatId!,answerIndex:currentQuestionValuee})

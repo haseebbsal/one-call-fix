@@ -21,6 +21,7 @@ interface BaseModalProps {
     | "4xl"
     | "5xl"
     | "full";
+    isDismissable?:boolean
 }
 
 export default function BaseModal({
@@ -31,7 +32,8 @@ export default function BaseModal({
   header,
   modalHeaderImage,
   size,
-  onClose
+  onClose,
+  isDismissable=false
 }: BaseModalProps) {
   return (
     <Modal
@@ -42,7 +44,7 @@ export default function BaseModal({
       placement={"center"}
       onOpenChange={onOpenChange}
       hideCloseButton={hideCloseButton}
-      isDismissable={false}
+      isDismissable={isDismissable}
       classNames={{
         body: "",
         closeButton: "text-main mt-2 mr-2 p-1",

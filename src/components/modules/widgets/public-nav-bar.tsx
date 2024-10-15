@@ -11,16 +11,29 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { MENU_ITEMS } from "@/_utils/constant";
 import BaseButton from "@/components/common/button/base-button";
 import { usePathname } from "next/navigation";
+import Cookies from 'js-cookie'
 
 export default function PublicNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname=usePathname()
+  const [display,setDisplay]=useState(true)
 
+  useEffect(()=>{
+    const getUser=Cookies.get('userData')
+    if(getUser){
+      const {role}=JSON.parse(getUser)
+      if(role!='HomeOwner'){
+        setDisplay(false)
+      }
+      // console.log('user',parse)
+
+    }
+  },[pathname])
   return (
     <>
       <Navbar className="h-24" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
@@ -50,11 +63,14 @@ export default function PublicNavBar() {
               HOME
             </Link>
           </NavbarItem>
-          <NavbarItem>
-            <Link href={'/homeowner/post-a-job'} className={`text-sm font-semibold ${pathname=='/homeowner/post-a-job'?'text-color-5':""} hover:text-color-5 `}>
+          {display && <NavbarItem>
+            <Link
+              href="/homeowner/post-a-job"
+              className="text-sm font-semibold"
+            >
               POST A JOB
             </Link>
-          </NavbarItem>
+          </NavbarItem>}
           <NavbarItem className="mr-5">
             <Link href="/login" className={` ${pathname=='/login'?'text-color-5':""} text-sm font-semibold hover:text-color-5`}>
               LOGIN
@@ -73,7 +89,18 @@ export default function PublicNavBar() {
         </NavbarContent>
 
         <NavbarMenu className="mt-10">
-          {MENU_ITEMS.map((item, index) => (
+          {MENU_ITEMS.map((item, index) => {
+            if(index==1){
+              return display && <NavbarItem>
+                <Link
+                  href="/homeowner/post-a-job"
+                  className="text-sm font-semibold"
+                >
+                  POST A JOB
+                </Link>
+              </NavbarItem>
+            }
+            return (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 // color="foreground"
@@ -83,7 +110,7 @@ export default function PublicNavBar() {
                 {item.title}
               </Link>
             </NavbarMenuItem>
-          ))}
+          )})}
         </NavbarMenu>
       </Navbar>
     </>

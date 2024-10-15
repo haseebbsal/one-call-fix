@@ -37,11 +37,14 @@ const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
       .load()
       .then(() => {
         if (inputRef.current) {
+          // console.log('new location',inputRef.current)
           autoCompleteRef.current = new google.maps.places.Autocomplete(
             inputRef.current,
             {
               fields: ["address_components", "geometry", "formatted_address"],
               types: ["address"],
+              componentRestrictions: { country: "uk" },
+
             },
           );
           autoCompleteRef.current.addListener("place_changed", onPlaceSelected);
@@ -50,8 +53,8 @@ const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
       .catch((error) => console.error("Error loading Google Maps", error));
   }, []);
 
-  console.log('field',field)
-console.log('address key',addressKey)
+//   console.log('field',field)
+// console.log('address key',addressKey)
   const onPlaceSelected = (): void => {
     const place = autoCompleteRef.current?.getPlace();
 
@@ -86,6 +89,7 @@ console.log('address key',addressKey)
   };
 
   const handleBlur = async (): Promise<void> => {
+
     if (!autoCompleteRef.current || !inputRef.current) {
       return;
     }

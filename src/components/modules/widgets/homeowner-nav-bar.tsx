@@ -11,23 +11,39 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { HOMEOWNER_AUTH_MENU_ITEMS } from "@/_utils/constant";
 import BaseButton from "@/components/common/button/base-button";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
+import { usePathname } from "next/navigation";
+import Cookies from 'js-cookie'
 // import { useAppDispatch } from "@/lib/hooks";
 // import { logoutUser } from "@/lib/features/authSlice";
 
 export default function HomeownerNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [display,setDisplay]=useState(false)
+  const pathname=usePathname()
   // const dispatch = useAppDispatch();
   const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
     onSuccess(data, variables, context) {
       console.log('logout',data.data)
     },
   })
+
+  useEffect(()=>{
+    const getUser=Cookies.get('userData')
+    if(getUser){
+      const {role}=JSON.parse(getUser)
+      if(role=='HomeOwner'){
+        setDisplay(true)
+      }
+      // console.log('user',parse)
+
+    }
+  },[pathname])
   // const logout = () => {
   //   dispatch(logoutUser({ isValidAccessToken: false }));
   // };
@@ -62,14 +78,14 @@ export default function HomeownerNavBar() {
           className="hidden custom-md:flex gap-4 mr-10"
           justify="end"
         >
-          <NavbarItem>
+          {display && <NavbarItem>
             <Link
               href="/homeowner/post-a-job"
               className="text-sm font-semibold"
             >
               POST A JOB
             </Link>
-          </NavbarItem>
+          </NavbarItem>}
           <NavbarItem>
             <Link href="/homeowner/jobs" className="text-sm font-semibold">
               MY JOB
@@ -107,8 +123,40 @@ export default function HomeownerNavBar() {
         <NavbarMenu className="mt-10">
           {HOMEOWNER_AUTH_MENU_ITEMS.map((item:any, index:number) => {
             if(index!=2){
+              if(index==0){
+                if(display){
+                  return (
+                <NavbarMenuItem key={`${item}-${index}`}>
+                  
+                  <Link
+                    // color="foreground"
+                    className="text-lg font-semibold"
+                    href={item.link}
+                  >
+                    {item.title}
+                  </Link>
+                </NavbarMenuItem>
+              )
+                }
+                return
+              }
+              else{
+                return (
+                  <NavbarMenuItem key={`${item}-${index}`}>
+                    
+                    <Link
+                      // color="foreground"
+                      className="text-lg font-semibold"
+                      href={item.link}
+                    >
+                      {item.title}
+                    </Link>
+                  </NavbarMenuItem>
+                )
+              }
               return (
                 <NavbarMenuItem key={`${item}-${index}`}>
+                  
                   <Link
                     // color="foreground"
                     className="text-lg font-semibold"
