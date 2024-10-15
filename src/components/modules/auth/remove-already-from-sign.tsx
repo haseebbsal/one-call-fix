@@ -78,7 +78,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         formData.append("address[formattedAddress]", formattedAddress);
         formData.append("address[latitude]", latitude);
         formData.append("address[longitude]", longitude);
-        formData.append("address[city]", city);
+        formData.append("address[city]", city?city:"random");
         formData.append("address[country]", country);
         formData.append("chatId", chatId!);
         if(files){
