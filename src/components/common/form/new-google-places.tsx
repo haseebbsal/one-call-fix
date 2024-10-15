@@ -38,7 +38,7 @@ export default function NewGoogleMaps(
   // Store Autocomplete input value, selected option, open state, and items
   // in a state tracker
   
-  const { field } = useController({ name, control, rules });
+  const { field,fieldState:{error} } = useController({ name, control, rules });
 
   const [postalCode,setPostalCode]=useState('')
 
@@ -57,7 +57,7 @@ export default function NewGoogleMaps(
   };
   
   const {startsWith} = useFilter({sensitivity: "base"});
-  const getPostalQuery=useQuery(['googleData',field.value?field.value.postalCode:""],({queryKey})=>axios.get(`/api/google?address=${queryKey[1]}}`),{
+  const getPostalQuery=useQuery(['googleData',typeof(field.value)=='object'?field.value.postalCode:field.value],({queryKey})=>axios.get(`/api/google?address=${queryKey[1]}}`),{
     enabled:!!field.value,
   })
 
@@ -73,45 +73,51 @@ export default function NewGoogleMaps(
     })
     // const actualFind=find
     // console.log('find',find)
-    const addressDetails: Address = {
-        latitude: place.geometry.location?.lat ?? 0,
-        longitude: place.geometry.location?.lng ?? 0,
-        postalCode: getAddressComponent(place, "postal_code"),
-        city: getAddressComponent(place, "locality")?getAddressComponent(place, "locality"):"none",
-        country: getAddressComponent(place, "country"),
-        formattedAddress: place.formatted_address || "",
-      };
+    console.log('place',place)
+    if(place){
 
-      field.onChange(addressDetails)
+        const addressDetails: Address = {
+            latitude: place.geometry.location?.lat ?? 0,
+            longitude: place.geometry.location?.lng ?? 0,
+            postalCode: getAddressComponent(place, "postal_code"),
+            city: getAddressComponent(place, "locality")?getAddressComponent(place, "locality"):"none",
+            country: getAddressComponent(place, "country"),
+            formattedAddress: place.formatted_address || "",
+          };
+          field.onChange(addressDetails)
+          return
+    }
+  
 
-      console.log('address',addressDetails)
+
 
 
      
     
   };
 
-  // Specify how each of the Autocomplete values should change when the input
-  // field is altered by the user
   const onInputChange = (value:any) => {
     console.log('changed')
-    // setPostalCode(value)
-    field.onChange({postalCode:value})
+    field.onChange(value)
 
    
   };
 
   // Show entire list if user opens the menu manually
   
- 
+  console.log('value',field.value,typeof(field.value))
   return (
     <Autocomplete
+    {...field}
       className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
     //   inputValue={fieldState.inputValue}
     allowsCustomValue
-      items={getPostalQuery.data?getPostalQuery.data?.data.results.length?getPostalQuery.data?.data.results:[]:[]}
+      items={getPostalQuery.data?.data.results}
+      defaultItems={[]}
+      isInvalid={!!error}
+      errorMessage={error?.message}
       isLoading={getPostalQuery.isFetching}
-      value={field.value?field.value.formattedAddress?field.value.postalCode:field.value.postalCode:""}
+      inputValue={field.value?.postalCode}
       placeholder="Postal Code"
     //   selectedKey={fieldState.selectedKey}
       variant="bordered"

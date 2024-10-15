@@ -279,7 +279,7 @@ export default function PostAJob() {
     }
   }
 
-  console.log('current value',currentQuestionValuee)
+  // console.log('current value',currentQuestionValuee)
 
   useEffect(()=>{
     const getAllQuestions=document.getElementById('questionsGenerated')
@@ -298,6 +298,7 @@ export default function PostAJob() {
     
     // dispatch(initializeChat(arg));
 console.log('questions',questions)
+console.log('addressValue',getValues('address'))
 // console.log('ref',headlineForm.current)
 // console.log('selected',selected)
 // console.log('chatid',chatId)
@@ -411,6 +412,7 @@ console.log('questions',questions)
                 placeholder="Write here..."
                 // readOnly={chatId || loading ? true : false}
               />
+             
               {
                 !chatStartMutation.data?.data && <BaseButton type="submit" isLoading={chatStartMutation.isLoading} disabled={chatStartMutation.isLoading} extraClass="mt-14">
                 Continue
