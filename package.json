@@ -24,6 +24,7 @@
     "@nextui-org/system": "^2.2.5",
     "@nextui-org/tabs": "^2.0.35",
     "@nextui-org/theme": "^2.2.3",
+    "@nextui-org/use-infinite-scroll": "^2.1.5",
     "@stripe/react-stripe-js": "^2.8.0",
     "@stripe/stripe-js": "^4.4.0",
     "@types/google.maps": "^3.57.0",

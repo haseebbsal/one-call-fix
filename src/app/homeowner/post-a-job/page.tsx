@@ -36,6 +36,7 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import { data } from "framer-motion/client";
 import BaseModal from "@/components/common/modal/base-modal";
 import RemoveAlreadyFromHomeOwnerSignUpForm from "@/components/modules/auth/remove-already-from-sign";
+import NewGoogleMaps from "@/components/common/form/new-google-places";
 
 type Issue={
   trade:number,
@@ -334,12 +335,14 @@ console.log('questions',questions)
       </BaseModal>
       {stepper === STEPPER.SELECT_TRADES_PEOPLE && (
         <>
+        
           <PageTopSection pageTopSection={selectTopSection} />
           <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
             <div className="bg-white max-w-[280px] py-5 px-4 border-color-8 border shadow-xs flex flex-col items-center gap-7">
               <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
                 Electrician
               </h4>
+
               <div className="w-[120px] h-[120px]">
                 <Image
                   src="/images/electrician.png"
@@ -495,18 +498,23 @@ console.log('questions',questions)
                   {/* Post Code */}
                   <div className="mb-20">
                     <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
-                      Post Code *
+                      Postal Code *
                     </h3>
 
-                    <GooglePlacesInput
+                    {/* <GooglePlacesInput
                       name="address"
                       control={control}
                       placeholder="Postcode"
                       rules={{ required: "Post Code is required" }}
                       addressKey="postalCode"
                       radius="sm"
-                    />
+                      /> */}
+                      <NewGoogleMaps name="address"
+                          control={control}
+                          placeholder="Postcode"
+                          rules={{ required: "Post Code is required" }}/>
                   </div>
+
 
                   {isLoggedin && (
                     <BaseButton
