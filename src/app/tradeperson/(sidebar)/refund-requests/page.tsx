@@ -93,12 +93,12 @@ export default function RefundRequest(){
             // {...field}
             isInvalid={!!fieldState.error}
             errorMessage={"Select A Job"}
-          className="w-full"
+          className="w-full !font-semibold !text-2xl"
           variant="bordered"
           isLoading={getJobsQuery.isLoading}
           defaultItems={[]}
           items={getJobsQuery.data?.data.data}
-          label="Select A Job"
+          label="Which job is this related to?"
           labelPlacement="outside"
         //   classNames={{
         //   }}
@@ -124,7 +124,7 @@ export default function RefundRequest(){
         </Autocomplete>
         
             <BaseTextArea extraClass={{
-                label:"font-semibold text-lg ml-0"
+                label:"font-semibold text-md ml-0"
             }} name="description" placeholder="Enter description..." 
             // rules={{
             //     required:"Enter Description"

@@ -48,10 +48,10 @@ export default function Feedback() {
     }
     return (
         <>
-            <div className="flex flex-col gap-4 px-4 h-full">
-                <p className="font-semibold text-xl">Feedback</p>
+            <div className="flex flex-col gap-4 p-4 h-full">
+                <p className="font-semibold text-xl">Feedback Questions</p>
                 <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col border-1 rounded-lg gap-8 p-4">
-                    <p className="font-semibold">Let us know how we can improve!</p>
+                    {/* <p className="font-semibold">Let us know how we can improve!</p> */}
                     {/* <div className="flex flex-col gap-2 ">
                         <p className="font-semibold">Provide Rating</p>
                         <div className="flex gap-2">
@@ -69,7 +69,7 @@ export default function Feedback() {
                     </div> */}
 
                     <div className="flex flex-col ">
-                        <p className="font-semibold">Provide Descriptive Comment</p>
+                        <p className="font-semibold">Please explain the feedback you would like to provide.</p>
                         <Textarea
                             name="description"
                             // label="Riddle Description"

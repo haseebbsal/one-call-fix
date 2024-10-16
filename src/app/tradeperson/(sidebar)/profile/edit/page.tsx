@@ -43,15 +43,8 @@ export default function EditProfile(datas:any) {
       setValue('website',data.data.data.profile.website)
       setServices(data.data.data.profile.servicesOffered)
       setProfilePic(data?.data.data.user.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${data?.data.data.user.profilePicture}`)
-      const mapOver=data?.data.data.profile.previousJobs.map((e:string)=>{
-        const find=previousWork.find((j:string)=>j==e)
-        if(find){
-          return find
-        }
-        return e
-
-      })
-      setPreviousWork(mapOver)
+      
+      setPreviousWork(data?.data.data.profile.previousJobs)
     },
     refetchOnWindowFocus:false
   })
@@ -174,9 +167,12 @@ export default function EditProfile(datas:any) {
       // console.log('services',services)
       // formData.append('servicesOffered',services as any)
       services.forEach(item => {
-        formData.append('servicesOffered', item);
+        if(item){
+
+          formData.append('servicesOffered', item);
+        }
        })
-       formData.append('servicesOffered', ' ');
+      //  formData.append('servicesOffered', ' ');
 
       formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
       formData.append('externalReviews',filteredData.externalReviews)
@@ -245,7 +241,7 @@ export default function EditProfile(datas:any) {
   const closeModel = () => {
     // dispatch(resetTradePerson());
     // dispatch(resetUser());
-    toast.success("Profile Updated Successfully")
+    // toast.success("Profile Updated Successfully")
     
     onClose();
     // router.replace("/tradeperson/profile/view");
@@ -255,8 +251,9 @@ export default function EditProfile(datas:any) {
 
   const editTradepersonMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
     onSuccess(data) {
-      // console.log('edit profile',data.data)
+      console.log('edit profile',data.data)
       queryClient.invalidateQueries('tradePerson')
+      setNewWork(null)
 
       onOpen()
     },
@@ -493,7 +490,7 @@ export default function EditProfile(datas:any) {
               </label>
              <div className="flex gap-4 mt-4 w-full">
               {previousWork?.map((e:any)=>
-              <div className="relative">
+              <div className="relative flex flex-col ">
                 <button type="button" onClick={()=>{
                   // console.log('clickinngg')
                  
@@ -504,11 +501,11 @@ export default function EditProfile(datas:any) {
                   // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
                   // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
                   deleteImage.mutate(e)
-                }} className="bg-transparent absolute z-[4] top-[-1rem] bg-white  p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
+                }} className="bg-transparent ml-auto z-[4] top-[-1rem] text-sm bg-red-400  p-0 rounded-full w-max min-w-max h-max min-h-max right-0 text-red-500">x</button>
                 <Image src={e.includes('blob')?e:`${config.mediaURL}/${e}`} alt="previous" width={100} height={100} className="object-contain"/>
               </div>)}
               {newWork?.map((e:any,index:number)=>
-              <div className="relative">
+              <div className="relative flex flex-col">
                 <button type="button" onClick={()=>{
                  
                   const filter=newWork.filter((j:string)=>j!=e)
@@ -516,7 +513,7 @@ export default function EditProfile(datas:any) {
                     setFiles((prev:any)=>prev.filter((j:any,ind:number)=>ind!=index))
                     return
                  
-                }} className="bg-transparent absolute z-[4] top-[-1rem] bg-white  p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
+                }} className="bg-transparent ml-auto z-[4] top-[-1rem]   p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
                 <Image src={e} alt="previous" width={100} height={100} className="object-contain"/>
               </div>)}
              </div>

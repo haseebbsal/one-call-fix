@@ -42,7 +42,7 @@ export default function Payment() {
         <>
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                 <PaymentElement />
-                <button className="bg-[#A92223] rounded-lg px-16 py-2 text-white w-full" disabled={!stripe}>Submit</button>
+                <button className="bg-color-9 rounded-lg px-16 py-2 text-white w-full" disabled={!stripe}>Submit</button>
             </form>
         </>
     )

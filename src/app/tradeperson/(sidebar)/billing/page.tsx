@@ -16,6 +16,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
+import { IoIosCard } from "react-icons/io";
 
 import { FILTER_ITEMS } from "@/_utils/constant";
 import { columnType } from "@/_utils/types";
@@ -28,10 +29,16 @@ import BaseButton from '@/components/common/button/base-button';
 
 const column: columnType[] = [
   {
+    title: "S.No",
+  },
+  {
     title: "Date",
   },
   {
-    title: "Headline",
+    title: "Job Headline",
+  },
+  {
+    title: "Is Completed",
   },
   {
     title: "Amount",
@@ -146,29 +153,33 @@ export default function UpdateCard() {
             </h2>
 
             <section className="mb-5 lg:max-w-screen-xl ">
-            <p className="font-semibold text-lg md:text-xl">Payment Methods</p>
+            <p className="font-semibold text-lg md:text-xl">Payment Method</p>
 
                 {savedCardQuery.isFetching ? (
                     <div className={`flex justify-center items-center h-48`}>
                         <ImSpinner2 className="text-4xl animate-spin"/>
                     </div>
                 ) : (
-                        <><div id='card'>
+                        <>
+                        <div className='flex gap-4 flex-wrap'>
+                        <div id='card'>
                             {savedCardQuery.data?.data?.data && Object.keys(savedCardQuery.data.data.data).length > 0 ? (
                                 <SavedPaymentCard card={savedCardQuery.data.data.data} />
                             ) : (
                                 <p className="text-center">No saved payment method found.</p>
                             )}
-                    </div>
-
-                        <div className="flex">
-                            <button
-                                type="button"
-                                onClick={onOpen}
-                                className="px-16 py-2 bg-[#A92223] rounded text-white">
-                                Update Card
-                            </button>
                         </div>
+
+                        <div onClick={onOpen} className="flex cursor-pointer flex-col gap-2 text-color-5 items-center justify-center border-2 border-dotted border-color-5 bg-[#2CA5FD1A] h-[11.5rem] rounded-xl my-auto">
+                            <IoIosCard className='text-2xl' />
+                            <p
+                                
+                                className="px-16 py-2  rounded ">
+                                Update Payment Method
+                            </p>
+                        </div>
+                        </div>
+                        
                     </>
                 )}
             </section>
@@ -244,6 +255,11 @@ export default function UpdateCard() {
                     <tr key={el._id} className="border-b border-stroke text-sm">
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
+                          {index+1<10?`0${index+1}`:index+1}
+                        </span>
+                      </td>
+                      <td className={` p-2.5 xl:p-5`}>
+                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
                           {new Date(el.createdAt).toLocaleDateString()}
                         </span>
                       </td>
@@ -252,6 +268,11 @@ export default function UpdateCard() {
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
                           {el.job.headline}
+                        </span>
+                      </td>
+                      <td className={` p-2.5 xl:p-5`}>
+                        <span className={`${el.job.isCompleted?"bg-green-200 text-green-400":"bg-red-200 text-red-400"} max-w-[8rem] block text-center p-4 rounded-xl truncate  flex justify-start text-xs 2xl:text-sm`}>
+                          {el.job.isCompleted?"Completed":"Not Completed"}
                         </span>
                       </td>
                       
@@ -291,10 +312,10 @@ export default function UpdateCard() {
                                 </Elements>
                             ) : (
                                 <><p className="text-sm text-gray-500">
-                                    Are you sure you want yo update your card ?
+                                    Are you sure you want to update your card ?
                                 </p><Button
                                     onPress={confirmUpdateCard}
-                                    className="px-16 py-2 bg-[#A92223] flex rounded text-white w-max">
+                                    className="px-16 py-2 bg-color-9 flex rounded text-white w-max">
                                     Confirm Update
                                 </Button></>
 
