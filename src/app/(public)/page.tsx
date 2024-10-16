@@ -187,7 +187,7 @@ export default function Home() {
               <SwiperSlide className="w-max" >
               <div
                 key={index}
-                className="min-w-[25rem] max-w-[30rem] bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl mx-4"
+                className="min-w-[20rem] max-w-[30rem] bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl mx-4"
               >
                 <div className="flex items-center mb-4 gap-1 sm:gap-2 text-amber-400">
                   <ReviewStar />
