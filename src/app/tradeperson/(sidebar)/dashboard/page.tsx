@@ -23,6 +23,7 @@ export default function Dashboard() {
   })
 
   const getStatsQuery=useQuery(['stats'],()=>axiosInstance.get('/trades-person/stats'))
+  const savedCardQuery = useQuery(['savedCard'], () => axiosInstance.get('/payment/card'));
 
   const jobsInfinite = useInfiniteQuery(
     ["allJobs",'1'],
@@ -66,7 +67,7 @@ export default function Dashboard() {
       <div className="p-5">
         <div className="flex flex-col xl:flex-row lg:gap-10">
           
-          <JobListSection type={'1'} title="Available Jobs" jobItems={jobsInfinite} />
+          <JobListSection type={'1'} title="Available Jobs" jobItems={jobsInfinite} savedCard={savedCardQuery.data?.data.data}/>
 
           <div className="w-full lg:max-w-sm flex flex-col">
             <h2 className="text-xl font-semibold mb-4 text-color-17">

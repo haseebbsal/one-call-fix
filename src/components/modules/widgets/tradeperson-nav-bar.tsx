@@ -3,7 +3,7 @@
 import { Button } from "@nextui-org/button";
 import { Image } from "@nextui-org/image";
 import { Input } from "@nextui-org/input";
-import { Link } from "@nextui-org/link";
+// import { Link } from "@nextui-org/link";
 import {
   Navbar,
   NavbarBrand,
@@ -23,6 +23,7 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import Cookies from "js-cookie";
 import { config } from "@/_utils/helpers/config";
+import Link from "next/link";
 interface Props {
   menuItems: sidebarMenuItemType[];
 }
@@ -54,7 +55,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
           className="md:hidden"
         />
         <NavbarBrand className="mr-4">
-          <Link href={"/"}>
+          <Link href={"/tradeperson/dashboard"}>
             <Image
               width={150}
               src="/logos/original-logo.png"

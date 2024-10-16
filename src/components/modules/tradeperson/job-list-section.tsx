@@ -37,6 +37,7 @@ interface JobListSectionProps {
   onJobClick?: (jobId: string) => void;
   type:string;
   setJob?:any
+  savedCard?:any
 }
 
 export default function JobListSection({
@@ -48,12 +49,13 @@ export default function JobListSection({
   isLoading,
   errorMessage,
   loadMoreData,
+  savedCard,
   onJobClick, // <-- Added this prop
 }: JobListSectionProps) {
   // const dispatch = useAppDispatch();
   const router = useRouter();
   console.log('job items',jobItems)
-
+console.log('card',savedCard)
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const [selectedJob, setSelectedJob] = useState<JobItem>({
     jobId: "",
@@ -190,7 +192,7 @@ export default function JobListSection({
                     </div>
                     {type=='1' && <BaseButton
                     as={'link'}
-                    link={`/tradeperson/job/${e._id}`}
+                    link={savedCard && Object.keys(savedCard).length>0?`/tradeperson/job/${e._id}`:'/tradeperson/billing'}
                       // variant="bordered"
                       // radius="full"
                       extraClass="!border !border-[#3571EC] !bg-transparent !text-color-9 text-lg w-fit px-12 py-4"

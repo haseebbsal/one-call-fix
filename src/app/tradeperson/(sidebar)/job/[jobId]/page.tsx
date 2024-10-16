@@ -199,7 +199,7 @@ console.log('data payment',dataPayment)
                 type="button"
                 variant="bordered"
                 onClick={() => qouteCecern(QuoteType.HomeVisit)}
-                extraClass="w-[220px] text-blue"
+                extraClass="w-[220px] text-white"
               >
                 No
               </BaseButton>
@@ -308,7 +308,11 @@ console.log('data payment',dataPayment)
             
             <BaseTextArea rules={{required:"Enter Message"}} control={control} name="message" label="Want to leave a message for lead?" extraClass={{label:"font-semibold text-lg ml-0"}}/>
           </div>
+          <div className="flex gap-4 flex-wrap">
           <BaseButton type="submit">Submit</BaseButton>
+          <BaseButton onClick={()=>setDataPayment(null)} type="button">Back</BaseButton>
+          </div>
+
         </form>
           </>
         }
@@ -381,9 +385,12 @@ console.log('data payment',dataPayment)
                                         </div>
                                     </div>
                                 </div>
-                                <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading} extraClass="mt-4" type="submit" onClick={() => {
+                                <div className="flex gap-4 flex-wrap items-center mt-4">
+                                <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading}  type="submit" onClick={() => {
                                     // setCheckoutPage(1)
                                 }} >Pay Now</BaseButton>
+                                <BaseButton onClick={()=>setPayment(false)}>Back</BaseButton>
+                                </div>
           </form>
         }
       </div>

@@ -69,7 +69,7 @@ export default function Tradeperson(datas:any){
                         </div>
                         <div className="flex flex-col gap-2">
                             <h3 className="text-lg font-medium ">{getTradePersonQuery.data?.data.data.user.firstName} {getTradePersonQuery.data?.data.data.user.lastName}</h3>
-                            <h2 className="rounded-full bg-[#3571EC38] py-1 px-2 text-[14px] text-center font-medium">
+                            <h2 className="rounded-full bg-[#3571EC38] w-max py-1 px-8 text-[14px] text-center font-medium">
                                 {TRADES[getTradePersonQuery.data?.data.data.profile.trade]}
                             </h2>
                             <p className="flex gap-1"><span className="text-orange-400 flex gap-2 items-center"><MdOutlineStarBorder className="text-xl"/> {getTradePersonQuery.data?.data.data.review.average} / 5</span> ({getTradePersonQuery.data?.data.data.review.total} reviews)</p>
@@ -90,13 +90,14 @@ export default function Tradeperson(datas:any){
                         <AiFillFilePpt onClick={()=>{onOpen1()}} className="text-8xl cursor-pointer text-red-600"/>
                     </div>
                 </div>
+                <div className="flex flex-col gap-2">
                 <Tabs
             variant={"underlined"}
             aria-label="Tabs variants"
             fullWidth
             classNames={{
-              tabList: "border-b border-b-[#D1D1D1] !pb-0 w-full",
-              tab: `pb-[15px] w-fit text-lg`,
+              tabList: "border-b border-b-[#D1D1D1] !pb-0 w-full pl-0",
+              tab: `pb-[15px] w-fit text-lg pl-0`,
               tabContent:
                 "group-data-[selected=true]:text-color-9 text-color-20",
               cursor:
@@ -295,6 +296,8 @@ export default function Tradeperson(datas:any){
                 }}>
                     ShortList Tradeperson
                     </BaseButton>
+                </div>
+               
             </div>
         </section>
          <Modal

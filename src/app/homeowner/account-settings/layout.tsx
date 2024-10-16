@@ -14,7 +14,9 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 // import ReactCrop, { type Crop } from 'react-image-crop'
 // import 'react-image-crop/dist/ReactCrop.css'
-import Cropper from "react-easy-crop";
+// import Cropper from "react-easy-crop";
+import { CropperRef, Cropper } from 'react-advanced-cropper';
+import 'react-advanced-cropper/dist/style.css'
  
 interface Props {
   children: React.ReactNode;
@@ -38,9 +40,25 @@ export default function AccountSettingsLayout({ children }: Props) {
   const [customError, setCustomError] = useState<string>("");
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
-  const onCropComplete = (croppedArea:any, croppedAreaPixels:any) => {
-    console.log(croppedArea, croppedAreaPixels)
-  }
+  const [newImage,setNewImage]=useState<any>()
+  const [image, setImage] = useState(
+		'https://images.unsplash.com/photo-1599140849279-1014532882fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80',
+	);
+  const onChange = (cropper: CropperRef) => {
+		// let newfile:any=''
+    cropper.getCanvas()?.toBlob((blob) => {
+      const file = new File([blob!], 'croppedImage.png', { type: 'image/png' });
+      // console.log('new file',file)
+      // newfile=file
+      console.log('new',file)
+      setSelectedFile(file)
+      setImageSrc(URL.createObjectURL(file))
+      // return file
+    }, 'image/png')
+	};
+  // const onCropComplete = (croppedArea:any, croppedAreaPixels:any) => {
+  //   console.log(croppedArea, croppedAreaPixels)
+  // }
 
   // const dispatch = useAppDispatch();
   // const { loading, error, user } = useAppSelector((state) => state.auth);
@@ -81,8 +99,8 @@ export default function AccountSettingsLayout({ children }: Props) {
     if (file && file.type.substr(0, 5) === "image") {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImageSrc(reader.result as string);
-        setSelectedFile(file);
+        setNewImage(reader.result as string);
+        // setSelectedFile(file);
         setCustomError('')
       };
       reader.readAsDataURL(file);
@@ -93,13 +111,13 @@ export default function AccountSettingsLayout({ children }: Props) {
 
   const uploadImageToDB = async () => {
     // dispatch(resetError());
-    setCustomError("");
-    if (!selectedFile) {
-      return setCustomError("File not selected!");
-    }
+    // setCustomError("");
+    // if (!selectedFile) {
+    //   return setCustomError("File not selected!");
+    // }
 
     const formData=new FormData()
-    formData.append('file',selectedFile)
+    formData.append('file',selectedFile!)
 
     changeProfileImgMutation.mutate(formData)
     // const response = await dispatch(
@@ -131,38 +149,36 @@ export default function AccountSettingsLayout({ children }: Props) {
                 id="fileInput"
                 className="hidden"
               />
-              <div className="rounded-full w-[97px] h-[97px] flex items-center justify-center p-5 bg-[#C2C2C2] border border-color-8">
-                <label htmlFor="fileInput">
-                {/* <Cropper
-      image={imageSrc.includes('placeholder')?'/images/user.png':imageSrc}
-      crop={crop}
-      zoom={zoom}
-      aspect={4 / 3}
-      onCropChange={setCrop}
-      onCropComplete={onCropComplete}
-      onZoomChange={setZoom}
-    /> */}
-      <img src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
-
-                {/* <ReactCrop circularCrop crop={crop} onChange={c => setCrop(c)}>
-      <img src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
-    </ReactCrop> */}
-                  
-                </label>
-              </div>
+              {!newImage && <div className="rounded-full h-[8rem] w-[8rem] flex items-center justify-center p-5 bg-[#C2C2C2] border border-color-8">
+                 <img className="w-full h-full object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
+              </div>}
+              {newImage && <div className="flex flex-col gap-2">
+                <Cropper
+                src={newImage}
+                onChange={onChange}
+                className={'cropper rounded-full h-[8rem] w-[8rem] p-5 !bg-[#C2C2C2] border border-color-8'}
+                />
+                <BaseButton onClick={()=>{
+                  setNewImage(null)
+                  uploadImageToDB()
+                }}>Crop</BaseButton>
+                
+              </div> }
+              
               <div>
                 <label  className="pb-2.5 text-color-22 text-sm lg:text-base font-bold text-nowrap">
                   Update Your Profile
                 </label>
-                <BaseButton
-                  type="button"
-                  extraClass="!rounded !p-2.5 !text-xs max-w-[120px]"
-                  onClick={uploadImageToDB}
+                <label
+                  // type="button"
+                  htmlFor="fileInput"
+                  className=" text-white bg-color-9 px-4 py-2 text-center cursor-pointer rounded-full  block "
+                  // onClick={uploadImageToDB}
                   // disabled={!selectedFile || loading}
                   // isLoading={loading}
                 >
-                  Upload Profile
-                </BaseButton>
+                  Update Profile
+                </label>
               </div>
               {(customError) && (
                 <p className="text-danger">{customError}</p>

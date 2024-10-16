@@ -56,7 +56,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
     // "useWalletCredits": bid.walletCredits=='1'?true:false,
       directQuote: {
         quote: Number(bid.quote),
-        vatIncluded: bid.vatInclude == "yes" ? true : false,
+        vatIncluded: bid.vatIncluded == "1" ? true : false,
         depositAmount: Number(bid.depositAmount),
         timelineType: Number(bid.timelineType),
         timelineValue: Number(bid.timelineValue),

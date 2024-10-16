@@ -103,7 +103,7 @@ export default function Jobs() {
                   {jobsQuery.data?.data?.data.map((el: any) => (
                     <Link
                       href={`/homeowner/job/${el._id}`}
-                      className="pb-6 border-b border-b-color-19"
+                      className="pb-6"
                       key={el._id}
                     >
                       <JobCard job={el} />

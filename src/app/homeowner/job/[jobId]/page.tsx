@@ -19,12 +19,15 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
+import BaseModal from "@/components/common/modal/base-modal";
+import { useDisclosure } from "@nextui-org/modal";
 
 export default function Jobs(datas:any) {
   // const queryParams = useParams();
   // const [jobId, setJobId] = useState(queryParams.jobId as String);
   // const dispatch = useAppDispatch();
   // const { job, loading, error }: any = useAppSelector((state) => state.job);
+  const {isOpen,onOpen,onClose}=useDisclosure()
   const router=useRouter()
   const queryCient=useQueryClient()
   const getMoreLeadsMutation=useMutation(()=>axiosInstance.put(`/job/request-quote?jobId=${datas.params.jobId}`),{
@@ -45,6 +48,7 @@ export default function Jobs(datas:any) {
   const deleteJob=useMutation(()=>axiosInstance.delete(`/job?jobId=${datas.params.jobId}`),{
     onSuccess(data, variables, context) {
       console.log('deleted',data.data)
+      onClose()
       queryCient.invalidateQueries('homeOwnerJobs')
       router.replace('/homeowner/jobs')
     },
@@ -180,25 +184,38 @@ export default function Jobs(datas:any) {
             <BaseButton
             as={'link'}
             link={`/homeowner/job/edit?id=${datas.params.jobId}`}
+            extraClass="!min-w-[12rem]"
               // variant="solid"
               // radius="full"
               // className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
             >
               Edit Job Post
             </BaseButton>
-            <Button
+            <BaseButton
               variant="bordered"
-              radius="full"
+              // radius="full"
               isLoading={deleteJob.isLoading}
               disabled={deleteJob.isLoading}
               onClick={()=>{
-                deleteJob.mutate()
+                onOpen()
               }}
-              className="border border-color-6 text-color-6 text-lg w-fit px-16 py-6"
+              extraClass="border border-color-6 text-color-6 text-lg w-fit !min-w-[12rem] bg-transparent"
             >
-              Delete Job
-            </Button>
+              Delete Job Post
+            </BaseButton>
           </div>
+
+          <BaseModal header="Delete Job Confirmation" isOpen={isOpen} onClose={onClose}>
+          <div className="flex flex-col gap-4 items-center">
+            <p className="text-center">Are you sure you want to delete this job?</p>
+            <div className="flex gap-4">
+            <BaseButton type="button" onClick={()=>{
+                deleteJob.mutate()
+              }}>Yes</BaseButton>
+            <BaseButton type="button" onClick={()=>onClose()}>No</BaseButton>
+            </div>
+          </div>
+          </BaseModal>
         </div>
       )}
     </section>

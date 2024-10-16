@@ -23,7 +23,7 @@ export const FOOTER_COLUMNS = [
       { text: "Contact Us", href: "/contact-us" },
 
       // { text: "Customer Support", href: "/customer-support" },
-      { text: "Request a quote", href: "/request-a-quote" },
+      { text: "Request a quote", href: "/homeowner/post-a-job" },
       { text: "Homeowner FAQ", href: "/homeowner-faq" },
     ],
   },

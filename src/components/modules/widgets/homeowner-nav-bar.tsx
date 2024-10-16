@@ -63,7 +63,7 @@ export default function HomeownerNavBar() {
             className="custom-md:hidden"
           />
           <NavbarBrand className="w-full sm:w-auto flex justify-center sm:justify-start">
-            <Link href={"/"}>
+            <Link href={"/homeowner/jobs"}>
               <Image
                 width={200}
                 src="/logos/original-logo.png"
