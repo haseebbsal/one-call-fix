@@ -60,7 +60,7 @@ export default function NewGoogleMaps(
 //   typeof(field.value)=='object'?field.value.postalCode:field.value
   const {startsWith} = useFilter({sensitivity: "base"});
   const getPostalQuery=useQuery(['googleData',typeof(field.value)=='object'?field.value.postalCode:field.value],({queryKey})=>axios.get(`/api/google?address=${queryKey[1]}}`),{
-    // enabled:!!field.value,
+    enabled:field.value==null?false:true,
     onSuccess(data) {
         console.log('sucess',data.data.results)
         if(data.data.results.length>0){
@@ -83,13 +83,16 @@ export default function NewGoogleMaps(
                     country: getAddressComponent(place, "country"),
                     formattedAddress: place.formatted_address || "",
                   };
-                  setAddress(addressDetails)
+                //   setAddress(addressDetails)
+                field.onChange(addressDetails)
+
                   return 
             }
 
             //   field.onChange(addressDetails)
         }
-        setAddress(null)
+        // field.onChange('')
+        // setAddress(null)
     },
   })
 
@@ -146,15 +149,15 @@ export default function NewGoogleMaps(
   function Changing(e:any){
     console.log('valieeee',e.target.value)
     field.onChange(e.target.value)
-    if(!e.target.value){
-        setAddress(null)
-    }
+    // if(!e.target.value){
+    //     setAddress(null)
+    // }
   }
 
   // Show entire list if user opens the menu manually
   
   console.log('value',field.value,typeof(field.value))
-  console.log('address',address)
+//   console.log('address',address)
   return (
     // <Autocomplete
     // {...field}
@@ -189,7 +192,7 @@ export default function NewGoogleMaps(
     // defaultItems={[]}
       value={typeof(field.value)=='object'?field.value.postalCode:field.value}
     // value={}
-    isInvalid={getPostalQuery.data && !address?.postalCode}
+    isInvalid={getPostalQuery.data && !field.value?.postalCode}
     errorMessage={'Enter Valid Postal Code'}
     // isLoading={getPostalQuery.isFetching}
   //   inputValue={field.value?.postalCode}
@@ -198,13 +201,13 @@ export default function NewGoogleMaps(
     variant="bordered"
     labelPlacement="outside"
     onChange={Changing}
-    onBlur={()=>{
-        console.log('blurr')
-        if(address){
-            field.onChange(address)
-        }
-        // console.log('postal',address.postalCode)
-    }}
+    // onBlur={()=>{
+    //     console.log('blurr')
+    //     if(address){
+    //         field.onChange(address)
+    //     }
+    //     // console.log('postal',address.postalCode)
+    // }}
     // onInputChange={onInputChange}
   //   onBlur={blurring}
     // onSelectionChange={onSelectionChange}

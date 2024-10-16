@@ -238,7 +238,7 @@ export default function PostAJob() {
 
   const postJobTopSection = {
     title: `POST ${trade === TRADES.ELECTRICIAN ? "AN ELECTRICAL" : "A PLUMBER"} JOB`,
-    text: "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
+    text: "",
   };
 
   function newSubmit(data:any){
@@ -373,7 +373,10 @@ console.log('addressValue',getValues('address'))
                   className="object-contain"
                 />
               </div>
-              
+              {/* <p className="text-center font-[300] text-sm lg:text-base text-color-6">
+                Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
+                amet, cons tetuer Lorem.
+              </p> */}
               <BaseButton
                 type="button"
                 onClick={() => handleTradeChange(TRADES.PLUMBER)}
@@ -405,6 +408,11 @@ console.log('addressValue',getValues('address'))
                 placeholder="Write here..."
                 // readOnly={chatId || loading ? true : false}
               />
+
+{/* <NewGoogleMaps name="address"
+                          control={control}
+                          placeholder="Postcode"
+                          rules={{ required: "Post Code is required" }}/> */}
              
               {
                 !chatStartMutation.data?.data && <BaseButton type="submit" isLoading={chatStartMutation.isLoading} disabled={chatStartMutation.isLoading} extraClass="mt-14">
