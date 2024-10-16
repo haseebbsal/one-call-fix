@@ -226,25 +226,11 @@ export default function EditProfile(datas:any) {
       }
       // console.log('payload',payload)
       editTradepersonMutation.mutate(formData)
-    // editTradepersonMutation.mutate(payload)
-    // const response = await dispatch(
-    //   updateprofile({
-    //     servicesOffered: services,
-    //     profileImage: profileFile,
-    //     ...filteredData,
-    //   }),
-    // );
-    // if (response.payload.message == "Updated successfully") {
-    //   onOpen();
-    // }
+    
   };
   const closeModel = () => {
-    // dispatch(resetTradePerson());
-    // dispatch(resetUser());
-    // toast.success("Profile Updated Successfully")
-    
     onClose();
-    // router.replace("/tradeperson/profile/view");
+    router.push('/tradeperson/profile')
   };
 
   
@@ -253,6 +239,7 @@ export default function EditProfile(datas:any) {
     onSuccess(data) {
       console.log('edit profile',data.data)
       queryClient.invalidateQueries('tradePerson')
+      // router.refresh()
       setNewWork(null)
 
       onOpen()
@@ -271,6 +258,7 @@ export default function EditProfile(datas:any) {
   return (
     <>
       <BaseModal
+      onClose={()=>router.push('/tradeperson/profile')}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         size="md"
