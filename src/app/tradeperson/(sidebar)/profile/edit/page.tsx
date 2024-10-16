@@ -17,14 +17,21 @@ import { config } from "@/_utils/helpers/config";
 // import { resetUser } from "@/lib/features/userSlice";
 import toast from "react-hot-toast";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { TRADES } from "@/_utils/enums";
 import Image from "next/image";
 import BaseTextArea from "@/components/common/form/base-textarea";
+import BaseFileUpload from "@/components/common/file-upload/base-file-upload";
+import { MdDelete } from "react-icons/md";
+import { Button } from "@nextui-org/button";
 
 export default function EditProfile(datas:any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const [userDetails,setUserDetails]=useState<any>()
+  const [previousWork,setPreviousWork]=useState<any>([])
+  const [newWork,setNewWork]=useState<any>([])
+
+  const [files,setFiles]=useState<any>([])
   // const dispatch = useAppDispatch();
   // const { userDetails }: any = useAppSelector((state) => state.user);
   const getUserQuery=useQuery(['tradePerson',datas.searchParams.id],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`),{
@@ -36,6 +43,15 @@ export default function EditProfile(datas:any) {
       setValue('website',data.data.data.profile.website)
       setServices(data.data.data.profile.servicesOffered)
       setProfilePic(data?.data.data.user.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${data?.data.data.user.profilePicture}`)
+      const mapOver=data?.data.data.profile.previousJobs.map((e:string)=>{
+        const find=previousWork.find((j:string)=>j==e)
+        if(find){
+          return find
+        }
+        return e
+
+      })
+      setPreviousWork(mapOver)
     },
     refetchOnWindowFocus:false
   })
@@ -79,11 +95,13 @@ export default function EditProfile(datas:any) {
         : "No",
       externalReviews: userDetails?.data?.profile?.externalReviews,
       website: userDetails?.data?.profile?.website,
+      // previousJobs:""
     },
   });
 
   console.log('values',getValues())
 
+  const queryClient=useQueryClient()
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = e.target.files?.[0];
     if (file) {
@@ -108,6 +126,7 @@ export default function EditProfile(datas:any) {
   const onSubmit = async (data: any) => {
     console.log(data);
     console.log('entries',Object.entries(data))
+
     const filteredData:any = Object.fromEntries(
       Object.entries(data).filter(
         ([_, value]) => value !== "" && value !== null,
@@ -133,6 +152,12 @@ export default function EditProfile(datas:any) {
       formData.append('externalReviews',filteredData.externalReviews)
       formData.append('trade',filteredData.trade)
       formData.append('website',filteredData.website)
+
+      if(files.length>0){
+        files.forEach((e:any)=>{
+          formData.append('previousJobs',e)
+        })
+      }
   
       console.log('payload2',payload)
       editTradepersonMutation.mutate(formData)
@@ -157,6 +182,12 @@ export default function EditProfile(datas:any) {
       formData.append('externalReviews',filteredData.externalReviews)
       formData.append('trade',filteredData.trade)
       formData.append('website',filteredData.website)
+      console.log('previous',data.previousJobs)
+      if(files.length>0){
+        files.forEach((e:any)=>{
+          formData.append('previousJobs',e)
+        })
+      }
   
       console.log('payload3',[...formData.entries()])
       editTradepersonMutation.mutate(formData)
@@ -192,6 +223,11 @@ export default function EditProfile(datas:any) {
       formData.append('externalReviews',filteredData.externalReviews)
       formData.append('trade',filteredData.trade)
       formData.append('website',filteredData.website)
+      if(files.length>0){
+        files.forEach((e:any)=>{
+          formData.append('previousJobs',e)
+        })
+      }
       // console.log('payload',payload)
       editTradepersonMutation.mutate(formData)
     // editTradepersonMutation.mutate(payload)
@@ -215,10 +251,24 @@ export default function EditProfile(datas:any) {
     // router.replace("/tradeperson/profile/view");
   };
 
+  
+
   const editTradepersonMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
     onSuccess(data) {
       // console.log('edit profile',data.data)
+      queryClient.invalidateQueries('tradePerson')
+
       onOpen()
+    },
+  })
+
+  const deleteImage=useMutation((datasss:any)=>{
+    // console.log('dataaaa',datasss)
+    return axiosInstance.delete(`/trades-person/previous-jobs?name=${datasss}`)
+  },{
+    onSuccess(data, variables, context) {
+      console.log('delteeee',data.data)
+      queryClient.invalidateQueries('tradePerson')
     },
   })
   return (
@@ -435,6 +485,57 @@ export default function EditProfile(datas:any) {
                   {...register("externalReviews", { required: false })}
                 />
               </div>
+            </div>
+
+            <div className="mt-6">
+            <label className="block text-lg font-medium text-black">
+                Work Gallery
+              </label>
+             <div className="flex gap-4 mt-4 w-full">
+              {previousWork?.map((e:any)=>
+              <div className="relative">
+                <button type="button" onClick={()=>{
+                  // console.log('clickinngg')
+                 
+                  // console.log('delete',{
+                  //   name:e
+                  // })
+                  // console.log('image',e)
+                  // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
+                  // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
+                  deleteImage.mutate(e)
+                }} className="bg-transparent absolute z-[4] top-[-1rem] bg-white  p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
+                <Image src={e.includes('blob')?e:`${config.mediaURL}/${e}`} alt="previous" width={100} height={100} className="object-contain"/>
+              </div>)}
+              {newWork?.map((e:any,index:number)=>
+              <div className="relative">
+                <button type="button" onClick={()=>{
+                 
+                  const filter=newWork.filter((j:string)=>j!=e)
+                    setNewWork(filter)
+                    setFiles((prev:any)=>prev.filter((j:any,ind:number)=>ind!=index))
+                    return
+                 
+                }} className="bg-transparent absolute z-[4] top-[-1rem] bg-white  p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
+                <Image src={e} alt="previous" width={100} height={100} className="object-contain"/>
+              </div>)}
+             </div>
+
+
+      
+             <label htmlFor="work" className="block bg-color-9 text-white text-center p-4 rounded-full mt-2 cursor-pointer relative">
+              Add Work Gallery
+              <input {...register('previousJobs' as any)} id="work" type="file" accept=".jpeg,.png,.jpg" className="absolute invisible" multiple onChange={(e)=>{
+                const newFiles=(e.target.files)
+                Object.values(newFiles as any).forEach((e)=>{
+                  const newUrl=URL.createObjectURL(e as File)
+                  setNewWork((prev:any)=>[...prev,newUrl])
+                  setFiles((prev:any)=>[...prev,e])
+                  // console.log(newUrl)
+                })
+
+              }}/>
+             </label>
             </div>
             <div className="py-4">
               <BaseButton

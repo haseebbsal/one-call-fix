@@ -92,7 +92,7 @@ export default function AboutUs() {
 
         <div>
           <h2 className="text-3xl font-extrabold sm:text-5xl mb-7">
-            Why use our service as a tradespeople?
+          Why use our service as a tradesperson?
           </h2>
           <ul className="list-disc list-inside text-color-6">
             {TRADESPEOPLE_SERVICE.map((service, index) => (

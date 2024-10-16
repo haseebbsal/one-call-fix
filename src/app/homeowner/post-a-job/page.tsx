@@ -353,10 +353,6 @@ console.log('addressValue',getValues('address'))
                   className="object-contain"
                 />
               </div>
-              <p className="text-center font-[300] text-sm lg:text-base text-color-6">
-                Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
-                amet, cons tetuer Lorem.
-              </p>
               <BaseButton
                 type="button"
                 onClick={() => handleTradeChange(TRADES.ELECTRICIAN)}
@@ -377,10 +373,7 @@ console.log('addressValue',getValues('address'))
                   className="object-contain"
                 />
               </div>
-              <p className="text-center font-[300] text-sm lg:text-base text-color-6">
-                Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit
-                amet, cons tetuer Lorem.
-              </p>
+              
               <BaseButton
                 type="button"
                 onClick={() => handleTradeChange(TRADES.PLUMBER)}

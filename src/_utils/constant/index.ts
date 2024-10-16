@@ -138,8 +138,8 @@ export const STEPS = [
     imgSrc: "/images/post-job.png",
   },
   {
-    step: "2. ReviewStar Tradespeople Interest",
-    desc: "ReviewStar our vetted tradespeople profiles and offers. We only share your contact detailswith those you shortlist!",
+    step: "2. Review Tradespeople Profiles",
+    desc: "Review our vetted tradespeople's profiles and offers. We only share your details with those you shortlist!",
     imgSrc: "/images/profile-review.png",
   },
   {

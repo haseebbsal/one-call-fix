@@ -10,7 +10,7 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 type FeedbackData = {
-    "rating": number,
+    // "rating": number,
     "description": string
 }
 export default function Feedback() {
@@ -41,7 +41,7 @@ export default function Feedback() {
         const formData = new FormData(form)
         const data:FeedbackData = {
             description: formData.get('description') as any as string,
-            rating
+            // rating
         }
         feedbackMutation.mutate(data)
 

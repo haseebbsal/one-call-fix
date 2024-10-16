@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
+import {Autocomplete, AutocompleteItem, Input} from "@nextui-org/react";
 import {useFilter} from "@react-aria/i18n";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -37,6 +37,8 @@ export default function NewGoogleMaps(
 ) {
   // Store Autocomplete input value, selected option, open state, and items
   // in a state tracker
+
+  const [address,setAddress]=useState<any>(null)
   
   const { field,fieldState:{error} } = useController({ name, control, rules });
 
@@ -55,10 +57,40 @@ export default function NewGoogleMaps(
       )?.long_name || ""
     );
   };
-  
+//   typeof(field.value)=='object'?field.value.postalCode:field.value
   const {startsWith} = useFilter({sensitivity: "base"});
   const getPostalQuery=useQuery(['googleData',typeof(field.value)=='object'?field.value.postalCode:field.value],({queryKey})=>axios.get(`/api/google?address=${queryKey[1]}}`),{
-    enabled:!!field.value,
+    // enabled:!!field.value,
+    onSuccess(data) {
+        console.log('sucess',data.data.results)
+        if(data.data.results.length>0){
+            console.log('chekkkk',typeof(field.value)=='object'?field.value.postalCode:field.value)
+            const place=data.data.results.find((e:any)=>{
+                const found=e.address_components.find((j:any)=>j.long_name.toLowerCase()==(typeof(field.value)=='object'?field.value.postalCode:field.value).toLowerCase())
+                if(found){
+                    return found
+                }
+            })
+
+            // ''.toLowerCase
+            console.log('placeee',place)
+            if(place){
+                const addressDetails: Address = {
+                    latitude: place.geometry.location?.lat ?? 0,
+                    longitude: place.geometry.location?.lng ?? 0,
+                    postalCode: getAddressComponent(place, "postal_code"),
+                    city: getAddressComponent(place, "locality")?getAddressComponent(place, "locality"):"none",
+                    country: getAddressComponent(place, "country"),
+                    formattedAddress: place.formatted_address || "",
+                  };
+                  setAddress(addressDetails)
+                  return 
+            }
+
+            //   field.onChange(addressDetails)
+        }
+        setAddress(null)
+    },
   })
 
   // Specify how each of the Autocomplete values should change when an
@@ -87,14 +119,22 @@ export default function NewGoogleMaps(
           field.onChange(addressDetails)
           return
     }
-  
+
+    
 
 
 
 
      
     
+
   };
+
+  function blurring(e:any){
+    field.onChange(e.target.value)
+    console.log(e.tar)
+}
+
 
   const onInputChange = (value:any) => {
     console.log('changed')
@@ -103,33 +143,71 @@ export default function NewGoogleMaps(
    
   };
 
+  function Changing(e:any){
+    console.log('valieeee',e.target.value)
+    field.onChange(e.target.value)
+    if(!e.target.value){
+        setAddress(null)
+    }
+  }
+
   // Show entire list if user opens the menu manually
   
   console.log('value',field.value,typeof(field.value))
+  console.log('address',address)
   return (
-    <Autocomplete
-    {...field}
-      className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
-    //   inputValue={fieldState.inputValue}
-    allowsCustomValue
-      items={getPostalQuery.data?.data.results}
-      defaultItems={[]}
-      isInvalid={!!error}
-      errorMessage={error?.message}
-      isLoading={getPostalQuery.isFetching}
-      inputValue={field.value?.postalCode}
-      placeholder="Postal Code"
-    //   selectedKey={fieldState.selectedKey}
-      variant="bordered"
-      labelPlacement="outside"
-      onInputChange={onInputChange}
-      onSelectionChange={onSelectionChange}
-    >
-      {(item:any) => <AutocompleteItem key={item.address_components.find((component:any) =>
-        component.types.includes('postal_code'),
-      )?.long_name || ""}>{item.address_components.find((component:any) =>
-        component.types.includes('postal_code'),
-      )?.long_name || ""}</AutocompleteItem>}
-    </Autocomplete>
+    // <Autocomplete
+    // {...field}
+    //   className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
+    // //   inputValue={fieldState.inputValue}
+    // // allowsCustomValue
+    //   items={getPostalQuery.data?.data.results}
+    //   defaultItems={[]}
+    //   isInvalid={!!error}
+    //   errorMessage={error?.message}
+    //   isLoading={getPostalQuery.isFetching}
+    // //   inputValue={field.value?.postalCode}
+    //   placeholder="Postal Code"
+    // //   selectedKey={fieldState.selectedKey}
+    //   variant="bordered"
+    //   labelPlacement="outside"
+    //   onInputChange={onInputChange}
+    // //   onBlur={blurring}
+    //   onSelectionChange={onSelectionChange}
+    // >
+    //   {(item:any) => <AutocompleteItem key={item.address_components.find((component:any) =>
+    //     component.types.includes('postal_code'),
+    //   )?.long_name || ""}>{item.address_components.find((component:any) =>
+    //     component.types.includes('postal_code'),
+    //   )?.long_name || ""}</AutocompleteItem>}
+    // </Autocomplete>
+    <Input {...field}
+    className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
+  //   inputValue={fieldState.inputValue}
+  // allowsCustomValue
+    // items={getPostalQuery.data?.data.results}
+    // defaultItems={[]}
+      value={typeof(field.value)=='object'?field.value.postalCode:field.value}
+    // value={}
+    isInvalid={getPostalQuery.data && !address?.postalCode}
+    errorMessage={'Enter Valid Postal Code'}
+    // isLoading={getPostalQuery.isFetching}
+  //   inputValue={field.value?.postalCode}
+    placeholder="Postal Code"
+  //   selectedKey={fieldState.selectedKey}
+    variant="bordered"
+    labelPlacement="outside"
+    onChange={Changing}
+    onBlur={()=>{
+        console.log('blurr')
+        if(address){
+            field.onChange(address)
+        }
+        // console.log('postal',address.postalCode)
+    }}
+    // onInputChange={onInputChange}
+  //   onBlur={blurring}
+    // onSelectionChange={onSelectionChange}
+    />
   );
 }

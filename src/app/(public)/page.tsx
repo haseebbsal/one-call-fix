@@ -13,11 +13,15 @@ import Video from "@/components/modules/public/Video";
 import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
 const animals = [
   {label: "Plumber", value: 1},
   {label: "Electrician", value: 2},
  
 ];
+import { Navigation } from 'swiper/modules';
 
 export default function Home() {
   const router=useRouter()
@@ -29,15 +33,18 @@ export default function Home() {
         <div className="mt-12 md:mt-0 md:mb-20">
           <div className="text-center md:text-start">
             <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
-              WHAT TRADE ARE YOU
+              GET QUOTES
             </h2>
-            <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
-              LOOKING FOR
+            <div className="font-extrabold text-xl md:text-2xl lg:text-3xl flex gap-2 items-center">
+            <h2 className=" bg-color-4 w-max text-white p-1 rounded-lg">
+              DIRECTLY ONLINE
             </h2>
+            <p>USING AI</p>
+            </div>
           </div>
 
           <p className="mt-2 text-color-6 text-sm mb-4 text-center md:text-start md:text-2xl">
-            Get Quotes Directly Online with AI-Assisted Form
+          It's FREE and there are no obligations!
           </p>
 
           <div className="relative text-center w-fit m-auto custom-sm:m-0 custom-sm:text-start custom-sm:w-450px">
@@ -74,6 +81,7 @@ export default function Home() {
               Get Started
             </Button>
           </div>
+          <Image src="/images/trustpilot.svg" alt="trustpilot" width={200} height={120} className="object-contain"/>
         </div>
         <div className="w-64 relative h-96 lg:w-80">
           <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute" />
@@ -101,9 +109,32 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-wrap justify-center gap-32">
+        <Swiper
+      className="w-full"
+      navigation={true} modules={[Navigation]}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+      }}
+    //   onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    >
           {STEPS.map((step, index) => (
-            <div key={index} className="w-60">
-              <div className="w-60 h-72 bg-white rounded-3xl flex justify-center items-center">
+            <SwiperSlide className="p-8">
+       <div key={index} className="">
+              <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
                 <img src={step.imgSrc} alt="step" />
               </div>
               <div className="text-white text-sm mt-10 mb-10">
@@ -111,27 +142,52 @@ export default function Home() {
                 <p className="text-center font-extralight">{step.desc}</p>
               </div>
             </div>
+              </SwiperSlide>
+            
           ))}
+          </Swiper>
         </div>
       </section>
 
-      <section className="mt-10">
+      <section className="mt-10 w-full">
         {/* FEATURES SECTION */}
         <FeaturesSection features={FEATURES} />
 
         {/* REVIEWS SECTION */}
-        <section>
+        <section className="w-full mb-8">
           <div className="mb-16">
             <h2 className="text-3xl font-extrabold sm:text-4xl text-center">
               Recent Completed Jobs
             </h2>
           </div>
 
-          <div className="w-auto m-auto flex flex-wrap justify-center gap-4 mb-8 sm:gap-6 sm:mb-12 md:gap-20 md:mb-20">
+          {/* <div className="w-auto m-auto flex flex-wrap justify-center gap-4 mb-8 sm:gap-6 sm:mb-12 md:gap-20 md:mb-20"> */}
+            
+          <Swiper
+      className="w-full"
+      navigation={true} modules={[Navigation]}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 20,
+        },
+      }}
+    >
             {REVIEWS.map((review, index) => (
+              <SwiperSlide className="w-max" >
               <div
                 key={index}
-                className="w-full max-w-sm sm:w-80 md:w-96 bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl mx-4"
+                className="min-w-[25rem] max-w-[30rem] bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl mx-4"
               >
                 <div className="flex items-center mb-4 gap-1 sm:gap-2 text-amber-400">
                   <ReviewStar />
@@ -152,8 +208,10 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+              </SwiperSlide>
             ))}
-          </div>
+            </Swiper>
+          {/* </div> */}
         </section>
       </section>
 
@@ -163,17 +221,18 @@ export default function Home() {
       {/* TRADESPERSON SECTION */}
       <section>
         <div className="w-full flex flex-wrap justify-center gap-24 mt-10 relative mb-24">
-          <div>
+          <div className="relative order-1 sm:-order-10 sm:mt-0 mt-20">
             <img
               src="/shapes/ellipse.png"
               alt="ellipse"
-              className="relative max-w-full h-auto"
+              className="relative max-w-full h-full"
             />
             <img
               src="/images/tradesperson.png"
               alt="tradesperson"
-              className="absolute -top-36 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 lg:left-64 xl:left-96"
+              className="absolute h-full -top-32 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 "
             />
+            {/* bsolute h-full -top-36 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 lg:left-64 xl:left-96 */}
           </div>
 
           <div className="w-5/6 sm:w-3/5 custom-md:w-2/5 custom-md:-mt-24">
