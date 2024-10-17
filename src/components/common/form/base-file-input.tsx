@@ -17,6 +17,7 @@ type BaseFileInputProps<T extends FieldValues> = {
   name: string;
   extraClass?: { inputWrapper?: string; label?: string; input?: string };
   label?: string;
+  show?:boolean
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 
 const BaseFileInput = <T extends FieldValues>({
@@ -25,6 +26,7 @@ const BaseFileInput = <T extends FieldValues>({
   extraClass,
   label,
   rules = {},
+  show=true
 }: BaseFileInputProps<T>) => {
   const {
     field: { value, onChange },
@@ -139,11 +141,12 @@ const BaseFileInput = <T extends FieldValues>({
           </span>
         </p>
       </div>
-      <p className="text-center text-gray-500 mt-2">
+      {show && <p className="text-center text-gray-500 mt-2">
         Adding photos/videos will increase your chances of getting a quote
         online
-      </p>
-      {files.length && (
+      </p>}
+      
+      {files.length>0 && (
         <div className="mt-4">
           <div className="flex flex-wrap">
             {files.map((file, index) => renderPreview(file, index))}

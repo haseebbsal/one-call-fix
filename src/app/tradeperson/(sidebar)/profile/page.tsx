@@ -54,14 +54,14 @@ export default function ViewProfile() {
               src={getUserQuery.data?.data.data.user.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${getUserQuery.data?.data.data.user.profilePicture}`}
                 // src={`${config.mediaURL}/${getUserQuery.data?.data.data.profilePicture}`}
                 alt="Profile Image"
-                className="w-20 h-20 rounded-full object-contain"
+                className="w-[3rem] h-[3rem] rounded-full object-contain"
               />
-              <div>
-                <h2 className="text-2xl font-semibold">
+              <div className="flex flex-col gap-1">
+                <h2 className="text-md font-semibold">
                   {getUserQuery.data?.data.data.user.firstName}{" "}
                   {getUserQuery.data?.data.data.user.lastName}
                 </h2>
-                <span className="px-3 py-1 text-sm text-white bg-blue-500 rounded-full">
+                <span className="px-3 py-2 text-sm bg-blue-500 text-white rounded-full">
                   {TRADES[getUserQuery.data?.data.data.profile.trade]}
                 </span>
               </div>
@@ -77,7 +77,7 @@ export default function ViewProfile() {
           </div>
 
           {/* Offered Services Section */}
-          <div className="mt-8">
+          {getUserQuery.data?.data.data.profile.servicesOffered.length>0 &&  <div className="mt-8">
             <h3 className="text-xl font-semibold">Offered Services</h3>
             <ul className="list-disc list-inside text-gray-600 mt-4">
               {getUserQuery.data?.data.data.profile.servicesOffered.map(
@@ -86,7 +86,7 @@ export default function ViewProfile() {
                 },
               )}
             </ul>
-          </div>
+          </div>}
 
           {/* Links Section */}
           <div className="mt-8 grid grid-cols-2">
@@ -111,7 +111,7 @@ export default function ViewProfile() {
           </div>
 
           {/* Work Gallery Section */}
-          <div className="mt-8">
+          {getUserQuery.data?.data.data.profile.previousJobs.length>0 && <div className="mt-8">
             <h3 className="text-xl font-semibold">Work Gallery</h3>
             <div className="flex gap-2">
                             {getUserQuery.data?.data.data.profile.previousJobs.map((e:any)=>
@@ -135,7 +135,8 @@ export default function ViewProfile() {
                 className="w-56 h-auto rounded-lg"
               />
             </div> */}
-          </div>
+          </div>}
+          
         </div>
       )}
     </div>

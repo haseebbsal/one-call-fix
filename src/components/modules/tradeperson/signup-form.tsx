@@ -178,14 +178,13 @@ export default function HomeOwnerSignUpForm() {
         type="password"
         control={control}
         placeholder="Password *"
-        // rules={{
-        //   required: "Password is required",
-        //   pattern: {
-        //     value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-        //     message:
-        //       "Password must contain at least 8 characters, one uppercase letter and one number",
-        //   },
-        // }}
+        rules={{
+          required: "Password is required",
+          pattern: {
+            value: /^.{8,30}$/,
+            message:"Password must contain at least 8 to 30 characters",
+          },
+        }}
       />
       <BaseInputPassword
         name="confirmPassword"

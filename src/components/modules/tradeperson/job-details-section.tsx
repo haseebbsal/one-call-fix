@@ -4,7 +4,7 @@ import React from "react";
 import CustomButton from "@/components/common/button/custom-button";
 import { config } from "@/_utils/helpers/config";
 import BaseButton from "@/components/common/button/base-button";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import { useDisclosure } from "@nextui-org/modal";
 import BaseModal from "@/components/common/modal/base-modal";
@@ -59,11 +59,22 @@ type Acceptt={
 export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetailsProps) {
   console.log('job data',actualJob)
 
+  const queryClient=useQueryClient()
+
   const {isOpen,onOpen,onClose}=useDisclosure()
 
   const acceptJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
     onSuccess(data) {
       console.log('accepted',data.data)
+      queryClient.invalidateQueries('allJobs')
+    },
+  })
+
+  const declineJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
+    onSuccess(data) {
+      console.log('declined',data.data)
+      queryClient.invalidateQueries('allJobs')
+
     },
   })
 
@@ -104,8 +115,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               }} extraClass="bg-color-12 text-white w-max px-2 sm:px-7">
                 Accept Job
               </BaseButton>
-              <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={()=>{
-                acceptJobMutation.mutate({status:3})
+              <BaseButton isLoading={declineJobMutation.isLoading} disabled={declineJobMutation.isLoading} onClick={()=>{
+                declineJobMutation.mutate({status:3})
               }} extraClass="bg-color-21 text-white w-max px-2 sm:px-7">
                 Decline
               </BaseButton>

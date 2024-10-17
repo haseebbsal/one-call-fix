@@ -68,7 +68,7 @@ export default function Tradeperson(datas:any){
                         />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <h3 className="text-lg font-medium ">{getTradePersonQuery.data?.data.data.user.firstName} {getTradePersonQuery.data?.data.data.user.lastName}</h3>
+                            <h3 className="text-md font-medium ">{getTradePersonQuery.data?.data.data.user.firstName} {getTradePersonQuery.data?.data.data.user.lastName}</h3>
                             <h2 className="rounded-full bg-[#3571EC38] w-max py-1 px-8 text-[14px] text-center font-medium">
                                 {TRADES[getTradePersonQuery.data?.data.data.profile.trade]}
                             </h2>
@@ -117,7 +117,7 @@ export default function Tradeperson(datas:any){
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                         <p className="font-semibold text-lg">About</p>
-                        <p className=" font-light text-sm">Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons. Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons.</p>
+                        <p className=" font-light text-sm">{getTradePersonQuery.data?.data.data.profile.about}</p>
                     </div>
                     {getTradePersonQuery.data?.data.data.profile.servicesOffered.length>0&& <div className="flex flex-col gap-2">
                         <p className="font-semibold text-lg">Services Offered</p>

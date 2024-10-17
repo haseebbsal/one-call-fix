@@ -111,16 +111,16 @@ export default function LoginForm() {
         name={"password"}
         type="password"
         control={control}
-        rules={{required:"Enter Password"}}
+        // rules={{required:"Enter Password"}}
         placeholder="Password *"
-        // rules={{
-        //   required: "Password is required",
-        //   pattern: {
-        //     value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-        //     message:
-        //       "Password must contain at least 8 characters, one uppercase letter and one number",
-        //   },
-        // }}
+        rules={{
+          required: "Password is required",
+          pattern: {
+            value: /^.{8,30}$/,
+            message:
+              "Password must contain at least 8 to 30 characters",
+          },
+        }}
       />
       <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-2.5">
         <BaseButton type="submit" 

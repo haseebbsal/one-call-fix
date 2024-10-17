@@ -219,6 +219,15 @@ export default function AccountDetails() {
                   name="oldPassword"
                   type="password"
                   control={control}
+                  rules={
+                    {
+                    required:"Enter Old Password",
+                      pattern: {
+                        value: /^.{8,30}$/,
+                        message:"Password must contain at least 8 to 30 characters",
+                      },
+                    }
+                  }
                   variant="bordered"
                   placeholder="*************"
                   radius="full"
@@ -235,6 +244,16 @@ export default function AccountDetails() {
                
                   name="newPassword"
                   type="password"
+                  rules={
+                    {
+                    required:"Enter New Password",
+
+                      pattern: {
+                        value: /^.{8,30}$/,
+                        message:"Password must contain at least 8 to 30 characters",
+                      },
+                    }
+                  }
                   control={control}
                   variant="bordered"
                   placeholder="*************"
@@ -254,6 +273,13 @@ export default function AccountDetails() {
                   name="confirmPassword"
                   type="password"
                   rules={{
+                    required:"Enter Confirm Password",
+                    pattern: {
+                      value: /^.{8,30}$/,
+                      message:"Password must contain at least 8 to 30 characters",
+                    },
+                      
+  
                     // required: "Please confirm your password",
                     validate: (value) =>
                       value === watch("newPassword") || "Passwords do not match",

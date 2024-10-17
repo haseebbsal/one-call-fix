@@ -81,11 +81,10 @@ export default function ContactInfo() {
             control={control}
             rules={{
               required: "Previous Password is required",
-              // pattern: {
-              //   value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-              //   message:
-              //     "Password must contain at least 8 characters, one uppercase letter and one number",
-              // },
+              pattern: {
+                value: /^.{8,30}$/,
+                message:"Password must contain at least 8 to 30 characters",
+              },
             }}
           />
         </div>
@@ -100,11 +99,10 @@ export default function ContactInfo() {
             control={control}
             rules={{
               required: "New Password is required",
-              // pattern: {
-              //   value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-              //   message:
-              //     "Password must contain at least 8 characters, one uppercase letter and one number",
-              // },
+          pattern: {
+            value: /^.{8,30}$/,
+            message:"Password must contain at least 8 to 30 characters",
+          },
               validate: (value) =>
                 value !== watch("previousPassword") ||
                 "New Password should be different from old password",

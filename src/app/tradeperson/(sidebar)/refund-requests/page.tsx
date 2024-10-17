@@ -123,7 +123,9 @@ export default function RefundRequest(){
           )}
         </Autocomplete>
         
-            <BaseTextArea extraClass={{
+            <BaseTextArea 
+             rows={10}
+             extraClass={{
                 label:"font-semibold text-md ml-0"
             }} name="description" placeholder="Enter description..." 
             // rules={{
@@ -142,12 +144,15 @@ export default function RefundRequest(){
             // rules={{
             //     required:"Select File"
             // }} 
+            show={false}
+            
+            
             rules={{required:"Select Files"}}
             control={control} name="files"  extraClass={{
                 label:"!font-semibold !text-lg !ml-0"
             }} />
 
-            <BaseButton disabled={getUserQuery.data?.data.data.profileCompletion<75} type="submit">Submit Refund</BaseButton>
+            <BaseButton disabled={getUserQuery.data?.data.data.profileCompletion<75} type="submit">Submit Request</BaseButton>
             {getUserQuery.data?.data.data.profileCompletion<75 && <p className="text-red-500">You May Not Request For Refund As Profile Completion is under 75%</p>}
             
         </form>

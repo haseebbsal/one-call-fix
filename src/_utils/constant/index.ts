@@ -527,11 +527,12 @@ export const TRADE_PERSON_SIDEBAR_MENU_ITEMS: sidebarMenuItemType[] = [
   {
     label: "Jobs",
     icon: "/icons/jobs.png",
-    subItems: [
-      { label: "Pending Jobs", link: "/tradeperson/jobs/pending-jobs" },
-      { label: "Shortlisted Jobs", link: "/tradeperson/jobs/shortlisted-jobs" },
-      { label: "My Jobs", link: "/tradeperson/jobs/my-jobs" },
-    ],
+    link:"/tradeperson/jobs"
+    // subItems: [
+    //   { label: "Pending Jobs", link: "/tradeperson/jobs/pending-jobs" },
+    //   { label: "Shortlisted Jobs", link: "/tradeperson/jobs/shortlisted-jobs" },
+    //   { label: "My Jobs", link: "/tradeperson/jobs/my-jobs" },
+    // ],
   },
   {
     label: "Profile",

@@ -108,6 +108,7 @@ export default function ContactInfo() {
           <BaseInput
             name="phone"
             type="text"
+            
             // defaultValue={user.phone}
             placeholder="001122114400"
             control={control}

@@ -41,9 +41,7 @@ export default function AccountSettingsLayout({ children }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [newImage,setNewImage]=useState<any>()
-  const [image, setImage] = useState(
-		'https://images.unsplash.com/photo-1599140849279-1014532882fe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1300&q=80',
-	);
+
   const onChange = (cropper: CropperRef) => {
 		// let newfile:any=''
     cropper.getCanvas()?.toBlob((blob) => {
