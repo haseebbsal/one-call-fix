@@ -14,19 +14,21 @@ type FeaturesProps = {
   features: Feature[];
 };
 const otherPlatforms=[
-  'Money Lost if No Response from Lead',
-  'Pay to Get your Name in Front of Lead',
-  'Too Much Competition per Lead',
-  'No Understanding of Profitability',
-  'Pricy Contracts Without Guarranteeing Jobs'
+  'Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits',
+  'Contact details shared with all tradespeople',
+  'Limited tradesperson details'
+]
+
+const feature=[
+  "Accurate Quotes Directly Online",
+  'Privacy Protection',
+  'Full Information on Tradesperson'
 ]
 
 const ourPlatform=[
-  'Credits Back if No Response from Lead',
-  'Get Your Name in Front of Lead for FREE',
-  'Only 3 tradespeople per job',
-  'Data insights on profitability',
-  'No Contracts/Obligations - Pay per Lead'
+  'AI-powered form helping to provide accurate quotes online, reducing need for home visits',
+  'Contact details are only shared with the tradespeople you shortlist',
+  'Full details including availability for urgent jobs, price, and timeline upfront',
 ]
 
 export default function FeaturesSection({ features }: FeaturesProps) {
@@ -38,6 +40,10 @@ export default function FeaturesSection({ features }: FeaturesProps) {
         </h2>
       </div>
       <div className="flex justify-center  flex-wrap px-8 py-2 mb-9">
+      {/* <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-red-200 font-bold text-red-500 shadow-2xl">
+          <p className="text-xl">Other Platforms</p>
+          {feature.map((e)=><div className="flex items-start gap-4 w-full"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+        </div> */}
         <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-red-200 font-bold text-red-500 shadow-2xl">
           <p className="text-xl">Other Platforms</p>
           {otherPlatforms.map((e)=><div className="flex items-start gap-4 w-full"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
