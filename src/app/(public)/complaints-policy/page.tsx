@@ -61,16 +61,18 @@ export default function ComplaintsPolicy() {
       <PageTopSection pageTopSection={pageTopSection} />
       {/* <PoliciesSection policies={COMPLAINTS_POLICY} /> */}
       <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid border-color-8 rounded-md">
-      <div className="mx-auto flex flex-col gap-2 max-w-[48rem]">
+      <div className="mx-auto flex flex-col gap-8 max-w-[48rem]">
+        <div className="flex flex-col gap-1">
         <p className="font-bold">OneCallFix Complaint Policy </p>
         <p>We regret that you are unhappy. If you have a complaint about a trade, please contact us with detailed information. We take all complaints seriously and will reach out to the trade to see how they intend to resolve the issue.</p>
-        <ul className="flex flex-col gap-2">
+        </div>
+        <ul className="flex flex-col gap-4">
           <p className="font-bold">Policy Highlights:</p> 
           {bullets.map((e,index)=><li key={index} className="list-disc"><span>{e.bold}</span> <span>{e.item}</span></li>)}
           
 
         </ul>
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-4">
           <p className="font-bold">Complaint Procedure:</p> 
           {secondBullets.map((e,index)=><li key={index} className="list-decimal"><span className="font-bold">{e.bold}</span> <span>{e.item}</span></li>)}
           <li className="list-decimal">
