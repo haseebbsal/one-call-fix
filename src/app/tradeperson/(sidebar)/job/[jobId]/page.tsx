@@ -206,29 +206,29 @@ console.log('data payment',dataPayment)
             </div>
           </div>
         </BaseModal>
-      <div className="max-w-3xl w-full bg-white rounded-lg shadow-lg p-8">
+      <div className=" w-full h-full  rounded-lg ">
         {!dataPayment && !payment && <>
         
           <h1 className="text-2xl font-semibold text-gray-900 mb-6">
           Job Details
         </h1>
-
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <div className="bg-white shadow-lg p-8 rounded-lg">
+        <div className="  rounded-lg p-4 mb-6">
           <div className="flex items-center mb-4">
             <img
               className="h-10 w-10"
-              src="/icons/notification.png"
+              src="/images/job-bell.png"
               alt="Job Icon"
             />
             <div className="ml-4">
               <h2 className="text-lg font-semibold text-gray-900">
                 {getUserQuery.data?.data.data.headline}
               </h2>
-              <p className="text-sm text-blue-500">{Number(getUserQuery.data?.data.data.distance).toFixed(2)} miles away</p>
-            </div>
-          </div>
+              <p className="text-sm text-gray-500">{Number(getUserQuery.data?.data.data.distance).toFixed(2)} miles away</p>
           <p className="text-gray-700 mb-2">{getUserQuery.data?.data.data.issue}</p>
           <p className="text-sm text-gray-500">Posted {((new Date().getMonth()-new Date(getUserQuery.data?.data.data.createdAt).getMonth())*30 + (new Date().getDate()-new Date(getUserQuery.data?.data.data.createdAt).getDate()))} days ago</p>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
@@ -247,7 +247,7 @@ console.log('data payment',dataPayment)
         </div>
 
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-gray-800">
+          <h3 className="text-sm  text-gray-600">
             Homeowner Address
           </h3>
           <p className="text-gray-700 mt-2">{getUserQuery.data?.data.data.address.city} {getUserQuery.data?.data.data.address.country}</p>
@@ -255,22 +255,25 @@ console.log('data payment',dataPayment)
 
         <div className="flex flex-col gap-2 items-start justify-between">
             <p>Lead Fee</p>
-          <p className="text-lg font-semibold text-red-500">
+          <p className="text-lg font-semibold text-red-500 rounded-md px-8 py-2 border-2 ">
           £{getUserQuery.data?.data.data.price}
           </p>
           <button onClick={()=>{
             onOpen()
-          }} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-6 rounded-full focus:outline-none focus:shadow-outline">
+          }} className="bg-blue-500 mt-4 hover:bg-blue-700 text-white py-2 px-6 rounded-full focus:outline-none focus:shadow-outline">
             Submit Interest
           </button>
         </div>
+        </div>
+
+       
         </>}
         {
           dataPayment && !payment && <>
           <h1 className="text-2xl font-semibold text-gray-900 mb-6">
           Job Submission
         </h1>
-        <form onSubmit={handleSubmit(submitForm)}  className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit(submitForm)}  className=" bg-white shadow-lg p-8 rounded-lg flex flex-col gap-2">
           <div className="flex flex-wrap gap-8">
             {dataPayment.quoteType==2 && <div className="flex flex-col gap-1 w-1/3">
               <p className="font-light">Quote</p>
@@ -308,7 +311,7 @@ console.log('data payment',dataPayment)
             
             <BaseTextArea rules={{required:"Enter Message"}} control={control} name="message" label="Want to leave a message for lead?" extraClass={{label:"font-semibold text-lg ml-0"}}/>
           </div>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex gap-4 flex-wrap mt-4">
           <BaseButton type="submit">Submit</BaseButton>
           <BaseButton onClick={()=>setDataPayment(null)} type="button">Back</BaseButton>
           </div>
@@ -317,11 +320,12 @@ console.log('data payment',dataPayment)
           </>
         }
         {
-          payment && < form onSubmit={handleSubmit2(paymentForm)}>
+          payment && < form  onSubmit={handleSubmit2(paymentForm)}>
           <h1 className="text-2xl font-semibold text-gray-900 mb-6">
           Payment Method
         </h1>
 
+        <div className="bg-white shadow-lg p-8 rounded-lg">
         {savedCardQuery.data?.data?.data && Object.keys(savedCardQuery.data.data.data).length > 0 ? (
           <RadioGroup
           {...field}
@@ -343,7 +347,7 @@ console.log('data payment',dataPayment)
           )}
 
 
-<div className="flex items-center w-max p-4 border-2 rounded-lg">
+            <div className="flex items-center w-max p-4 border-2 rounded-lg">
             <div className="w-[3rem] h-[3rem]">
               <Image alt="logo" src={'/logos/Original Logo (1) 2.svg'} className="w-full h-full object-contain" width={50} height={50}/>
             </div>
@@ -354,43 +358,46 @@ console.log('data payment',dataPayment)
                                     <p className="text-gray-400 text-sm">Price</p>
                                     <p className="font-semibold">{getUserQuery.data?.data.data.price }</p>
                                 </div> */}
-                                <div className="flex flex-col mt-8 gap-2">
-                                    {/* <p className="font-semibold">Total Amount</p> */}
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="flex justify-between border-b-[0.1rem] border-dashed border-[#c9c9c9] pb-4">
-                                                <p className="text-[#c9c9c9] ">Price</p>
-                                                <p className="font-semibold">£{getUserQuery.data?.data.data.price}</p>
-                                            </div>
-                                            {/* <div className="w-[98%] h-[0.1rem] bg-gray-400 "></div> */}
-                                        </div>
-                                        <div>
-                                        <Switch {...register('wallet')} >
-                                          Use Wallet Credits
-                                        </Switch>
-                                        </div>
-                                        {/* <div className="flex flex-col gap-2">
-                                            <div className="flex justify-between">
-                                                <p>Tax</p>
-                                                <p className="font-semibold">$2.30</p>
-                                            </div>
-                                            <div className="w-[98%] h-[0.1rem] bg-gray-400"></div>
-                                        </div> */}
-                                        <div className="flex flex-col gap-2">
-                                            {/* <div className="w-[98%] h-[0.1rem] bg-gray-400"></div> */}
-                                            <div className="flex justify-between">
-                                                <p className="text-[#c9c9c9] ">Subtotal (Incl.VAT)</p>
-                                                <p className="font-semibold">£{watch('wallet')?getUserQuery.data?.data.data.price-getCreditsQuery.data?.data.data.amount:getUserQuery.data?.data.data.price}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4 flex-wrap items-center mt-4">
-                                <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading}  type="submit" onClick={() => {
-                                    // setCheckoutPage(1)
-                                }} >Pay Now</BaseButton>
-                                <BaseButton onClick={()=>setPayment(false)}>Back</BaseButton>
-                                </div>
+              <div className="flex flex-col mt-8 gap-2">
+                  {/* <p className="font-semibold">Total Amount</p> */}
+                  <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2">
+                          <div className="flex justify-between border-b-[0.1rem] border-dashed border-[#c9c9c9] pb-4">
+                              <p className="text-[#c9c9c9] ">Price</p>
+                              <p className="font-semibold">£{getUserQuery.data?.data.data.price}</p>
+                          </div>
+                          {/* <div className="w-[98%] h-[0.1rem] bg-gray-400 "></div> */}
+                      </div>
+                      <div>
+                      <Switch {...register('wallet')} >
+                        Use Wallet Credits
+                      </Switch>
+                      </div>
+                      {/* <div className="flex flex-col gap-2">
+                          <div className="flex justify-between">
+                              <p>Tax</p>
+                              <p className="font-semibold">$2.30</p>
+                          </div>
+                          <div className="w-[98%] h-[0.1rem] bg-gray-400"></div>
+                      </div> */}
+                      <div className="flex flex-col gap-2">
+                          {/* <div className="w-[98%] h-[0.1rem] bg-gray-400"></div> */}
+                          <div className="flex justify-between">
+                              <p className="text-[#c9c9c9] ">Subtotal (Incl.VAT)</p>
+                              <p className="font-semibold">£{watch('wallet')?getUserQuery.data?.data.data.price-getCreditsQuery.data?.data.data.amount:getUserQuery.data?.data.data.price}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div className="flex gap-4 flex-wrap items-center mt-4">
+              <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading}  type="submit" onClick={() => {
+                  // setCheckoutPage(1)
+              }} >Pay Now</BaseButton>
+              <BaseButton onClick={()=>setPayment(false)}>Back</BaseButton>
+              </div>
+
+        </div>
+        
           </form>
         }
       </div>
