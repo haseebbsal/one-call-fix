@@ -66,7 +66,7 @@ export default function PublicNavBar() {
           {display && <NavbarItem>
             <Link
               href="/homeowner/post-a-job"
-              className="text-sm font-semibold"
+              className={`text-sm font-semibold ${pathname=='/homeowner/post-a-job'?'text-color-5':""} hover:text-color-5`}
             >
               POST A JOB
             </Link>
@@ -94,7 +94,7 @@ export default function PublicNavBar() {
               return display && <NavbarItem>
                 <Link
                   href="/homeowner/post-a-job"
-                  className="text-sm font-semibold"
+                  className={`text-sm font-semibold ${pathname==item.link?'text-color-5':""} hover:text-color-5`}
                 >
                   POST A JOB
                 </Link>
@@ -104,7 +104,7 @@ export default function PublicNavBar() {
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
                 // color="foreground"
-                className="text-lg font-semibold !text-red-500"
+                className={`text-sm font-semibold ${pathname==item.link?'text-color-5':""} hover:text-color-5`}
                 href={item.link}
               >
                 {item.title}

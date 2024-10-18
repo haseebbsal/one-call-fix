@@ -174,10 +174,10 @@ export default function EditProfile(datas:any) {
       const formData=new FormData()
       // console.log('services',services)
       // formData.append('servicesOffered',services as any)
-      services.forEach(item => {
-        if(item){
-
-          formData.append('servicesOffered', item);
+      services.forEach((item,index) => {
+        if(item.trim()){
+  
+          formData.append(`servicesOffered[${index}]`, item);
         }
        })
       //  formData.append('servicesOffered', ' ');
@@ -223,10 +223,10 @@ export default function EditProfile(datas:any) {
 
     console.log('payload',payload)
     const formData=new FormData()
-    services.forEach(item => {
-      if(item){
+    services.forEach((item,index) => {
+      if(item.trim()){
 
-        formData.append('servicesOffered', item);
+        formData.append(`servicesOffered[${index}]`, item);
       }
      })
       // formData.append('servicesOffered',services as any)
