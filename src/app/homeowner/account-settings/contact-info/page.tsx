@@ -112,7 +112,11 @@ export default function ContactInfo() {
             // defaultValue={user.phone}
             placeholder="001122114400"
             control={control}
-            icon={<FaEdit color="#2BABFB" />}
+            id={'phone'}
+            icon={<label className="cursor-pointer" onClick={(e)=>{
+              document.getElementById('phone')?.focus()
+              
+            }}><FaEdit color="#2BABFB" /></label>}
             rules={{
               required: "Phone Number is required",
             }}
@@ -123,12 +127,17 @@ export default function ContactInfo() {
             First Name
           </h3>
           <BaseInput
+          id={'firstName'}
             name="firstName"
             type="text"
+            
             // defaultValue={user.firstName}
             placeholder="First Name Here"
             control={control}
-            icon={<FaEdit color="#2BABFB" />}
+            icon={<label className="cursor-pointer" onClick={(e)=>{
+              document.getElementById('firstName')?.focus()
+              
+            }}><FaEdit color="#2BABFB" /></label>}
             rules={{
               required: "First Name is required",
             }}
@@ -141,9 +150,14 @@ export default function ContactInfo() {
           <BaseInput
             name="lastName"
             type="text"
+            id={'lastName'}
             placeholder="Last Name Here"
             control={control}
-            icon={<FaEdit color="#2BABFB" />}
+
+            icon={<label className="cursor-pointer" onClick={(e)=>{
+              document.getElementById('lastName')?.focus()
+              
+            }}><FaEdit color="#2BABFB" /></label>}
             rules={{
               required: "Last Name is required",
             }}
