@@ -48,25 +48,7 @@ export default function RefundRequest(){
     })
     const getJobsQuery=useQuery(['refundJobs',search],({queryKey})=>axiosInstance.get(`/job/trades-person/refunds?page=1&limit=6&${queryKey[1] && `searchQuery=${queryKey[1]}`}`))
     const submit=(data:FieldValues)=>{
-        // if(!job || !getValues('files') || !getValues('description')){
-        //     setInvalid(true)
-        //     setSubmitted(true)
-        //     // return 
-        // }
-        // if(!getValues('description')){
-        //     setError('description',{message:"Enter Description"})
-        // }
-        // if(!getValues('files')){
-        //     setError('files',{message:"Select Files"})
-        // }
-        // if(job && getValues('files') && getValues('description')){
-        //     const formdata=new FormData()
-            // formdata.append('job',job)
-            // formdata.append('description',data.description)
-            // formdata.append('files',data.files)
-        //     setSubmitted(false)
-        //     refundMutation.mutate(formdata)
-        // }
+        
         const formdata=new FormData()
         formdata.append('job',data.job)
         formdata.append('description',data.description)
@@ -83,12 +65,11 @@ export default function RefundRequest(){
     console.log(getUserQuery.data?.data.data.profileCompletion)
     const {field,fieldState}=useController({control,name:"job",rules:{"required":"Select Job"}})
 
-    // console.log('field',field.value,error,invalid)
     return (
         <>
-        <div className="p-4">
+        <div className="py-8 px-8">
         <h1 className="text-xl font-semibold">Refund Requests</h1>
-        <form ref={formRef as any} onSubmit={handleSubmit(submit)} className="mt-4 w-1/2 flex flex-col gap-4">
+        <form ref={formRef as any} onSubmit={handleSubmit(submit)} className="mt-8 w-1/2 flex flex-col gap-4">
         <Autocomplete
             // {...field}
             isInvalid={!!fieldState.error}
