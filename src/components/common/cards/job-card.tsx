@@ -13,7 +13,7 @@ export default function JobCard({ job }: Props) {
 
   return (
     <div className="bg-color-23 rounded-2xl p-2.5">
-      <div className="pb-2 flex items-center gap-2">
+      <div className="pb-2 flex sm:flex-nowrap flex-wrap items-center gap-2">
         <span className="font-[300] text-xs text-color-6">Job ID</span>
         <p className="font-medium text-[15px] text-color-6">{job._id}</p>
       </div>
@@ -35,14 +35,14 @@ export default function JobCard({ job }: Props) {
           <p className="text-color-6 text-xs font-[300]">{job.chat.issue}</p>
         </div>
       </div>
-      <div className="flex justify-between gap-2">
+      <div className="flex sm:justify-between sm:flex-nowrap flex-wrap gap-2">
         <div className="flex flex-col gap-1">
           <h3 className="text-[12px] text-color-6">Job Type</h3>
           <h2 className="text-base font-medium text-color-6">
             {TRADES[job?.chat.trade]}
           </h2>
         </div>
-        <div className="flex flex-col gap-1 mx-auto">
+        <div className="flex flex-col gap-1 sm:mx-auto">
           <h3 className="text-[12px] text-color-6">Trade People Applied</h3>
           <h2 className="text-base font-medium text-color-6">
             {job?.tradesPersonApplied} Trade People Applied
