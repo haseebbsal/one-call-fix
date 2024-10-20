@@ -81,7 +81,7 @@ export default function Jobs(datas:any) {
               Job Details
             </h5>
             <div className="flex flex-col gap-2.5 w-1/2">
-              <div className="flex">
+              <div className="flex flex-wrap gap-2" >
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Job ID:
                 </h6>
@@ -107,8 +107,8 @@ export default function Jobs(datas:any) {
               </div>
             </div>
           </div>
-          <div>
-            <ul className="px-7">
+          <div className="flex flex-col gap-2">
+            <ul className="px-7 flex flex-col gap-2">
               {individualJob.data?.data?.data.chat.questionAnswers?.map((chat: any, index: any) => (
                 <li
                   key={index}
