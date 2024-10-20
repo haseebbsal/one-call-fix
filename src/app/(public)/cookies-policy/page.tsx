@@ -4,7 +4,7 @@ import PageTopSection from "@/components/modules/widgets/page-top-section";
 
 const pageTopSection = {
   title: "COOKIES POLICY",
-  text: "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
+  text: "",
 };
 
 const beginning1=[

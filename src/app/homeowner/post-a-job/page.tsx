@@ -339,7 +339,7 @@ console.log('addressValue',getValues('address'))
         
           <PageTopSection pageTopSection={selectTopSection} />
           <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
-            <div className="bg-white max-w-[280px] py-5 px-4 border-color-8 border shadow-xs flex flex-col items-center gap-7">
+            <div className="bg-whitemax-w-[400px]  py-5 px-16 border-color-8 border shadow-xs flex flex-col items-center gap-7">
               <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
                 Electrician
               </h4>
@@ -357,10 +357,10 @@ console.log('addressValue',getValues('address'))
                 type="button"
                 onClick={() => handleTradeChange(TRADES.ELECTRICIAN)}
               >
-                I Need Electrician
+                Electrician
               </BaseButton>
             </div>
-            <div className="bg-white max-w-[280px] py-5 px-4 border-color-8 border shadow-xs flex flex-col items-center gap-7">
+            <div className="bg-white max-w-[400px]  py-5 px-16 border-color-8 border shadow-xs flex flex-col items-center gap-7">
               <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
                 Plumber
               </h4>
@@ -381,7 +381,7 @@ console.log('addressValue',getValues('address'))
                 type="button"
                 onClick={() => handleTradeChange(TRADES.PLUMBER)}
               >
-                I Need Plumber
+                Plumber
               </BaseButton>
             </div>
           </div>
