@@ -37,7 +37,8 @@ interface JobListSectionProps {
   onJobClick?: (jobId: string) => void;
   type:string;
   setJob?:any
-  savedCard?:any
+  savedCard?:any,
+  job?:any
 }
 
 export default function JobListSection({
@@ -50,6 +51,7 @@ export default function JobListSection({
   errorMessage,
   loadMoreData,
   savedCard,
+  job,
   onJobClick, // <-- Added this prop
 }: JobListSectionProps) {
   // const dispatch = useAppDispatch();
@@ -139,7 +141,7 @@ console.log('card',savedCard)
         ""
       )}
       <h2 className="text-xl font-semibold mb-4 text-color-17">{title}</h2>
-      <section className="flex-1 p-4 sm:p-8 rounded-md border bg-color-16 text-left text-gray-600">
+      <section className="flex-1  rounded-md border bg-color-16 text-left text-gray-600">
         {innerTitle && (
           <h2 className="text-lg font-medium mb-6 text-color-17">
             {innerTitle}
@@ -166,7 +168,7 @@ console.log('card',savedCard)
               )}
               {/* job div */}
               <div
-                className={`mb-8 last:mb-0 gap-2 flex ${type=='1'?"cursor-text":"cursor-pointer"} flex-col sm:flex-row items-start border-b border-color-19`}
+                className={`mb-2 ${e._id==job?._id?"bg-[#F9FBFF] border-l-[0.2rem] border-color-9 border-b-0":"bg-white"} p-4 sm:p-8 last:mb-0 gap-2 flex ${type=='1'?"cursor-text":"cursor-pointer"}  flex-col sm:flex-row items-start border-b border-color-19`}
                 onClick={() => {
                   if(setJob){
                     setJob(e)

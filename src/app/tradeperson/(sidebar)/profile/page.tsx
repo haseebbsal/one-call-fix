@@ -46,7 +46,7 @@ export default function ViewProfile() {
       ) : (
         <div className=" p-6 bg-white rounded-lg shadow-sm">
           {/* Profile Section */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-end justify-between">
             <div className="flex items-center space-x-4">
               <Image
               width={50}
@@ -89,7 +89,7 @@ export default function ViewProfile() {
           </div>}
 
           {/* Links Section */}
-          <div className="mt-8 grid grid-cols-2">
+          <div className="mt-8 grid gap-2 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <h4 className="text-xl font-semibold">
                 Link To External Reviews
@@ -113,7 +113,7 @@ export default function ViewProfile() {
           {/* Work Gallery Section */}
           {getUserQuery.data?.data.data.profile.previousJobs.length>0 && <div className="mt-8">
             <h3 className="text-xl font-semibold">Work Gallery</h3>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
                             {getUserQuery.data?.data.data.profile.previousJobs.map((e:any)=>
                             <div className="h-[8rem] w-[5rem]">
                             <Image

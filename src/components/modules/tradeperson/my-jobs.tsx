@@ -15,6 +15,7 @@ export default function MyJobs({jobsInfinite,job,setJob}:{jobsInfinite:any,job:a
       setJob={setJob}
         type={'4'}
         title=""
+        job={job}
         jobItems={jobsInfinite}
       />
       {/* {job && <JobDetailsSection  jobType="shortlisted" actualJob={job} job={JOB_DETAILS} />} */}

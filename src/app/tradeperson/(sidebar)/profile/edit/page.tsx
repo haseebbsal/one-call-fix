@@ -317,7 +317,7 @@ export default function EditProfile(datas:any) {
         <div className="p-6 bg-white shadow-sm">
           {/* Profile Picture and Name */}
           <form
-            className="flex flex-col w-1/2"
+            className="flex flex-col sm:w-1/2"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-2 items-start">
@@ -467,7 +467,7 @@ export default function EditProfile(datas:any) {
                 <HiPlusCircle className="w-8 h-8" />
               </button>
             </div>
-            <div className="mt-4 flex gap-2 flex-wrap">
+            <div className="mt-4 flex gap-2 flex-wrap w-full">
               {services.map((service, index) => (
 
                 service.trim()!='' && 
@@ -486,7 +486,7 @@ export default function EditProfile(datas:any) {
               ))}
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 w-full">
             <label className="block text-lg font-medium text-black mb-2">
                 About Me
               </label>
@@ -507,7 +507,7 @@ export default function EditProfile(datas:any) {
             </div>
 
             {/* Website URL */}
-            <div className="mt-6">
+            <div className="mt-6 w-full">
               <label className="block text-lg font-medium text-black">
                 Website URL
               </label>
@@ -522,7 +522,7 @@ export default function EditProfile(datas:any) {
             </div>
 
             {/* External Reviews Link */}
-            <div className="mt-6">
+            <div className="mt-6 w-full">
               <label className="block text-lg font-medium text-black">
                 External Reviews Link
               </label>
@@ -540,7 +540,7 @@ export default function EditProfile(datas:any) {
             <label className="block text-lg font-medium text-black">
                 Work Gallery
               </label>
-             <div className="flex gap-4 mt-4 w-full">
+             <div className="flex gap-4 mt-4 w-full flex-wrap">
               {previousWork?.map((e:any)=>
               <div className="relative flex flex-col ">
                 <button type="button" onClick={()=>{

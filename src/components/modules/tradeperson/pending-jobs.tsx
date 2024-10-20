@@ -15,6 +15,7 @@ export default function Pending({jobsInfinite,job,setJob}:{jobsInfinite:any,job:
       setJob={setJob}
         type={'2'}
         title=""
+        job={job}
         jobItems={jobsInfinite}
       />
       {/* {job && <JobDetailsSection  jobType="shortlisted" actualJob={job} job={JOB_DETAILS} />} */}

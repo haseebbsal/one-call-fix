@@ -45,7 +45,7 @@ export default function Jobs(){
             aria-label="Tabs variants"
             fullWidth
             classNames={{
-              tabList: " !pb-0 w-full",
+              tabList: " !pb-0 w-full flex-wrap",
               tab: `pb-[15px] w-fit text-lg group-data-[selected=true]:border-none`,
               tabContent:
                 "group-data-[selected=true]:text-color-9 text-color-20",
@@ -78,7 +78,7 @@ export default function Jobs(){
               {jobsInfinite.isFetching ? (
                 <Loader />
               ) : (
-                <ShortlistedJobs jobsInfinite={jobsInfinite} job={job} setJob={setJob}/>
+                <ShortlistedJobs  jobsInfinite={jobsInfinite} job={job} setJob={setJob}/>
                 // <p>Anything 2</p>
                 
               )}
