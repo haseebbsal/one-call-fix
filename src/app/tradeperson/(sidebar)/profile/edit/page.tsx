@@ -471,10 +471,10 @@ export default function EditProfile(datas:any) {
               {services.map((service, index) => (
 
                 service.trim()!='' && 
-                <div className="flex flex-col">
+                <div className="flex flex-col gap-1">
                   <button type="button" onClick={()=>{
                     setServices(services.filter((e,inde)=>inde!=index))
-                  }} className="text-red-500 ml-auto text-xs !">X</button>
+                  }} className="text-red-500 bg-red-200 p-1 rounded-full ml-auto text-xs !">X</button>
                    <span
                   key={index}
                   className="inline-block bg-blue-600 text-white px-3 py-1 rounded-lg text-lg  mb-2"
