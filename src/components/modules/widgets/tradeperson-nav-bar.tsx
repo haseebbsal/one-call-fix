@@ -24,11 +24,13 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import Cookies from "js-cookie";
 import { config } from "@/_utils/helpers/config";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 interface Props {
   menuItems: sidebarMenuItemType[];
 }
 export default function TradepersonNavBar({ menuItems }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router=useRouter()
 
   const [user,setUser]=useState<any>(null)
   useEffect(()=>{
@@ -43,10 +45,11 @@ export default function TradepersonNavBar({ menuItems }: Props) {
     },
   })
   return (
-    <Navbar
+    <Navbar 
       isBordered
       className="h-full w-full"
       maxWidth="full"
+      isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
       <NavbarContent justify="start">
@@ -107,7 +110,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="bg-color-13">
+      <NavbarMenu  className="bg-color-13">
         <div className="flex justify-center items-center gap-3 p-2">
           <NavbarItem>
             <Image
@@ -194,21 +197,29 @@ export default function TradepersonNavBar({ menuItems }: Props) {
                       {item.subItems.map((subItem, subIndex) => {
                         return (
                           <li key={subIndex}>
-                            <Link
-                              href={subItem.link}
-                              className={`flex items-center font-medium text-sm py-2.5 pl-12 pr-2.5 mr-2.5 rounded-tr-lg rounded-br-lg text-white transition duration-75 hover:bg-color-12`}
+                            <Button
+                            onClick={()=>{
+                            router.push(subItem.link)
+                              setIsMenuOpen(!isMenuOpen)
+                            }}
+                              // href={subItem.link}
+                              className={`flex !bg-transparent items-center font-medium text-sm py-2.5 pl-12 pr-2.5 mr-2.5 rounded-tr-lg rounded-br-lg text-white transition duration-75 hover:bg-color-12`}
                             >
                               {subItem.label}
-                            </Link>
+                            </Button>
                           </li>
                         );
                       })}
                     </ul>
                   </details>
                 ) : item.link?(
-                  <Link
-                    href={item.link}
-                    className={`flex items-center py-2.5 pl-10 pr-2.5 mr-2.5 text-white rounded-tr-lg rounded-br-lg transition-all duration-500 hover:bg-color-12 `}
+                  <Button
+                  onClick={()=>{
+                    router.push(item.link)
+                      setIsMenuOpen(!isMenuOpen)
+                    }}
+                    // href={item.link}
+                    className={`flex !bg-transparent items-center py-2.5 pl-10 pr-2.5 mr-2.5 text-white rounded-tr-lg rounded-br-lg transition-all duration-500 hover:bg-color-12 `}
                   >
                     <Image
                       src={item.icon}
@@ -220,7 +231,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
                     <span className="ms-3 font-medium text-sm">
                       {item.label}
                     </span>
-                  </Link>
+                  </Button>
                 ):<BaseButton
                 isLoading={logOutMutation.isLoading}
                 disabled={logOutMutation.isLoading}
