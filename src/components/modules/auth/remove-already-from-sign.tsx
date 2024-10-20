@@ -50,6 +50,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   mandatoryAnswers?:any,onOpen:any}) {
   const router = useRouter();
   const { isOpen, onOpenChange, onOpen:onOpen2, onClose } = useDisclosure();
+  const { isOpen:isOpen3, onOpenChange:onOpenChange3, onOpen:onOpen3, onClose:onClose3 } = useDisclosure();
+
 
 
   // const dispatch = useAppDispatch();
@@ -95,7 +97,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         createJobMutation.mutate(formData)
       }
 
-      router.push(`/email-verify/${user._id}`)
+      router.push(`/email-verify/${user._id}?job=1`)
 
     },
     onError(error: any) {
@@ -140,7 +142,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
 
         if(data.data.data.user.isApproved){
           if (data.data.data.user.role === ROLES.HOMEOWNER) {
-            router.push("/homeowner/jobs");
+            onClose()
+            onOpen3()
           } else if (data.data.data.user.role === ROLES.TRADESPERSON) {
             router.push("/tradeperson/dashboard");
           } else {
@@ -152,7 +155,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           // }
         }
         else{
-        router.push(`/email-verify/${data.data.data.user._id}`)
+        router.push(`/email-verify/${data.data.data.user._id}?job=1`)
         }
       }
       
@@ -229,6 +232,10 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
     // }
   };
 
+  const closeModel = () => {
+    onClose();
+    router.push('/homeowner/jobs')
+  };
   return (
     <>
     <form
@@ -420,6 +427,28 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         </div>
         
         </BaseModal>
+
+        <BaseModal
+      onClose={()=>router.push('/homeowner/jobs')}
+        isOpen={isOpen3}
+        onOpenChange={onOpenChange3}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Job Created Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={closeModel}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Go To My Account
+          </BaseButton>
+        </div>
+      </BaseModal>
         </>
   );
 }

@@ -17,9 +17,12 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import Cookies from "js-cookie";
 import { ROLES } from "@/_utils/enums";
 import toast from "react-hot-toast";
+import BaseModal from "@/components/common/modal/base-modal";
+import { useDisclosure } from "@nextui-org/modal";
 
 export default function EmailVerification(datas:any) {
   const router = useRouter();
+  const {onOpen,isOpen,onClose,onOpenChange}=useDisclosure()
 
   const cardClientSecretMutation=useMutation(()=>axiosInstance.put('/payment/card'),{
     onSuccess(data) {
@@ -38,7 +41,12 @@ export default function EmailVerification(datas:any) {
       Cookies.set('refreshToken', refreshToken!)
       Cookies.set('userData',localStorage.getItem('userData')!)
       if (user.role === ROLES.HOMEOWNER) {
-        router.push("/homeowner/jobs");
+        if(datas.searchParams.job){
+          onOpen()
+        }
+        else{
+          router.push("/homeowner/jobs"); 
+        }
       } else if (user.role === ROLES.TRADESPERSON) {
         router.push("/tradeperson/dashboard");
       } else {
@@ -107,8 +115,15 @@ export default function EmailVerification(datas:any) {
     // }
   };
 
+  const closeModel = () => {
+    onClose();
+    router.push('/homeowner/jobs')
+  };
+
   return (
-    <section className="bg-color-11 p-6 md:p-10 lg:p-28 flex items-center justify-center">
+    <>
+
+<section className="bg-color-11 p-6 md:p-10 lg:p-28 flex items-center justify-center">
       <div className="pt-4 pb-6 px-5 md:pt-6 md:pb-10 md:px-10 lg:pt-14 lg:pb-32 lg:px-20 border border-[#E1E1E1] bg-white shadow-lg rounded-lg w-full md:max-w-[700px] 2xl:max-w-[800px]">
         <h3 className="text-2xl font-extrabold sm:text-3xl mb-2 text-color-1 uppercase">
           Verify your identity
@@ -134,5 +149,28 @@ export default function EmailVerification(datas:any) {
         )}
       </div>
     </section>
+
+    <BaseModal
+      onClose={()=>router.push('/homeowner/jobs')}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Job Created Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={closeModel}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Go To My Account
+          </BaseButton>
+        </div>
+      </BaseModal>
+    </>
   );
 }
