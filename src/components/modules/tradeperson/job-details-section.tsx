@@ -172,7 +172,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
   }
 
   return (
-    <div className="min-w-[30rem] flex-1 flex flex-col">
+    <div className="sm:min-w-[30rem] w-full flex-1 flex flex-col">
       <h2 className="text-xl font-semibold mb-4 text-color-17">Job Detail</h2>
       <section className="flex-1 bg-white border border-gray-200 rounded-lg dark:bg-color-16">
         <div className="flex flex-col w-full">

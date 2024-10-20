@@ -166,7 +166,7 @@ console.log('card',savedCard)
               )}
               {/* job div */}
               <div
-                className={`mb-8 last:mb-0 flex ${type=='1'?"cursor-text":"cursor-pointer"} flex-col sm:flex-row items-start border-b border-color-19`}
+                className={`mb-8 last:mb-0 gap-2 flex ${type=='1'?"cursor-text":"cursor-pointer"} flex-col sm:flex-row items-start border-b border-color-19`}
                 onClick={() => {
                   if(setJob){
                     setJob(e)
@@ -178,12 +178,12 @@ console.log('card',savedCard)
                 }}
               >
                 <Image
-                  className="mr-4 h-8 w-8 sm:h-16 sm:w-16"
+                  className="mr-4 h-8 w-8 sm:h-16 sm:w-16 "
                   src="/images/job-bell.png"
                   alt="bellProfile Picture"
                 />
                 <div className="flex flex-col w-full">
-                  <div className="mb-1 flex flex-col sm:flex-row justify-between text-gray-600">
+                  <div className="mb-1 flex flex-col gap-2 sm:flex-row justify-between text-gray-600">
                     <div className="flex flex-col gap-1">
                       <h3 className="font-medium">{toTitleCase(e.headline)}</h3>
                       <span className="text-xs sm:text-sm text-color-14">

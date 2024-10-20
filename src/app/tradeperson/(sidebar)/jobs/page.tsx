@@ -38,7 +38,7 @@ export default function Jobs(){
       );
     return (
         <>
-        <div className="w-full flex gap-4">
+        <div className="w-full flex gap-4 sm:flex-nowrap flex-wrap">
             <div className="w-full">
             <Tabs
             variant={"underlined"}
