@@ -534,6 +534,8 @@ console.log('addressValue',getValues('address'))
 
             {!mandatoryQuestionsCompleted && chatId && (
               <>
+              <div className="flex gap-2 justify-center">
+
                 {chatId && (
                   <BaseButton
                     type="button"
@@ -560,6 +562,7 @@ console.log('addressValue',getValues('address'))
                 >
                   Continue
                 </BaseButton>
+                </div>
               </>
             )}
             {/* signup/login */}
