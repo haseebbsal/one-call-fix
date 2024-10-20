@@ -180,7 +180,7 @@ export default function Jobs(datas:any) {
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
           </div>
-          <div className="flex gap-4 mt-12">
+          <div className="flex gap-4 mt-12 sm:flex-nowrap flex-wrap">
             <BaseButton
             as={'link'}
             link={`/homeowner/job/edit?id=${datas.params.jobId}`}
