@@ -9,7 +9,7 @@ export default function SiteFooter() {
       <div className="mx-auto max-w-screen-xl flex flex-wrap px-4 py-16 sm:px-6  lg:px-8">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
           <div className="">
-        <Image width={300} src="/logos/original-logo.png" alt="Logo" />
+        <Image width={200} src="/logos/original-logo.png" alt="Logo" />
 
             <p className="max-w-xs text-color-6 font-bold">
               {FOOTER_TEXT.DESC}
