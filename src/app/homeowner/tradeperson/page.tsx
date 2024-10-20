@@ -48,7 +48,7 @@ export default function Tradeperson(datas:any){
     console.log('offer',offer)
     return (
         <>
-        <section className="mt-20 mb-16 px-16 flex flex-col gap-5">
+        <section className="mt-20 mb-16 px-24 flex flex-col gap-5">
             <div>
                 <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-2">
                 Tradepeople Profile
