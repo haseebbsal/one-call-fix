@@ -83,7 +83,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
         />
       </NavbarContent>
       <NavbarContent className="sm:flex gap-3 mr-10" justify="end">
-        <NavbarItem className="hidden md:block">
+        {/* <NavbarItem className="hidden md:block">
           <Image
             src="/icons/settings.png"
             alt="settings"
@@ -98,7 +98,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
             width={40}
             className="cursor-pointer"
           />
-        </NavbarItem>
+        </NavbarItem> */}
         <NavbarItem className="hidden sm:block">
           <Button
             as={Link}
@@ -111,7 +111,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
       </NavbarContent>
 
       <NavbarMenu  className="bg-color-13">
-        <div className="flex justify-center items-center gap-3 p-2">
+        {/* <div className="flex justify-center items-center gap-3 p-2">
           <NavbarItem>
             <Image
               src="/icons/settings.png"
@@ -128,7 +128,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
               className="cursor-pointer"
             />
           </NavbarItem>
-        </div>
+        </div> */}
 
         <div className="flex items-center p-2 space-x-4 mb-5">
           <Image
