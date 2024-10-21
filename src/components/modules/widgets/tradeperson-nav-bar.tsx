@@ -14,6 +14,8 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/navbar";
 import React, { useEffect, useState } from "react";
+import { MdArrowForwardIos } from "react-icons/md";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 import { sidebarMenuItemType } from "@/_utils/types";
 
@@ -38,6 +40,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
     console.log('user',user)
     setUser(user)
   },[])
+  const [displayVetting,setDisplayVetting]=useState(false)
 
   const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
     onSuccess(data, variables, context) {
@@ -161,8 +164,9 @@ export default function TradepersonNavBar({ menuItems }: Props) {
             <NavbarMenuItem key={`${item}-${index}`}>
               <li>
                 {item.subItems ? (
-                  <details className="group">
+                  <>
                     <summary
+                    onClick={()=>setDisplayVetting(!displayVetting)}
                       className={`flex items-center justify-between py-2.5 pl-10 pr-2.5 mr-2.5 rounded-tr-lg rounded-br-lg  text-base text-white transition duration-75 hover:bg-color-12 cursor-pointer`}
                     >
                       <div className="flex items-center">
@@ -177,41 +181,33 @@ export default function TradepersonNavBar({ menuItems }: Props) {
                           {item.label}
                         </span>
                       </div>
-                      <svg
-                        className="w-3 h-3 transition-transform duration-300 group-open:rotate-180"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 10 6"
-                      >
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="m1 1 4 4 4-4"
-                        />
-                      </svg>
+                      {!displayVetting && <MdArrowForwardIos />}
+                      {displayVetting && <MdKeyboardArrowDown className="text-2xl" />}
+                      
                     </summary>
                     <ul className="flex flex-col gap-2 pt-2">
                       {item.subItems.map((subItem, subIndex) => {
-                        return (
-                          <li key={subIndex}>
-                            <Button
-                            onClick={()=>{
-                            router.push(subItem.link)
-                              setIsMenuOpen(!isMenuOpen)
-                            }}
-                              // href={subItem.link}
-                              className={`flex !bg-transparent items-center font-medium text-sm py-2.5 pl-12 pr-2.5 mr-2.5 rounded-tr-lg rounded-br-lg text-white transition duration-75 hover:bg-color-12`}
-                            >
-                              {subItem.label}
-                            </Button>
-                          </li>
-                        );
+                        if(displayVetting){
+                          return (
+                            
+                            <li key={subIndex}>
+                              <Button
+                              onClick={()=>{
+                              router.push(subItem.link)
+                                setIsMenuOpen(!isMenuOpen)
+                              }}
+                                // href={subItem.link}
+                                className={`flex !bg-transparent items-center font-medium text-sm py-2.5 pl-12 pr-2.5 mr-2.5 rounded-tr-lg rounded-br-lg text-white transition duration-75 hover:bg-color-12`}
+                              >
+                                {subItem.label}
+                              </Button>
+                            </li>
+                          );
+
+                        }
                       })}
                     </ul>
-                  </details>
+                  </>
                 ) : item.link?(
                   <Button
                   onClick={()=>{
