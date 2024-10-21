@@ -110,11 +110,11 @@ export default function SiteFooter() {
         </ul>
       </div>
 
-      <div className="h-14 flex flex-col md:flex-row justify-center md:justify-between items-center bg-color-4 text-white text-center md:text-left px-4 md:px-36">
-        <div className="mb-2 md:mb-0">
+      <div className="h-14 flex flex-col md:flex-row justify-center md:justify-between items-center bg-color-4 text-white text-center md:text-left p-4 md:px-36">
+        <div className="">
           <p>Copyright © 2024 All rights reserved.</p>
         </div>
-        <div className="space-x-2">
+        <div className="gap-2 flex flex-wrap">
           <Link href="/cookies-policy" className="text-white">
             Cookies
           </Link>

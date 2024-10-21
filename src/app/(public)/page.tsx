@@ -29,7 +29,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
       {/* GET STARTED SECTION */}
-      <section className="w-full flex flex-wrap justify-center items-center gap-16 md:mt-12 bg-[url('/shapes/ellipse-bg.png')]">
+      <section className="w-full flex flex-wrap justify-center items-center gap-8 sm:gap-16 md:mt-12 bg-[url('/shapes/ellipse-bg.png')]">
         <div className="mt-12 md:mt-0 md:mb-20">
           <div className="text-center md:text-start">
             <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
@@ -83,7 +83,7 @@ export default function Home() {
           </div>
           <Image src="/images/trustpilot.svg" alt="trustpilot" width={200} height={120} className="object-contain"/>
         </div>
-        <div className="w-64 relative h-96 lg:w-80">
+        <div className="w-64 relative sm:h-96 h-[20rem] lg:w-80">
           <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute" />
           <img
             alt="HomeImage"
@@ -101,8 +101,8 @@ export default function Home() {
       </section>
 
       {/* WORKING SECTION */}
-      <section className="w-full min-h-screen bg-color-4 flex flex-col mt-40 sm:mt-48 md:mt-60 lg:mt-80">
-        <div className="mb-14 mt-48 md:mt-60 custom-md:mt-72">
+      <section className="w-full min-h-max bg-color-4 flex flex-col mt-40 sm:mt-48 md:mt-60 lg:mt-80">
+        <div className="sm:mb-14 sm:mt-48 mt-16 md:mt-60 custom-md:mt-72">
           <h2 className="text-2xl font-extrabold sm:text-4xl text-center text-white mt-10">
             How It Works
           </h2>
@@ -137,7 +137,7 @@ export default function Home() {
               <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
                 <img src={step.imgSrc} alt="step" />
               </div>
-              <div className="text-white text-sm mt-10 mb-10">
+              <div className="text-white text-sm sm:mt-10 sm:mb-10 my-4">
                 <h5 className="text-center font-semibold mb-2">{step.step}</h5>
                 <p className="text-center font-extralight">{step.desc}</p>
               </div>
@@ -220,8 +220,8 @@ export default function Home() {
 
       {/* TRADESPERSON SECTION */}
       <section>
-        <div className="w-full flex flex-wrap justify-center gap-24 mt-10 relative mb-24">
-          <div className="relative order-1 sm:-order-10 sm:mt-0 mt-20">
+        <div className="w-full flex flex-wrap justify-center sm:gap-24 gap-16 mt-10 relative sm:mb-24 mb-4">
+          <div className="relative order-1 sm:-order-10 sm:mt-0 mt-20 sm:h-auto h-[15rem]">
             <img
               src="/shapes/ellipse.png"
               alt="ellipse"
@@ -230,7 +230,7 @@ export default function Home() {
             <img
               src="/images/tradesperson.png"
               alt="tradesperson"
-              className="absolute h-full -top-32 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 "
+              className="absolute h-full sm:-top-32 -top-1/4 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 "
             />
             {/* bsolute h-full -top-36 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 lg:left-64 xl:left-96 */}
           </div>
