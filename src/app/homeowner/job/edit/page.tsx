@@ -136,7 +136,8 @@ export default function EditJob(datas:any){
                 Edit Job Post
                 </h5>
                 {
-                    !getJobQuery.isLoading && mandatoryAnswers.completion && <form  className="p-4 border-2 border-gray-100 rounded-md" onSubmit={handleSubmit(onSubmit)}>
+                    !getJobQuery.isLoading && mandatoryAnswers.completion && <div className="border-2 border-gray-100 rounded-md">
+                      <form  className="p-4 w-1/2 " onSubmit={handleSubmit(onSubmit)}>
                     <div className="my-8">
                     {getJobQuery.data?.data.data && mandatoryQuestionsInitial.map((question:any, index) => (
               <div key={index} className="mb-20">
@@ -244,6 +245,7 @@ export default function EditJob(datas:any){
                     </BaseButton>
                     {/* {error && <p className="text-danger">{error}</p>} */}
       </form>
+      </div>
                 }
                 
             </div>

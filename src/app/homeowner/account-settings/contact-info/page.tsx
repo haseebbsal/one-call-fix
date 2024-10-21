@@ -13,8 +13,12 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useDisclosure } from "@nextui-org/modal";
+import BaseModal from "@/components/common/modal/base-modal";
 
 export default function ContactInfo() {
+  const{isOpen,onClose,onOpenChange,onOpen} =useDisclosure()
+
   // const [user,setUser]=useState({
   //   firstName:'',
   //   lastName:'',
@@ -39,6 +43,7 @@ export default function ContactInfo() {
 
   const changeProfileImgMutation=useMutation((datas:any)=>axiosInstance.putForm('/home-owner',datas),{
     onSuccess(data) {
+      onOpen()
       console.log('change profile picture',data.data)
       // const userData=JSON.parse(Cookies.get('userData')!)
       // const newData={...userData,profilePicture:data.data.data.user.profilePicture}
@@ -80,7 +85,29 @@ export default function ContactInfo() {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <>
+    <BaseModal
+      onClose={onClose}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Profile Updated Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={onClose}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
+      <div className="flex flex-col gap-5">
       <h4 className="text-base lg:text-xl font-bold text-color-6">
         Contact Info
       </h4>
@@ -172,5 +199,7 @@ export default function ContactInfo() {
         {/* {error && <p className="text-danger">{error}</p>} */}
       </form>
     </div>
+    </>
+    
   );
 }

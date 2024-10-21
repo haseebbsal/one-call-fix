@@ -6,7 +6,7 @@ type Feature = {
   desc: string;
 };
 import { MdCancel } from "react-icons/md";
-
+import { FaInfoCircle } from "react-icons/fa";
 
 import { FaCheck } from "react-icons/fa";
 
@@ -40,17 +40,17 @@ export default function FeaturesSection({ features }: FeaturesProps) {
         </h2>
       </div>
       <div className="flex justify-center  flex-wrap px-8 py-2 mb-9">
-      {/* <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-red-200 font-bold text-red-500 shadow-2xl">
-          <p className="text-xl">Other Platforms</p>
-          {feature.map((e)=><div className="flex items-start gap-4 w-full"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
-        </div> */}
+      <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-color-12 font-bold text-white shadow-2xl">
+          <p className="text-xl">Features</p>
+          {feature.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaInfoCircle className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+        </div>
         <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-red-200 font-bold text-red-500 shadow-2xl">
           <p className="text-xl">Other Platforms</p>
-          {otherPlatforms.map((e)=><div className="flex items-start gap-4 w-full"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+          {otherPlatforms.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <MdCancel className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
         </div>
         <div className="flex sm:w-1/3 w-full flex-col gap-2 items-center px-4 sm:px-16 py-4 bg-green-200 font-bold text-green-700 shadow-xl">
           <p className="text-xl">OneCallFix Platform</p>
-          {ourPlatform.map((e)=><div className="flex items-start gap-4 w-full"> <FaCheck className="w-[40%]  sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
+          {ourPlatform.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaCheck className="w-[40%]  sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
         </div>
         
       </div>

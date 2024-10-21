@@ -136,8 +136,8 @@ export default function AccountSettingsLayout({ children }: Props) {
   };
 
   return (
-    <main>
-      <BaseModal
+    <>
+    <BaseModal
       onClose={onClose}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -158,6 +158,8 @@ export default function AccountSettingsLayout({ children }: Props) {
           </BaseButton>
         </div>
       </BaseModal>
+      <main>
+      
       <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 lg:px-16 border border-solid bg-[#FCFCFC] border-color-8 rounded-md">
         <h2 className="text-3xl lg:text-4xl font-bold mb-20 text-left uppercase">
           My Account
@@ -229,5 +231,6 @@ export default function AccountSettingsLayout({ children }: Props) {
         </div>
       </div>
     </main>
+    </>
   );
 }

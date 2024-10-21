@@ -11,15 +11,20 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 import BaseInputPassword from "@/components/common/form/base-password";
+import BaseModal from "@/components/common/modal/base-modal";
+import { useDisclosure } from "@nextui-org/modal";
 
 export default function ContactInfo() {
   // const dispatch = useAppDispatch();
+  const{isOpen,onClose,onOpenChange,onOpen} =useDisclosure()
+
   // const { loading, error } = useAppSelector((state) => state.auth);
 
   const newPasswordMutation=useMutation((data:any)=>axiosInstance.put('/user/password',data),
   {
     onSuccess(data) {
       console.log('new password',data.data)
+      onOpen()
     },
     onError(error:any) {
       if (Array.isArray(error.response.data.message)) {
@@ -58,7 +63,29 @@ export default function ContactInfo() {
   };
 
   return (
-    <div className="flex flex-col">
+    <>
+        <BaseModal
+      onClose={onClose}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Profile Updated Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={onClose}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
+      <div className="flex flex-col">
       <div className="flex flex-col gap-5">
         <h2 className="text-base lg:text-2xl font-bold">Manage Account</h2>
         <h4 className="text-base lg:text-xl font-bold text-color-6">
@@ -142,5 +169,7 @@ export default function ContactInfo() {
         {/* {error && <p className="text-danger">{error}</p>} */}
       </form>
     </div>
+    </>
+    
   );
 }
