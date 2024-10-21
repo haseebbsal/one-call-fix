@@ -76,10 +76,11 @@ export default function Feedback() {
                             required
                             placeholder="Write Comment..."
                             className="sm:w-1/2 w-full"
+                            
                             // labelPlacement="outside"
                             size="lg"
                             minRows={10}
-                            classNames={{ description: "!h-[15rem]", label: "!font-semibold" }}
+                            classNames={{ description: "!h-[15rem] ", label: "!font-semibold" ,input:"!text-white"}}
                         />
                     </div>
                     {/* <div className="flex flex-col gap-4 ">

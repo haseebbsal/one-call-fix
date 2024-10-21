@@ -69,7 +69,7 @@ export default function RefundRequest(){
         <>
         <div className="py-8 px-8">
         <h1 className="text-xl font-semibold">Refund Requests</h1>
-        <form ref={formRef as any} onSubmit={handleSubmit(submit)} className="mt-8 w-1/2 flex flex-col gap-4">
+        <form ref={formRef as any} onSubmit={handleSubmit(submit)} className="mt-8 sm:w-1/2 flex flex-col gap-4">
         <Autocomplete
             // {...field}
             isInvalid={!!fieldState.error}

@@ -36,7 +36,7 @@ export default function PublicNavBar() {
   },[pathname])
   return (
     <>
-      <Navbar className="h-24" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar isMenuOpen={isMenuOpen} className="h-24" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
