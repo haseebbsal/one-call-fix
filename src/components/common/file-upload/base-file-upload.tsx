@@ -4,15 +4,16 @@ interface FileUploadProps {
   labelClass?: string;
   register?:any,
   name?:string
-  rules?:any
+  rules?:any,
+  extraClass?:string
 }
 
-export default function BaseFileUpload({ labelClass,register,name ,rules}: FileUploadProps) {
+export default function BaseFileUpload({ labelClass,register,name ,rules,extraClass}: FileUploadProps) {
   return (
     <div className="relative w-full">
       <div className="items-center justify-center max-w-xl mx-auto">
         <label
-          className={`flex justify-center w-full h-14 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-full appearance-none cursor-pointer hover:border-gray-400 focus:outline-none ${labelClass}`}
+          className={`flex ${extraClass} justify-center w-full h-14 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-full appearance-none cursor-pointer hover:border-gray-400 focus:outline-none ${labelClass}`}
           id="drop"
         >
           <span className="flex items-center space-x-2">
