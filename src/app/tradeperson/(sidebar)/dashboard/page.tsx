@@ -44,7 +44,7 @@ export default function Dashboard() {
   const getCreditsQuery=useQuery(['credits'],()=>axiosInstance.get('/wallet'))
   return (
     <>
-      <div className="flex flex-wrap items-center justify-center w-full text-gray-800 sm:p-10 bg-gray-100 gap-10">
+      <div className="flex flex-wrap p-4 items-center justify-center w-full text-gray-800 sm:p-10 bg-gray-100 gap-10">
         {getStatsQuery.data?.data && Object.keys(getStatsQuery.data?.data.data).map((item:any, index) => (
           <DashboardCard
             key={index}
