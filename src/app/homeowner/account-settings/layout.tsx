@@ -17,6 +17,8 @@ import toast from "react-hot-toast";
 // import Cropper from "react-easy-crop";
 import { CropperRef, Cropper } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
+import BaseModal from "@/components/common/modal/base-modal";
+import { useDisclosure } from "@nextui-org/modal";
  
 interface Props {
   children: React.ReactNode;
@@ -41,6 +43,7 @@ export default function AccountSettingsLayout({ children }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const [newImage,setNewImage]=useState<any>()
+  const{isOpen,onClose,onOpenChange,onOpen} =useDisclosure()
 
   const onChange = (cropper: CropperRef) => {
 		// let newfile:any=''
@@ -64,6 +67,7 @@ export default function AccountSettingsLayout({ children }: Props) {
 
   const changeProfileImgMutation=useMutation((datas:any)=>axiosInstance.putForm('/home-owner',datas),{
     onSuccess(data) {
+      onOpen()
       console.log('change profile picture',data.data)
       const userData=JSON.parse(Cookies.get('userData')!)
       const newData={...userData,profilePicture:data.data.data.user.profilePicture}
@@ -133,6 +137,27 @@ export default function AccountSettingsLayout({ children }: Props) {
 
   return (
     <main>
+      <BaseModal
+      onClose={onClose}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Profile Updated Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={onClose}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
       <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 lg:px-16 border border-solid bg-[#FCFCFC] border-color-8 rounded-md">
         <h2 className="text-3xl lg:text-4xl font-bold mb-20 text-left uppercase">
           My Account

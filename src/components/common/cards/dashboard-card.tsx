@@ -8,7 +8,7 @@ interface CardProps {
 
 export default function DashboardCard({ icon, title, value }: CardProps) {
   return (
-    <div className="flex items-center p-6 bg-color-16 rounded-3xl w-max  ">
+    <div className="flex items-center p-6 bg-color-16 rounded-3xl min-w-[20rem]  ">
       <div className="flex flex-shrink-0 items-center justify-center h-16 w-16 rounded">
         <Image src={icon} alt={title} />
       </div>
