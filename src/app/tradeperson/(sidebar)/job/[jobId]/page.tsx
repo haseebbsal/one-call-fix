@@ -171,7 +171,7 @@ console.log('data payment',dataPayment)
   return (
 
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-        <BidFormModel setDataPayment={setDataPayment} jobid={datas.params.jobId}  setQuoteModal={setQuoteModal} openModal={quoteModal} />
+        <BidFormModel dataPayment={getUserQuery} setDataPayment={setDataPayment} jobid={datas.params.jobId}  setQuoteModal={setQuoteModal} openModal={quoteModal} />
         <SchedulePickerModal setDataPayment={setDataPayment} setSceduleModal={setSceduleModal} user={user?._id} isOpen={sceduleModal} />
         <BaseModal
           isOpen={isOpen}

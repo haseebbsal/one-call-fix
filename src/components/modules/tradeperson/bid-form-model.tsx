@@ -21,9 +21,10 @@ interface BidFormModelProps {
   openModal: boolean;
   setQuoteModal:React.Dispatch<React.SetStateAction<boolean>>
   jobid?:string
-  setDataPayment?:any
+  setDataPayment?:any,
+  dataPayment:any
 }
-export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid,setDataPayment}) => {
+export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid,setDataPayment,dataPayment}) => {
   const router = useRouter();
   // const dispatch = useAppDispatch();
   // const { data }: any = useAppSelector((state) => state.form);
@@ -78,6 +79,8 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
     // onClose();
     // router.push(`/tradeperson/bid-submission`);
   };
+
+  console.log('dataPayment',dataPayment)
   return (
     <>
       <BaseModal
@@ -101,9 +104,13 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
             <Input
               type="number"
               id="input1"
+              isInvalid={errors.quote as any}
+              errorMessage={errors.quote?.message as any}
               placeholder="$53"
               isRequired
-              {...register("quote", { required: true })}
+              {...register("quote", { required: true ,
+                validate:(value)=>value<=dataPayment.data?.data.data.price || "Quote Should Not Exceed Job Price"
+              })}
             />
           </div>
 
