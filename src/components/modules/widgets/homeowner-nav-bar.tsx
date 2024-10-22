@@ -17,8 +17,9 @@ import { HOMEOWNER_AUTH_MENU_ITEMS } from "@/_utils/constant";
 import BaseButton from "@/components/common/button/base-button";
 import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Cookies from 'js-cookie'
+import { Button } from "@nextui-org/button";
 // import { useAppDispatch } from "@/lib/hooks";
 // import { logoutUser } from "@/lib/features/authSlice";
 
@@ -26,6 +27,7 @@ export default function HomeownerNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [display,setDisplay]=useState(false)
   const pathname=usePathname()
+  const router=useRouter()
   // const dispatch = useAppDispatch();
   const logOutMutation=useMutation(()=>axiosInstance.post('/auth/logout'),{
     onSuccess(data, variables, context) {
@@ -47,11 +49,13 @@ export default function HomeownerNavBar() {
   // const logout = () => {
   //   dispatch(logoutUser({ isValidAccessToken: false }));
   // };
+  console.log('path',pathname)
   return (
     <>
       <Navbar
         className="h-24"
         maxWidth="full"
+        isMenuOpen={isMenuOpen}
         classNames={{
           base: "border border-[(0,0,0,0.1)] shadow",
         }}
@@ -79,17 +83,23 @@ export default function HomeownerNavBar() {
           justify="end"
         >
           {display && <NavbarItem>
-            <Link
-              href="/homeowner/post-a-job"
-              className="text-sm font-semibold"
+            <Button
+            onClick={()=>{
+              router.push("/homeowner/post-a-job")
+                // setIsMenuOpen(!isMenuOpen)
+              }}
+              className={`text-sm font-semibold bg-transparent p-0 ${pathname=="/homeowner/post-a-job"?"!text-color-9":""}`}
             >
               POST A JOB
-            </Link>
+            </Button>
           </NavbarItem>}
           <NavbarItem>
-            <Link href="/homeowner/jobs" className="text-sm font-semibold">
+            <Button onClick={()=>{
+                router.push("/homeowner/jobs" )
+                  // setIsMenuOpen(!isMenuOpen)
+                }} className={`text-sm font-semibold bg-transparent p-0 ${pathname=="/homeowner/jobs"?"!text-color-9":""}`}>
               MY JOB
-            </Link>
+            </Button>
           </NavbarItem>
           <NavbarItem className="mr-5" 
           >
@@ -111,8 +121,12 @@ export default function HomeownerNavBar() {
           </NavbarItem>
           <NavbarItem>
             <BaseButton
-              as="link"
-              link="/homeowner/account-settings"
+              // as="link"
+              onClick={()=>{
+                router.push("/homeowner/account-settings")
+                  // setIsMenuOpen(!isMenuOpen)
+                }}
+              // link="/homeowner/account-settings"
               extraClass="!text-base w-[265px] !max-w-full !text-color-4 bg-transparent font-semibold border-3 border-black px-10"
             >
               MY ACCOUNT
@@ -128,13 +142,17 @@ export default function HomeownerNavBar() {
                   return (
                 <NavbarMenuItem key={`${item}-${index}`}>
                   
-                  <Link
+                  <Button
+                  onClick={()=>{
+                    router.push(item.link)
+                      setIsMenuOpen(!isMenuOpen)
+                    }}
                     // color="foreground"
-                    className="text-lg font-semibold"
+                    className={`text-lg font-semibold bg-transparent p-0 ${pathname==item.link?"!text-color-9":""}`}
                     href={item.link}
                   >
                     {item.title}
-                  </Link>
+                  </Button>
                 </NavbarMenuItem>
               )
                 }
@@ -144,28 +162,20 @@ export default function HomeownerNavBar() {
                 return (
                   <NavbarMenuItem key={`${item}-${index}`}>
                     
-                    <Link
+                    <Button
+                    onClick={()=>{
+                      router.push(item.link)
+                        setIsMenuOpen(!isMenuOpen)
+                      }}
                       // color="foreground"
-                      className="text-lg font-semibold"
+                      className={`text-lg font-semibold bg-transparent p-0 ${pathname==item.link?"!text-color-9":""}`}
                       href={item.link}
                     >
                       {item.title}
-                    </Link>
+                    </Button>
                   </NavbarMenuItem>
                 )
               }
-              return (
-                <NavbarMenuItem key={`${item}-${index}`}>
-                  
-                  <Link
-                    // color="foreground"
-                    className="text-lg font-semibold"
-                    href={item.link}
-                  >
-                    {item.title}
-                  </Link>
-                </NavbarMenuItem>
-              )
             }
             else{
               return (
