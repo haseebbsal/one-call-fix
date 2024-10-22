@@ -572,7 +572,7 @@ export default function EditProfile(datas:any) {
 
 
       
-             <label htmlFor="work" className="block bg-color-9 text-white text-center p-4 rounded-full mt-2 cursor-pointer relative">
+             <label htmlFor="work" className="block bg-color-9 text-white text-center p-2 rounded-full mt-2 cursor-pointer relative">
               Add Work Gallery
               <input {...register('previousJobs' as any)} id="work" type="file" accept=".jpeg,.png,.jpg" className="absolute invisible" multiple onChange={(e)=>{
                 const newFiles=(e.target.files)
@@ -591,6 +591,7 @@ export default function EditProfile(datas:any) {
               isLoading={editTradepersonMutation.isLoading}
               disabled={editTradepersonMutation.isLoading}
                 type="submit"
+                extraClass=" text-lg"
                 // className="px-12 py-4 text-lg text-white bg-blue-500 rounded-full hover:bg-blue-600"
               >
                 Save Profile
