@@ -12,7 +12,7 @@ export default function JobCard({ job }: Props) {
   }
 
   return (
-    <div className="bg-color-23 rounded-2xl p-2.5">
+    <div className="bg-color-23 rounded-2xl p-4">
       <div className="pb-2 flex sm:flex-nowrap flex-wrap items-center gap-2">
         <span className="font-[300] text-xs text-color-6">Job ID</span>
         <p className="font-medium text-[15px] text-color-6">{job._id}</p>
