@@ -80,7 +80,7 @@ export default function Feedback() {
                             // labelPlacement="outside"
                             size="lg"
                             minRows={10}
-                            classNames={{ description: "!h-[15rem] ", label: "!font-semibold" ,input:"!text-white"}}
+                            classNames={{ description: "!h-[15rem] ", label: "!font-semibold" ,input:""}}
                         />
                     </div>
                     {/* <div className="flex flex-col gap-4 ">

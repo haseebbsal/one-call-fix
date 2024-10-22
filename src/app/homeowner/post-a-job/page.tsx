@@ -44,7 +44,7 @@ type Issue={
 }
 const selectTopSection = {
   title: "SELECT YOUR TRADEPEOPLE",
-  text: "Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet, cons tetuer",
+  text: "",
 };
 
 

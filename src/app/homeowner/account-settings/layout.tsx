@@ -174,14 +174,14 @@ export default function AccountSettingsLayout({ children }: Props) {
                 id="fileInput"
                 className="hidden"
               />
-              {!newImage && <div className="rounded-full h-[8rem] w-[8rem] flex items-center justify-center p-5 bg-[#C2C2C2] border border-color-8">
-                 <img className="w-full h-full object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
+              {!newImage && <div className="rounded-full h-[8rem] w-[8rem] flex items-center justify-center p-[0.02rem] bg-[#C2C2C2] border border-color-8">
+                 <img className="w-full h-full rounded-full  object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
               </div>}
               {newImage && <div className="flex flex-col gap-2">
                 <Cropper
                 src={newImage}
                 onChange={onChange}
-                className={'cropper rounded-full h-[8rem] w-[8rem] p-5 !bg-[#C2C2C2] border border-color-8'}
+                className={'cropper rounded-full h-[20rem] w-[20rem]   border border-color-8'}
                 />
                 <BaseButton type="button" onClick={()=>{
                   setNewImage(null)
