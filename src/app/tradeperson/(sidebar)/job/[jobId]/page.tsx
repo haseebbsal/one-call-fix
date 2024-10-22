@@ -180,18 +180,18 @@ console.log('data payment',dataPayment)
           header=""
           modalHeaderImage="/images/modal-danger.png"
         >
-          <div className="flex flex-col items-center mb-7">
+          <div className="flex flex-col items-center mb-7 gap-2">
             <h1 className="font-bold text-[23px]">
               Would you like to provide a quote?
             </h1>
             <h5 className="text-color-20 text-sm lg:text-base pb-4 text-center">
               Offering an estimated quote is more likely to get you shortlisted
             </h5>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-2 ">
               <BaseButton
                 type="button"
                 onClick={() => qouteCecern(QuoteType.Direct)}
-                extraClass="bg-color-9 w-[220px] text-white"
+                extraClass="bg-color-9 !px-16 text-white"
               >
                 Yes
               </BaseButton>
@@ -199,7 +199,7 @@ console.log('data payment',dataPayment)
                 type="button"
                 variant="bordered"
                 onClick={() => qouteCecern(QuoteType.HomeVisit)}
-                extraClass="w-[220px] text-white"
+                extraClass=" !px-16  text-white"
               >
                 No
               </BaseButton>
