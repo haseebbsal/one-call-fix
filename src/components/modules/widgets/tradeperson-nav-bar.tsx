@@ -113,7 +113,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu  className="bg-color-13">
+      <NavbarMenu  className="bg-color-13 !h-auto">
         {/* <div className="flex justify-center items-center gap-3 p-2">
           <NavbarItem>
             <Image
@@ -159,7 +159,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
           />
         </div>
 
-        <ul className="space-y-4 font-medium">
+        <ul className="space-y-4 font-medium h-[57%] overflow-auto">
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <li>

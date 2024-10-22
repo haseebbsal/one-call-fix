@@ -67,7 +67,7 @@ export default function AccountSettingsLayout({ children }: Props) {
 
   const changeProfileImgMutation=useMutation((datas:any)=>axiosInstance.putForm('/home-owner',datas),{
     onSuccess(data) {
-      onOpen()
+      // onOpen()
       console.log('change profile picture',data.data)
       const userData=JSON.parse(Cookies.get('userData')!)
       const newData={...userData,profilePicture:data.data.data.user.profilePicture}
@@ -183,7 +183,7 @@ export default function AccountSettingsLayout({ children }: Props) {
                 onChange={onChange}
                 className={'cropper rounded-full h-[8rem] w-[8rem] p-5 !bg-[#C2C2C2] border border-color-8'}
                 />
-                <BaseButton onClick={()=>{
+                <BaseButton type="button" onClick={()=>{
                   setNewImage(null)
                   uploadImageToDB()
                 }}>Crop</BaseButton>

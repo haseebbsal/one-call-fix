@@ -180,11 +180,11 @@ export default function Jobs(datas:any) {
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
           </div>
-          <div className="flex gap-4 mt-12 sm:flex-nowrap flex-wrap">
+          <div className="flex gap-4 mt-12 sm:flex-nowrap justify-center sm:justify-start flex-wrap">
             <BaseButton
             as={'link'}
             link={`/homeowner/job/edit?id=${datas.params.jobId}`}
-            extraClass="!min-w-[12rem]"
+            extraClass="!min-w-[12rem] !text-lg"
               // variant="solid"
               // radius="full"
               // className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
