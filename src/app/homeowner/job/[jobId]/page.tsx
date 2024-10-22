@@ -97,12 +97,21 @@ export default function Jobs(datas:any) {
                   {TRADES[individualJob.data?.data?.data.chat.trade]}
                 </p>
               </div>
+
               <div className="flex">
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Trade People Applied:
                 </h6>
                 <p className="flex-1 text-color-6 text-[15px] font-semibold">
                   {individualJob.data?.data?.data.bidCount}
+                </p>
+              </div>
+              <div className="flex">
+                <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
+                  Completion:
+                </h6>
+                <p className="flex-1 text-color-6 text-[15px] font-semibold">
+                  {individualJob.data?.data?.data.completion}
                 </p>
               </div>
             </div>

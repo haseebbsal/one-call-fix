@@ -252,6 +252,12 @@ console.log('data payment',dataPayment)
           </h3>
           <p className="text-gray-700 mt-2">{getUserQuery.data?.data.data.address.city} {getUserQuery.data?.data.data.address.country}</p>
         </div>
+        <div className="mb-6">
+          <h3 className="text-sm  text-gray-600">
+            Completion
+          </h3>
+          <p className="text-gray-700 mt-2">{getUserQuery.data?.data.data.completion} </p>
+        </div>
 
         <div className="flex flex-col gap-2 items-start justify-between">
             <p>Lead Fee</p>
