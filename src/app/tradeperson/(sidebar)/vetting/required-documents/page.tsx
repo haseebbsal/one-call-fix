@@ -15,7 +15,7 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 export default function RequiredDocuments() {
-  const { control,register,handleSubmit } = useForm();
+  const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
   const queryClient=useQueryClient()
   useEffect(()=>{
@@ -44,15 +44,15 @@ export default function RequiredDocuments() {
   function onSubmit(data:FieldValues){
     console.log('values',data)
     console.log(Object.entries(data))
-    const filterData=Object.entries(data).filter((e:any[])=>e[1].length)
+    const filterData=Object.entries(data).filter((e:any[])=>e[1].name)
     const formData=new FormData()
     filterData.forEach((e)=>{
-      formData.append(e[0],e[1][0])
+      formData.append(e[0],e[1])
     })
 
-    formData.append('penis','daddy')
+    // formData.append('penis','daddy')
 
-    console.log('formdata',formData.get('eicrDocumentation'))
+    // console.log('formdata',formData.get('eicrDocumentation'))
     updateProfileMutation.mutate(formData)
     // console.log(filterData)
   }
@@ -69,7 +69,7 @@ export default function RequiredDocuments() {
                 title="ID (Passport, Driving License)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.identification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -77,7 +77,7 @@ export default function RequiredDocuments() {
                 title="Part P Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.partPQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -85,7 +85,7 @@ export default function RequiredDocuments() {
                 title="17th or 18th Edition Wiring Regulations (BS 7671) Certificate"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -93,7 +93,7 @@ export default function RequiredDocuments() {
                 title="EICR documentation (e.g. City and Guilts 2391-52)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseFileUpload>
+                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">

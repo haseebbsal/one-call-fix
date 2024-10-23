@@ -1,15 +1,22 @@
-import React from "react";
+'use client'
+import { config } from "@/_utils/helpers/config";
+import Image from "next/image";
+import React, { useState } from "react";
 
 interface FileUploadProps {
   labelClass?: string;
   register?:any,
   name?:string
   rules?:any,
-  extraClass?:string
+  extraClass?:string,
+  currentValue:string,
+  setValue:any
 }
 
-export default function BaseFileUpload({ labelClass,register,name ,rules,extraClass}: FileUploadProps) {
+export default function BaseFileUpload({ labelClass,register,name ,rules,extraClass,currentValue,setValue}: FileUploadProps) {
+  const [imageSrc,setImageSrc]=useState<null| string>(null)
   return (
+    <div className="flex flex-col gap-2">
     <div className="relative w-full">
       <div className="items-center justify-center max-w-xl mx-auto">
         <label
@@ -26,12 +33,23 @@ export default function BaseFileUpload({ labelClass,register,name ,rules,extraCl
           <input 
             type="file"
             {...register(`${name}`,rules)}
+            onChange={(e:any)=>{
+              const file=e.target.files[0]
+              setImageSrc(URL.createObjectURL(file))
+              setValue(name,file)
+              
+            }}
+            accept=".jpeg,.jpg,.png"
             // name="file_upload"
             className="hidden"
             // accept="image/png,image/jpeg"
           />
         </label>
       </div>
+    </div>
+    <div className="">
+      {(currentValue || imageSrc) &&   <Image className="object-contain" src={imageSrc?imageSrc:`${config.mediaURL}/${currentValue}`} alt='doc' width={200} height={200}/>}
+    </div>
     </div>
   );
 }
