@@ -47,6 +47,106 @@ export default function ProfileCompletion({data}:{data:any}) {
             </Link>
           </li>
         ))}
+        {
+          data?.profile.servicesOffered.length>0? <li
+          className={`flex line-through decoration-color-4`}
+        >
+          <p
+            // href="#"
+            // href="/tradeperson/vetting/required"
+            className={`  "text-base font-normal leading-tight text-color-4`}
+          >
+            Services Offered
+          </p>
+        </li>:
+        <li
+        className={`flex `}
+      >
+        <Link
+          // href="#"
+          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+          className={`text-base font-normal leading-tight text-color-4`}
+        >
+                      Services Offered
+
+        </Link>
+      </li>
+        }
+        {
+          !data?.user.profilePicture.includes('placeholder')? <li
+          className={`flex line-through decoration-color-4`}
+        >
+          <p
+            // href="#"
+            // href="/tradeperson/vetting/required"
+            className={`  "text-base font-normal leading-tight text-color-4`}
+          >
+            Upload Profile Photo
+          </p>
+        </li>:
+        <li
+        className={`flex `}
+      >
+        <Link
+          // href="#"
+          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+          className={`text-base font-normal leading-tight text-color-4`}
+        >
+                      Upload Profile Photo
+
+        </Link>
+      </li>
+        }
+        {
+          data?.profile.previousJobs.length>0? <li
+          className={`flex line-through decoration-color-4`}
+        >
+          <p
+            // href="#"
+            // href="/tradeperson/vetting/required"
+            className={`  "text-base font-normal leading-tight text-color-4`}
+          >
+            Upload Previous Jobs
+          </p>
+        </li>:
+        <li
+        className={`flex `}
+      >
+        <Link
+          // href="#"
+          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+          className={`text-base font-normal leading-tight text-color-4`}
+        >
+                      Upload Previous Jobs
+
+        </Link>
+      </li>
+        }
+         {
+          data?.profile.address? <li
+          className={`flex line-through decoration-color-4`}
+        >
+          <p
+            // href="#"
+            // href="/tradeperson/vetting/required"
+            className={`  "text-base font-normal leading-tight text-color-4`}
+          >
+            Upload Business Address
+          </p>
+        </li>:
+        <li
+        className={`flex `}
+      >
+        <p
+          // href="#"
+          // href="/tradeperson/vetting/required"
+          className={`  "text-base font-normal leading-tight text-color-4`}
+        >
+          Upload Business Address
+        </p>
+      </li>
+       
+        }
       </ul>
     </>
   );
