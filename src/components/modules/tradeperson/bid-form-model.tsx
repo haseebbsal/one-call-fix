@@ -22,7 +22,7 @@ interface BidFormModelProps {
   setQuoteModal:React.Dispatch<React.SetStateAction<boolean>>
   jobid?:string
   setDataPayment?:any,
-  dataPayment:any
+  dataPayment?:any
 }
 export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteModal,jobid,setDataPayment,dataPayment}) => {
   const router = useRouter();
