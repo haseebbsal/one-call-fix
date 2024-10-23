@@ -61,7 +61,8 @@ export default function AdditionalDocuments() {
         sectionOneChildren={
           <>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <InputWrapper
+              <>
+                <InputWrapper
                 className="mb-8"
                 title="Attach Screenshot Proving You Are Part Of The Competent Persons Register"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
@@ -69,13 +70,7 @@ export default function AdditionalDocuments() {
                 <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="competentPersonRegister"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
              
-              <InputWrapper
-                className="mb-8"
-                title="NVQ Level 3 Qualification"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
-              >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.nvqQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseVettingFileUpload>
-              </InputWrapper>
+              
 
               <InputWrapper
                 className="mb-8"
@@ -83,6 +78,35 @@ export default function AdditionalDocuments() {
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.ealQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper>
+              </>
+
+              {
+                !getUserQuery.data?.data.data.profile.gasSafeRegistered && getUserQuery.data?.data.data.profile.trade==1 && <>
+                <InputWrapper
+                className="mb-8"
+                title="Diploma"
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              >
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.diploma} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="diploma"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper>
+             
+              
+
+              <InputWrapper
+                className="mb-8"
+                title="City Guild Qualification"
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              >
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="cityGuildQualification"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper>
+                </>}
+              <InputWrapper
+                className="mb-8"
+                title="NVQ Level 3 Qualification"
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              >
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.nvqQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper

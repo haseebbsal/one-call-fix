@@ -26,8 +26,6 @@ export default function ProfileCompletion({data}:{data:any}) {
             className={`flex ${data?.profile.documents.required[task] ? "line-through decoration-color-4" : ""}`}
           >
             <p
-              // href="#"
-              // href="/tradeperson/vetting/required"
               className={`${data?.profile.documents.required[task] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
             >
               {task}
@@ -39,7 +37,6 @@ export default function ProfileCompletion({data}:{data:any}) {
             className={`flex ${data?.profile.documents.required[task] ? "line-through decoration-color-4" : ""}`}
           >
             <Link
-              // href="#"
               href="/tradeperson/vetting/required-documents"
               className={`${data?.profile.documents.required[task] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
             >
@@ -52,8 +49,6 @@ export default function ProfileCompletion({data}:{data:any}) {
           className={`flex line-through decoration-color-4`}
         >
           <p
-            // href="#"
-            // href="/tradeperson/vetting/required"
             className={`  "text-base font-normal leading-tight text-color-4`}
           >
             Services Offered
@@ -63,12 +58,10 @@ export default function ProfileCompletion({data}:{data:any}) {
         className={`flex `}
       >
         <Link
-          // href="#"
           href={`/tradeperson/profile/edit?id=${data?.user._id}`}
           className={`text-base font-normal leading-tight text-color-4`}
         >
                       Services Offered
-
         </Link>
       </li>
         }
@@ -77,8 +70,6 @@ export default function ProfileCompletion({data}:{data:any}) {
           className={`flex line-through decoration-color-4`}
         >
           <p
-            // href="#"
-            // href="/tradeperson/vetting/required"
             className={`  "text-base font-normal leading-tight text-color-4`}
           >
             Upload Profile Photo
@@ -88,12 +79,10 @@ export default function ProfileCompletion({data}:{data:any}) {
         className={`flex `}
       >
         <Link
-          // href="#"
           href={`/tradeperson/profile/edit?id=${data?.user._id}`}
           className={`text-base font-normal leading-tight text-color-4`}
         >
                       Upload Profile Photo
-
         </Link>
       </li>
         }
@@ -102,8 +91,6 @@ export default function ProfileCompletion({data}:{data:any}) {
           className={`flex line-through decoration-color-4`}
         >
           <p
-            // href="#"
-            // href="/tradeperson/vetting/required"
             className={`  "text-base font-normal leading-tight text-color-4`}
           >
             Upload Previous Jobs
@@ -113,7 +100,6 @@ export default function ProfileCompletion({data}:{data:any}) {
         className={`flex `}
       >
         <Link
-          // href="#"
           href={`/tradeperson/profile/edit?id=${data?.user._id}`}
           className={`text-base font-normal leading-tight text-color-4`}
         >
@@ -127,8 +113,6 @@ export default function ProfileCompletion({data}:{data:any}) {
           className={`flex line-through decoration-color-4`}
         >
           <p
-            // href="#"
-            // href="/tradeperson/vetting/required"
             className={`  "text-base font-normal leading-tight text-color-4`}
           >
             Upload Business Address
@@ -138,8 +122,6 @@ export default function ProfileCompletion({data}:{data:any}) {
         className={`flex `}
       >
         <p
-          // href="#"
-          // href="/tradeperson/vetting/required"
           className={`  "text-base font-normal leading-tight text-color-4`}
         >
           Upload Business Address

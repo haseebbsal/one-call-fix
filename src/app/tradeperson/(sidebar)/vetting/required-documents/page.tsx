@@ -72,7 +72,8 @@ export default function RequiredDocuments() {
                 <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.identification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
-              <InputWrapper
+              { getUserQuery.data?.data.data.profile.trade==2 && <>
+                <InputWrapper
                 className="mb-8"
                 title="Part P Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
@@ -96,6 +97,19 @@ export default function RequiredDocuments() {
                 <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
+              </>}
+
+              {
+                getUserQuery.data?.data.data.profile.gasSafeRegistered && getUserQuery.data?.data.data.profile.trade==1 && 
+                <InputWrapper
+                className="mb-8"
+                title="Gas Safe ID"
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              >
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.gasSafeId} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="gasSafeId"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper>
+              }
+             
               <div className="flex flex-wrap gap-6 ml-5">
               <BaseButton isLoading={updateProfileMutation.isLoading} disabled={updateProfileMutation.isLoading} type="submit" extraClass="bg-color-12 text-white">
                   Save Changes
