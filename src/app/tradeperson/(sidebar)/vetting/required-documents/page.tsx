@@ -3,7 +3,6 @@
 import { FieldValues, useForm } from "react-hook-form";
 
 import CustomButton from "@/components/common/button/custom-button";
-import BaseFileUpload from "@/components/common/file-upload/base-file-upload";
 import TradepersonCustomInput from "@/components/common/form/tradeperson-custom-input";
 import InputWrapper from "@/components/modules/dashboard/input-wrapper";
 import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
@@ -14,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
+import BaseVettingFileUpload from "@/components/common/file-upload/vetting-file-upload";
 export default function RequiredDocuments() {
   const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
@@ -69,7 +69,7 @@ export default function RequiredDocuments() {
                 title="ID (Passport, Driving License)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.identification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.identification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -77,7 +77,7 @@ export default function RequiredDocuments() {
                 title="Part P Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.partPQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.partPQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -85,7 +85,7 @@ export default function RequiredDocuments() {
                 title="17th or 18th Edition Wiring Regulations (BS 7671) Certificate"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -93,7 +93,7 @@ export default function RequiredDocuments() {
                 title="EICR documentation (e.g. City and Guilts 2391-52)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">

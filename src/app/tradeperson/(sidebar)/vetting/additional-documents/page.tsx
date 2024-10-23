@@ -3,7 +3,6 @@
 import { FieldValues, useForm } from "react-hook-form";
 
 import CustomButton from "@/components/common/button/custom-button";
-import BaseFileUpload from "@/components/common/file-upload/base-file-upload";
 import TradepersonCustomInput from "@/components/common/form/tradeperson-custom-input";
 import InputWrapper from "@/components/modules/dashboard/input-wrapper";
 import LayoutWrapper from "@/components/modules/dashboard/layout-wrapper";
@@ -14,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
+import BaseVettingFileUpload from "@/components/common/file-upload/vetting-file-upload";
 export default function AdditionalDocuments() {
   const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
@@ -66,7 +66,7 @@ export default function AdditionalDocuments() {
                 title="Attach Screenshot Proving You Are Part Of The Competent Persons Register"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="competentPersonRegister"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="competentPersonRegister"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
              
               <InputWrapper
@@ -74,7 +74,7 @@ export default function AdditionalDocuments() {
                 title="NVQ Level 3 Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.nvqQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.nvqQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -82,7 +82,7 @@ export default function AdditionalDocuments() {
                 title="EAL Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.ealQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.ealQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -90,7 +90,7 @@ export default function AdditionalDocuments() {
                 title="Public Liability Insurance"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.publicLiabilityInsurance} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="publicLiabilityInsurance"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.publicLiabilityInsurance} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="publicLiabilityInsurance"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -98,7 +98,7 @@ export default function AdditionalDocuments() {
                 title="Trustmark"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.trustMark} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="trustMark"  labelClass="h-20"></BaseFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.trustMark} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="trustMark"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">
