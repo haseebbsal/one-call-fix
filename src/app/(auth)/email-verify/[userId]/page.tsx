@@ -72,7 +72,6 @@ export default function EmailVerification(datas:any) {
   // const dispatch = useAppDispatch();
   const [otp, setOtp] = useState("");
   const [customError, setCustomError] = useState("");
-
   // const { error, loading } = useAppSelector((state) => state.auth);
   const { handleSubmit } = useForm({
     defaultValues: {

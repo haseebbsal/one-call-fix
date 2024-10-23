@@ -23,6 +23,7 @@ export default function CustomOTPInput({
 }: CustomOTPInputProps) {
   const [countdownKey, setCountdownKey] = useState(0);
   const [isCountdownActive, setIsCountdownActive] = useState(false);
+  const [date,setDate]=useState(Date.now() + 30000)
 
   const handleResendCode = () => {
     // Logic to resend the code
@@ -31,6 +32,7 @@ export default function CustomOTPInput({
     resendOTPService();
     setCountdownKey((prevKey) => prevKey + 1);
     setIsCountdownActive(true);
+    setDate(Date.now()+30000)
   };
 
   // useEffect(() => {
@@ -41,12 +43,17 @@ export default function CustomOTPInput({
   // Renderer callback with condition
   const renderer = ({ minutes, seconds }: RendererProps) => {
     // Render a countdown
+
+
     return (
       <span>
         {minutes}:{seconds}
       </span>
     );
   };
+
+  console.log('im rendering')
+  console.log('is active',isCountdownActive)
 
   return (
     <div className="flex flex-col items-center my-8 max-w-96">
@@ -56,9 +63,13 @@ export default function CustomOTPInput({
           <Countdown
           
             key={countdownKey}
-            date={Date.now() + 30000}
+            date={date}
+            onTick={()=>setDate(date-1)}
             renderer={renderer}
-            onComplete={() => setIsCountdownActive(false)}
+            onComplete={() => {
+              setDate(Date.now()+30000)
+              setIsCountdownActive(false)
+            }}
           />
         ) : (
           <p
