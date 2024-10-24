@@ -159,58 +159,17 @@ export default function NewGoogleMaps(
   console.log('value',field.value,typeof(field.value))
 //   console.log('address',address)
   return (
-    // <Autocomplete
-    // {...field}
-    //   className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
-    // //   inputValue={fieldState.inputValue}
-    // // allowsCustomValue
-    //   items={getPostalQuery.data?.data.results}
-    //   defaultItems={[]}
-    //   isInvalid={!!error}
-    //   errorMessage={error?.message}
-    //   isLoading={getPostalQuery.isFetching}
-    // //   inputValue={field.value?.postalCode}
-    //   placeholder="Postal Code"
-    // //   selectedKey={fieldState.selectedKey}
-    //   variant="bordered"
-    //   labelPlacement="outside"
-    //   onInputChange={onInputChange}
-    // //   onBlur={blurring}
-    //   onSelectionChange={onSelectionChange}
-    // >
-    //   {(item:any) => <AutocompleteItem key={item.address_components.find((component:any) =>
-    //     component.types.includes('postal_code'),
-    //   )?.long_name || ""}>{item.address_components.find((component:any) =>
-    //     component.types.includes('postal_code'),
-    //   )?.long_name || ""}</AutocompleteItem>}
-    // </Autocomplete>
+
     <Input {...field}
     className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
-  //   inputValue={fieldState.inputValue}
-  // allowsCustomValue
-    // items={getPostalQuery.data?.data.results}
-    // defaultItems={[]}
       value={typeof(field.value)=='object'?field.value.postalCode:field.value}
-    // value={}
     isInvalid={getPostalQuery.data && !field.value?.postalCode}
     errorMessage={'Enter Valid Postal Code'}
-    // isLoading={getPostalQuery.isFetching}
-  //   inputValue={field.value?.postalCode}
     placeholder="Postal Code"
-  //   selectedKey={fieldState.selectedKey}
     variant="bordered"
     labelPlacement="outside"
     onChange={Changing}
-    // onBlur={()=>{
-    //     console.log('blurr')
-    //     if(address){
-    //         field.onChange(address)
-    //     }
-    //     // console.log('postal',address.postalCode)
-    // }}
-    // onInputChange={onInputChange}
-  //   onBlur={blurring}
-    // onSelectionChange={onSelectionChange}
+
     />
   );
 }

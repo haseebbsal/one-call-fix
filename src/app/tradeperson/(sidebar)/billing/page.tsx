@@ -6,7 +6,7 @@ import {useQuery, useMutation} from 'react-query';
 import Payment from '@/components/user/layout/Payment';
 import SavedPaymentCard from '@/components/user/layout/SavedPaymentCard';
 import {useState} from 'react';
-import {Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button} from "@nextui-org/react";
+import {Modal, ModalBody, ModalContent, ModalHeader, useDisclosure, Button, Select, SelectItem} from "@nextui-org/react";
 import {ImSpinner2} from "react-icons/im";
 import axiosInstance from '@/_utils/helpers/axiosInstance';
 // import { Button } from "@nextui-org/button";
@@ -27,23 +27,54 @@ import { ChevronDownIcon } from "@/components/modules/public/chevron-down-icon";
 import usePagination from "@/hooks/use-pagination";
 import BaseButton from '@/components/common/button/base-button';
 
+enum DateRange {
+  Today = 1,
+  Yesterday = 2,
+  Last_7_Days = 3,
+  Last_30_Days = 4,
+  Last_90_Days = 5,
+  Last_6_Months = 6,
+  Last_1_Year = 7
+}
+
+enum Completion {
+  Completed = 1,
+  NotCompleted = 2,
+}
+
 const column: columnType[] = [
   {
     title: "S.No",
   },
   {
+    title: "Job Description",
+  },
+  {
+    title: "Job Status",
+  },
+  {
     title: "Date",
   },
   {
-    title: "Job Headline",
-  },
-  {
-    title: "Is Completed",
-  },
-  {
-    title: "Amount",
+    title: "Lead Price",
   },
 ];
+
+const animals = [
+  {key: 1, label: "Completed"},
+  {key: 2, label: "Not Completed"},
+];
+
+const newAnimals=[
+  {key: 1, label: "Today"},
+  {key: 2, label: "Yesterday"},
+  {key: 3, label: "Last 7 Days"},
+  {key: 4, label: "Last 30 Days"},
+  {key: 5, label: "Last 90 Days"},
+  {key: 6, label: "Last 6 Months"},
+  {key: 7, label: "Last 1 Year"},
+]
+
 
 const adminData = {
   page: 1,
@@ -124,8 +155,10 @@ export default function UpdateCard() {
     const [clientSecret, setClientSecret] = useState(null);
     const {isOpen, onOpen, onClose} = useDisclosure();
     const [page,setPage]=useState(1)
+    const [date,setDate]=useState<any>('')
+    const [activity,setActivity]=useState<any>('')
 
-    const getPayments=useQuery(['payments',page],({queryKey})=>axiosInstance.get(`/payment/all/trades-person?page=${queryKey[1]}&limit=10`))
+    const getPayments=useQuery(['payments',page,date,activity],({queryKey})=>axiosInstance.get(`/payment/all/trades-person?page=${queryKey[1]}&limit=10${queryKey[2]?`&dateRange=${queryKey[2]}`:''}${queryKey[3]?`&completion=${queryKey[3]}`:''}`))
     const savedCardQuery = useQuery(['savedCard'], () => axiosInstance.get('/payment/card'));
 
     const getClientSecret = useMutation(() => axiosInstance.put('/payment/card'), {
@@ -185,62 +218,54 @@ export default function UpdateCard() {
             </section>
 
             <section className="flex-1 p-4 sm:p-8 rounded-md border bg-color-16 text-left text-gray-600">
-              {/* <div className="flex gap-5 mb-7">
-                <Dropdown>
-                  <DropdownTrigger className="hidden sm:flex">
-                    <Button
-                      endContent={<ChevronDownIcon className="text-small" />}
-                      variant="bordered"
-                      radius="sm"
-                      className="border-2 border-color-12 text-color-12 font-semibold"
-                    >
-                      Date Range
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    disallowEmptySelection
-                    closeOnSelect={false}
-                    selectionMode="multiple"
-                  >
-                    {FILTER_ITEMS.map((item) => (
-                      <DropdownItem key={item.id} className="capitalize">
-                        {item.value}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-                <Dropdown>
-                  <DropdownTrigger className="hidden sm:flex">
-                    <Button
-                      endContent={<ChevronDownIcon className="text-small" />}
-                      variant="bordered"
-                      radius="sm"
-                      className="border-2 border-color-12 text-color-12 font-semibold"
-                    >
-                      Activity
-                    </Button>
-                  </DropdownTrigger>
-                  <DropdownMenu
-                    disallowEmptySelection
-                    closeOnSelect={false}
-                    selectionMode="multiple"
-                  >
-                    {FILTER_ITEMS.map((item) => (
-                      <DropdownItem key={item.id} className="capitalize">
-                        {item.value}
-                      </DropdownItem>
-                    ))}
-                  </DropdownMenu>
-                </Dropdown>
-              </div> */}
-              {/* <div className="flex justify-between mb-4">
-                <span className="text-xs sm:text-sm text-color-14">
-                  Showing Results 1-50 Of 141
-                </span>
-                <span className="text-xs sm:text-sm text-color-14 underline cursor-pointer">
-                  Email Activity Report
-                </span>
-              </div> */}
+              <div className='flex flex-col gap-4'>
+                <div className='flex gap-4'>
+                <Select
+            variant={'bordered'}
+            label="Date Range" 
+            classNames={{label:"font-bold text-[#172066]",trigger:"border-[#172066]",selectorIcon:"text-[#172066]"}}
+            onSelectionChange={(key:any)=>{
+              // console.log(key)
+              setPage(1)
+              if(!key.size){
+                setDate('')
+                return 
+              }
+              // console.log('keyyyy',Number(key.currentKey))
+              setDate(Number(key.currentKey))
+            }}
+            className="w-[10rem]" 
+          >
+            {newAnimals.map((animal) => (
+              <SelectItem key={animal.key}>
+                {animal.label}
+              </SelectItem>
+            ))}
+          </Select>
+          <Select
+            variant={'bordered'}
+            label="Activity" 
+            className="w-[10rem]" 
+            classNames={{label:"font-bold text-[#172066]",trigger:"border-[#172066]",selectorIcon:"text-[#172066]"}}
+            onSelectionChange={(key:any)=>{
+              // console.log(key)
+              setPage(1)
+              if(!key.size){
+                setActivity('')
+                return 
+              }
+              setActivity(Number(key.currentKey))
+            }}
+          >
+            {animals.map((animal) => (
+              <SelectItem key={animal.key}>
+                {animal.label}
+              </SelectItem>
+            ))}
+          </Select>
+                </div>
+                {!getPayments.isFetching && <p className='text-[#718EBF]'>Showing results {page==1?getPayments?.data?.data.data.length?1:0:(page-1)*11}-{page*10<getPayments?.data?.data.total?page*10:getPayments?.data?.data.total} of {getPayments?.data?.data.total}</p>}
+              </div>
               <BaseTable
                 columns={column}
                 page={adminData?.page ?? 1}
@@ -260,25 +285,25 @@ export default function UpdateCard() {
                       </td>
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
+                          {el.job.headline}
+                        </span>
+                      </td>
+                      <td className={` p-2.5 xl:p-5`}>
+                        <span className={`${el.job.isCompleted?"bg-green-200 text-green-400":"bg-blue-200 text-blue-400"} max-w-[8rem] block text-center p-4 rounded-xl truncate  flex justify-start text-xs 2xl:text-sm`}>
+                          {el.job.isCompleted?"Completed":"In-Progress"}
+                        </span>
+                      </td>
+                      <td className={` p-2.5 xl:p-5`}>
+                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
                           {new Date(el.createdAt).toLocaleDateString()}
                         </span>
                       </td>
                       
 
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.job.headline}
-                        </span>
-                      </td>
-                      <td className={` p-2.5 xl:p-5`}>
-                        <span className={`${el.job.isCompleted?"bg-green-200 text-green-400":"bg-red-200 text-red-400"} max-w-[8rem] block text-center p-4 rounded-xl truncate  flex justify-start text-xs 2xl:text-sm`}>
-                          {el.job.isCompleted?"Completed":"Not Completed"}
-                        </span>
-                      </td>
                       
                       <td className={` p-2.5 xl:p-5`}>
                         <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
-                          {el.amount}
+                          ${el.amount}
                         </span>
                       </td>
                     </tr>

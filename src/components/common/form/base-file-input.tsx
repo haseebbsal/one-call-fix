@@ -1,3 +1,4 @@
+import { config } from "@/_utils/helpers/config";
 import { cn } from "@nextui-org/theme";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,8 @@ type BaseFileInputProps<T extends FieldValues> = {
   extraClass?: { inputWrapper?: string; label?: string; input?: string };
   label?: string;
   show?:boolean
+  currentData?:any
+  deleteMedia?:any,
 } & WithRequiredProperty<UseControllerProps<T>, "control">;
 
 const BaseFileInput = <T extends FieldValues>({
@@ -25,9 +28,12 @@ const BaseFileInput = <T extends FieldValues>({
   name,
   extraClass,
   label,
+  currentData,
   rules = {},
-  show=true
+  show=true,
+  deleteMedia
 }: BaseFileInputProps<T>) => {
+  const [apiImages,setApiImages]=useState(currentData)
   const {
     field: { value, onChange },
     fieldState: { invalid, error },
@@ -100,9 +106,10 @@ const BaseFileInput = <T extends FieldValues>({
           <p className="text-sm font-medium truncate" title={file.name}>
             {file.name}
           </p>
-          <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+          {/* <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p> */}
         </div>
         <button
+        type="button"
           onClick={() => removeFile(index)}
           className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
         >
@@ -146,11 +153,54 @@ const BaseFileInput = <T extends FieldValues>({
         online
       </p>}
       
-      {files.length>0 && (
+      
+
+      
+      { (
         <div className="mt-4">
           <div className="flex flex-wrap">
-            {files.map((file, index) => renderPreview(file, index))}
+          {apiImages?.map((j:any,index:number)=>{
+            return (
+                  <div
+              key={index}
+              className="relative w-32 h-32 m-2 border rounded shadow-sm"
+            >
+              <div className="w-full h-32 overflow-hidden">
+                {!j.isVideo && <Image
+              src={`${config.mediaURL}/${j.name}`}
+              alt={j.name}
+              layout="fill"
+              objectFit="cover"
+            />}
+              
+            {j.isVideo && (
+            <video
+              src={`${config.mediaURL}/${j.name}`}
+              className="w-full h-full object-cover"
+            />
+          )}
+              </div>
+              <div className="p-2">
+          <p className="text-sm font-medium truncate" title={j.name}>
+            {j.name}
+          </p>
+          {/* <p className="text-xs text-gray-500"></p> */}
+        </div>
+        <button
+        type="button"
+          onClick={() => {
+            deleteMedia.mutate(j._id)
+            setApiImages(apiImages.filter((e:any)=>e._id!=j._id))
+          }}
+          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+        >
+          ×
+        </button>
+            </div>)
+            })}
+            {files.length>0 && files.map((file, index) => renderPreview(file, index))}
             <button
+            type="button"
               onClick={open}
               className="w-48 h-48 m-2 border-2 border-dashed border-gray-300 rounded flex items-center justify-center"
             >
@@ -159,6 +209,7 @@ const BaseFileInput = <T extends FieldValues>({
           </div>
         </div>
       )}
+      
 
       {invalid && <p className="text-red-500 text-sm mt-1">{error?.message}</p>}
     </div>

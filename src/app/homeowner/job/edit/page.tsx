@@ -8,6 +8,7 @@ import BaseInput from "@/components/common/form/base-input";
 import BaseRadioGroup from "@/components/common/form/base-radio-group";
 import EditGooglePlacesInput from "@/components/common/form/edit-google-place";
 import GooglePlacesInput from "@/components/common/form/google-places-input";
+import NewGoogleMaps from "@/components/common/form/new-google-places";
 import { Modal, ModalBody, ModalContent, useDisclosure } from "@nextui-org/modal";
 import Image from "next/image";
 import { useState } from "react";
@@ -55,10 +56,10 @@ const mandatoryQuestionsInitial: QuestionAnswer[] = [
 
 export default function EditJob(datas:any){
     const {isOpen: isOpen1, onOpen: onOpen1, onOpenChange: onOpenChange1, onClose: onClose1} = useDisclosure();
-    const [mandatoryAnswers,setMandatoryAnswers]=useState<{estimatedBudget:string,completion:string,address:any,headline:string}>({
+    const [mandatoryAnswers,setMandatoryAnswers]=useState<{estimatedBudget:string,completion:string,headline:string}>({
         estimatedBudget:"",
         completion:"",
-        address:"",
+        // address:"",
         headline:""
       })
       const queryCient=useQueryClient()
@@ -67,6 +68,7 @@ export default function EditJob(datas:any){
         onSuccess(data) {
             console.log('updateddd',data.data)
             queryCient.invalidateQueries('homeOwnerJobss')
+            queryCient.invalidateQueries('individualJob')
             onOpen1()
 
         },
@@ -80,22 +82,24 @@ export default function EditJob(datas:any){
       })
     const getJobQuery=useQuery(['individualJob',datas.searchParams.id],({queryKey})=>axiosInstance.get(`/job?jobId=${queryKey[1]}`),{
         onSuccess(data) {
+
+          setValue('address',{
+            city:data?.data.data.address.city,
+            country:data?.data.data.address.country,
+            postalCode:data?.data.data.address.postalCode,
+            latitude:data?.data.data.address.location.coordinates[0],
+            longitude:data?.data.data.address.location.coordinates[1]
+
+        })
             setMandatoryAnswers(
                 {
                     estimatedBudget:data?.data.data.estimatedBudget,
                     completion:data?.data.data.completion,
-                    address:{
-                        city:data?.data.data.address.city,
-                        country:data?.data.data.address.country,
-                        postalCode:data?.data.data.address.postalCode,
-                        latitude:data?.data.data.address.location.coordinates[0],
-                        longitude:data?.data.data.address.location.coordinates[1]
-
-                    },
                     headline:data?.data.data.headline
                 }
             )
         },
+        refetchOnWindowFocus:false
     })
     const { control, handleSubmit, setValue } = useForm<any>();
     // useEffect(() => {
@@ -109,17 +113,17 @@ export default function EditJob(datas:any){
 
     console.log('estimated',mandatoryAnswers)
     function onSubmit(e:FieldValues){
-        // console.log('values',e)
+        console.log('values',e)
         const formData=new FormData()
         formData.append("completion", mandatoryAnswers.completion);
         formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
         formData.append("headline", mandatoryAnswers.headline);
-        formData.append("address[postalCode]", (mandatoryAnswers.address as any).postalCode);
-        formData.append("address[formattedAddress]", (mandatoryAnswers.address as any).formattedAddress);
-        formData.append("address[latitude]", (mandatoryAnswers.address as any).latitude);
-        formData.append("address[longitude]", (mandatoryAnswers.address as any).longitude);
-        formData.append("address[city]", (mandatoryAnswers.address as any).city);
-        formData.append("address[country]", (mandatoryAnswers.address as any).country);
+        formData.append("address[postalCode]", (e.address as any).postalCode);
+        formData.append("address[formattedAddress]", (e.address as any).formattedAddress);
+        formData.append("address[latitude]", (e.address as any).latitude);
+        formData.append("address[longitude]", (e.address as any).longitude);
+        formData.append("address[city]", (e.address as any).city);
+        formData.append("address[country]", (e.address as any).country);
         if(e.files){
             for (const file of e.files) {
                 formData.append("files", file);
@@ -128,16 +132,23 @@ export default function EditJob(datas:any){
         updateJob.mutate(formData)
 
     }
+
+    const deleteJobMediaMutation=useMutation((data:string)=>axiosInstance.delete(`/job/media?jobId=${datas.searchParams.id}&mediaId=${data}`),{
+      onSuccess(data, variables, context) {
+        console.log('deleted media',data)
+        // queryCient.invalidateQueries('individualJob')
+      },
+    })
     return (
         <>
-        <section className="mt-20 mb-16 px-16 flex flex-col gap-5">
+        <section className="mt-20 mb-16 sm:px-16 p-4 flex flex-col gap-5">
             <div>
                 <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-2">
                 Edit Job Post
                 </h5>
                 {
                     !getJobQuery.isLoading && mandatoryAnswers.completion && <div className="border-2 border-gray-100 rounded-md">
-                      <form  className="p-4 w-1/2 " onSubmit={handleSubmit(onSubmit)}>
+                      <form  className="p-4 sm:w-1/2 " onSubmit={handleSubmit(onSubmit)}>
                     <div className="my-8">
                     {getJobQuery.data?.data.data && mandatoryQuestionsInitial.map((question:any, index) => (
               <div key={index} className="mb-20">
@@ -162,22 +173,7 @@ export default function EditJob(datas:any){
                     }
                   )
                   }
-                //   if(isFormCompleted){
-                    // if(question.name=="estimatedBudget"){
-                    //   setMandatoryAnswers((prev:any)=>{
-                    //     return {...prev,estimatedBudget:e}
-                    //   }
-                    // )
-                    // }
-                    // else{
-                    //   setMandatoryAnswers((prev:any)=>{
-                    //     return {...prev,completion:e}
-                    //   }
-                    // )
-                    // }
-                //   }
-                  // console.log(typeof e)
-                //   setCurrentQuestionValue(e)
+                
                 }}
                   name={question.name ?? `question_${index}`} // Ensure unique names if multiple questions
                   control={control}
@@ -187,11 +183,6 @@ export default function EditJob(datas:any){
                     text: option, // Simplified assuming option is a string
                     inline: question.name === "estimatedBudget" ? true : false,
                   }))}
-                //   readonly={
-                //     index < 0
-                //       ? true
-                //       : false
-                //   }
                 />
               </div>
             ))}
@@ -202,14 +193,10 @@ export default function EditJob(datas:any){
                     <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
                         Job Headline
                     </h3>
-                    {/* <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
-                      Give this Job a Headline *
-                    </h3> */}
                     <BaseInput
                       name="headline"
                       type="text"
                       onChangee={setMandatoryAnswers}
-                    //   defaultValue={'yessir'}
                     value={mandatoryAnswers.headline}
                       control={control}
                       radius="sm"
@@ -221,13 +208,14 @@ export default function EditJob(datas:any){
                     <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
                         Job Files
                     </h3>
-                    <BaseFileInput name="files" control={control} />
+                    <BaseFileInput deleteMedia={deleteJobMediaMutation}  currentData={getJobQuery.data?.data.data.media} name="files" control={control} />
                     </div>
                     <div className="my-8">
                     <h3 className="text-sm lg:text-base font-semibold text-color-6 mb-1">
                         Job Location
                     </h3>
-                    <EditGooglePlacesInput
+                    <NewGoogleMaps rules={{ required: "Post Code is required" }} control={control} name="address"/>
+                    {/* <EditGooglePlacesInput
                     changeAddressKey={setMandatoryAnswers}
                       name="address"
                       control={control}
@@ -235,7 +223,7 @@ export default function EditJob(datas:any){
                       rules={(mandatoryAnswers.address as any).postalCode?{}:{ required: "Post Code is required" }}
                       addressKey={getJobQuery.data?.data.data.address}
                       radius="sm"
-                    />
+                    /> */}
                     </div>
 
                     <BaseButton type="submit" 
