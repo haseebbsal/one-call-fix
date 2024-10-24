@@ -34,19 +34,19 @@ export default async function Middleware(request: NextRequest) {
             })
             const { role } = userData
             // if (request.nextUrl.pathname.includes('/login') && role == 'User') {
-            //     return NextResponse.redirect(new URL('/dashboard', request.nextUrl.origin))
+            //     return NextResponse.rewrite(new URL('/dashboard', request.nextUrl.origin))
             // }
             // else if (request.nextUrl.pathname.includes('/login') && role == 'Admin') {
-            //     return NextResponse.redirect(new URL('/admin/dashboard', request.nextUrl.origin))
+            //     return NextResponse.rewrite(new URL('/admin/dashboard', request.nextUrl.origin))
             // }
             if (role == ROLES.HOMEOWNER && !request.nextUrl.pathname.includes('/homeowner')) {
-                return NextResponse.redirect(new URL('/homeowner/jobs', request.nextUrl.origin))
+                return NextResponse.rewrite(new URL('/homeowner/jobs', request.nextUrl.origin))
             }
             else if (role==ROLES.TRADESPERSON && !request.nextUrl.pathname.includes('/tradeperson') ) {
-                return NextResponse.redirect(new URL('/tradeperson/dashboard', request.nextUrl.origin))
+                return NextResponse.rewrite(new URL('/tradeperson/dashboard', request.nextUrl.origin))
             }
             else if (role != ROLES.HOMEOWNER && role != ROLES.TRADESPERSON && !request.nextUrl.pathname.includes('/admin')){
-                return NextResponse.redirect(new URL('/admin/dashboard', request.nextUrl.origin))
+                return NextResponse.rewrite(new URL('/admin/dashboard', request.nextUrl.origin))
             }
         }
         catch {
@@ -67,7 +67,7 @@ export default async function Middleware(request: NextRequest) {
                 console.log('middleware refreshtoken error')
                 const { role } = userData
                 let response; 
-                response = NextResponse.redirect(new URL('/login', request.nextUrl.origin))
+                response = NextResponse.rewrite(new URL('/login', request.nextUrl.origin))
                 response.cookies.delete('accessToken')
                 response.cookies.delete('refreshToken')
                 response.cookies.delete('userData')
@@ -78,7 +78,7 @@ export default async function Middleware(request: NextRequest) {
     }
     else {
         console.log('im here')
-        return NextResponse.redirect(new URL('/login', request.nextUrl.origin))
+        return NextResponse.rewrite(new URL('/login', request.nextUrl.origin))
     }
 }
 
