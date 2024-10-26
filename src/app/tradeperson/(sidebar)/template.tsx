@@ -10,7 +10,6 @@ export default function TradepersonLayout({
   children: React.ReactNode;
 }>) {
   
-  // console.log('im gay')
  
   return (
     <>

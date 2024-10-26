@@ -47,6 +47,15 @@ export default function TradepersonNavBar({ menuItems }: Props) {
       console.log('logout',data.data)
     },
   })
+
+  console.log('im gay')
+  if(window){
+    if(!Cookies.get('accessToken')){
+      console.log('im inn')
+      router.push('/login')
+    }
+  }
+
   return (
     <Navbar 
       isBordered
