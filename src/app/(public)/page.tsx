@@ -113,7 +113,7 @@ export default function Home() {
 
       {/* WORKING SECTION */}
       <section className="w-full min-h-max sm:px-24 bg-color-4 flex flex-col mt-32 sm:mt-48 md:mt-60 lg:mt-80">
-        <div className="sm:mb-14 sm:mt-48 mt-16 md:mt-60 custom-md:mt-72">
+        <div className="sm:mb-14 sm:mt-24 mt-8 md:mt-60 custom-md:mt-[12rem]">
           <h2 className="text-2xl font-extrabold sm:text-4xl text-center text-white mt-10">
             How It Works
           </h2>
