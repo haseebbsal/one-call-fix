@@ -21,6 +21,7 @@ const restrictedUserPaths = ['/homeowner','/tradeperson','/admin']
 export default async function Middleware(request: NextRequest) {
     const cookiesInitialise = cookies()
     const accessToken = cookiesInitialise.get('accessToken')?.value
+    console.log(process.env.penis)
     const refreshToken = cookiesInitialise.get('refreshToken')?.value
     let userData: UserData | any = cookiesInitialise.get('userData')?.value
     console.log('pathname',request.nextUrl.pathname)

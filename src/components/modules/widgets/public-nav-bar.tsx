@@ -36,7 +36,7 @@ export default function PublicNavBar() {
   },[pathname])
   return (
     <>
-      <Navbar isMenuOpen={isMenuOpen} className="h-24" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
+      <Navbar classNames={{wrapper:"sm:px-24 px-4"}} isMenuOpen={isMenuOpen} className="h-24" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -48,14 +48,14 @@ export default function PublicNavBar() {
                 width={200}
                 src="/logos/original-logo.png"
                 alt="Logo"
-                className="sm:ml-10"
+                // className="sm:ml-10"
               />
             </Link>
           </NavbarBrand>
         </NavbarContent>
 
         <NavbarContent
-          className="hidden custom-md:flex gap-4 mr-10"
+          className="hidden custom-md:flex gap-4 "
           justify="end"
         >
           <NavbarItem>

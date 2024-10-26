@@ -5,18 +5,18 @@ import { FOOTER_COLUMNS, FOOTER_TEXT } from "@/_utils/constant";
 
 export default function SiteFooter() {
   return (
-    <footer>
-      <div className="mx-auto max-w-screen-xl flex flex-wrap px-4 py-16 sm:px-6  lg:px-8">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
-          <div className="">
+    <footer className="pt-16">
+      <div className=" flex flex-wrap sm:px-24 px-4 w-full pb-4">
+        <div className="flex gap-16 w-full sm:flex-nowrap  flex-wrap">
+          <div className="sm:w-1/2">
         <Image width={200} src="/logos/original-logo.png" alt="Logo" />
 
-            <p className="max-w-xs text-color-6 font-bold">
+            <p className=" text-color-6 font-bold w-full">
               {FOOTER_TEXT.DESC}
             </p>
           </div>
-
-          <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-4">
+          <div className="w-full">
+          <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3 w-full">
             {FOOTER_COLUMNS.map((section, index) => (
               <div key={index}>
                 <p className="text-gray-600 font-bold">{section.title}</p>
@@ -36,9 +36,10 @@ export default function SiteFooter() {
               </div>
             ))}
           </div>
+          </div>
         </div>
 
-        <ul className="mt-8 flex gap-6">
+        <ul className="mt-8 flex gap-6 w-full">
           <span>Follow :</span>
           {/* <li>
             <a

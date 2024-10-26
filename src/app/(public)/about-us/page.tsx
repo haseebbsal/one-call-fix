@@ -33,12 +33,14 @@ export default function AboutUs() {
 
       <HorizontalLine />
 
-      <section className="mx-auto max-w-screen-xl px-4 pt-32 pb-16 lg:flex">
-        <div className={`${poppins.className} sm:w-1/2 mx-auto max-w-xl`}>
+      <section className=" sm:px-24 p-4 pt-32 pb-16 lg:flex items-center">
+        <div className={`${poppins.className} sm:w-full `}>
           <h1 className="text-3xl font-extrabold sm:text-5xl mb-6">
             Our Mission
           </h1>
-          <p className="mb-6 text-color-6">
+          <div className="flex w-full sm:flex-nowrap flex-wrap">
+            <div className="sm:w-1/2 w-full">
+            <p className="mb-6 text-color-6">
             Finding a reliable tradesperson is not always the easiest of tasks.
             From constant phone calls, constant home visits, constant vetting,
             the list goes on! At OneCallFix, we pride ourselves in connecting
@@ -52,7 +54,7 @@ export default function AboutUs() {
             We have a verified review system so you can trust any testimonials
             you read on a tradesperson on our platform.
           </p>
-          <p className="mb-12 lg:mb-0 text-color-6">
+          <p className="lg:mb-0 text-color-6">
             For tradespeople, it is not an easy task to get clients either.
             Whilst word of mouth is great, marketing yourself online can be
             difficult, technical, and expensive! We aim to take these efforts
@@ -65,15 +67,18 @@ export default function AboutUs() {
             system, we ensure that tradespeople are rewarded for their good
             work, helping to win more jobs tomorrow.
           </p>
-        </div>
-        <div className="sm:w-1/2 mx-auto max-w-xl mt-auto">
-        <Video extraClass="!static h-[40rem]" url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
+            </div>
+          <div className="sm:w-1/2 w-full ">
+        <Video extraClass="!static !h-[30rem] " url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
         
           {/* <img src="/images/about-us-video-image.png" alt="video-image" /> */}
         </div>
+          </div>
+          
+        </div>
       </section>
 
-      <section className="mx-auto max-w-screen-xl px-4 mb-36">
+      <section className=" sm:px-24 p-4 mb-16">
         <div className="mb-16">
           <h2 className="text-3xl font-extrabold sm:text-5xl mb-7">
             Why use our service as a homeowner?

@@ -4,6 +4,7 @@ const nextConfig = {
     images: {
         domains: ['dtagg-bucket.s3.amazonaws.com'],
       },
+      
 };
 
   

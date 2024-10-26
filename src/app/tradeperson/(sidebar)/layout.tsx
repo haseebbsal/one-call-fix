@@ -9,6 +9,9 @@ export default function TradepersonLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  // console.log('im gay')
+ 
   return (
     <>
       <main className="flex flex-col min-h-screen">

@@ -33,13 +33,13 @@ const ourPlatform=[
 
 export default function FeaturesSection({ features }: FeaturesProps) {
   return (
-    <section>
-      <div className="mb-2 sm:mb-4">
+    <section >
+      <div className="mb-2 sm:mb-4 ">
         <h2 className="text-2xl font-extrabold text-center sm:text-3xl md:text-4xl p-[1.8rem]">
           We Do The Hard Work For You
         </h2>
       </div>
-      <div className="flex justify-center  flex-wrap px-8 py-2 mb-9">
+      <div className="flex justify-center  flex-wrap sm:px-24 px-4 py-2 mb-16">
       <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-color-12 font-bold text-white shadow-2xl">
           <p className="text-xl">Features</p>
           {feature.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaInfoCircle className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}

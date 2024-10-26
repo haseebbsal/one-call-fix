@@ -10,9 +10,11 @@ export default function PublicLayout({
 }>) {
   return (
     <>
+    <div>
       <PublicNavBar />
       {children}
       <SiteFooter />
+    </div>
     </>
   );
 }

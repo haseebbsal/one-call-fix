@@ -21,21 +21,31 @@ const animals = [
   {label: "Electrician", value: 2},
  
 ];
+
+const poppy=Poppins(
+  {
+    weight:['600','300'],
+    subsets:['latin']
+  }
+)
 import { Navigation } from 'swiper/modules';
+import { Poppins } from "next/font/google";
 
 export default function Home() {
   const router=useRouter()
   const [selectedKey,setSelectedKey]=useState<any>(null)
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className={`${poppy.className} flex min-h-screen flex-col items-center justify-between bg-[url('/shapes/ellipse-bg.png')] `}>
       {/* GET STARTED SECTION */}
-      <section className="w-full flex flex-wrap justify-center items-center gap-8 sm:gap-16 md:mt-12 bg-[url('/shapes/ellipse-bg.png')]">
-        <div className="mt-12 md:mt-0 md:mb-20">
+      <section className="w-full flex flex-wrap justify-center sm:px-24 px-4 gap-8 sm:gap-16 md:mt-12 ">
+      <div className="flex w-full sm:flex-nowrap flex-wrap items-center sm:gap-16 gap-16 ">
+        <div className="mt-12 md:mt-0  sm:w-1/2 w-full">
           <div className="text-center md:text-start">
             <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
               GET QUOTES
             </h2>
-            <div className="font-extrabold text-xl md:text-2xl lg:text-3xl flex gap-2 items-center">
+            <div className="font-extrabold text-xl md:text-2xl lg:text-3xl flex gap-2 items-center sm:justify-start justify-center">
             <h2 className=" bg-color-4 w-max text-white p-1 rounded-lg">
               DIRECTLY ONLINE
             </h2>
@@ -43,11 +53,11 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-2 text-color-6 text-sm mb-4 text-center md:text-start md:text-2xl">
+          <p className="mt-2 text-[#525252]  text-sm mb-4 text-center md:text-start md:text-2xl w-full">
           It's FREE and there are no obligations!
           </p>
 
-          <div className="relative text-center w-fit m-auto custom-sm:m-0 custom-sm:text-start custom-sm:w-450px">
+          <div className="relative text-center w-full m-auto custom-sm:m-0 custom-sm:text-start ">
           <Autocomplete
       isRequired
       variant="bordered"
@@ -83,25 +93,26 @@ export default function Home() {
           </div>
           <Image src="/images/trustpilot.svg" alt="trustpilot" width={200} height={120} className="object-contain"/>
         </div>
-        <div className="w-64 relative sm:h-96 h-[20rem] lg:w-80">
-          <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute" />
+        <div className="sm:w-1/2 w-full relative  sm:h-[33rem] h-[15rem]">
+          <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute z-[1] w-full h-[90%] object-contain" />
           <img
             alt="HomeImage"
             src="/images/home-image.png"
-            className="absolute"
+            className="z-[2] relative w-full h-[100%] object-contain top-4 left-4"
           />
         </div>
+      </div>
 
         <HorizontalLine />
 
         {/* VIDEO SECTION */}
-        <div className="w-full  flex justify-center items-center relative -mt-16 z-10">
+        <div className="w-full  flex justify-center items-center relative sm:-mt-16 -mt-16 z-10">
         <Video url="/videos/how.mp4" imgUrl="/images/home-video-image.png"/>
         </div>
       </section>
 
       {/* WORKING SECTION */}
-      <section className="w-full min-h-max bg-color-4 flex flex-col mt-40 sm:mt-48 md:mt-60 lg:mt-80">
+      <section className="w-full min-h-max sm:px-24 bg-color-4 flex flex-col mt-32 sm:mt-48 md:mt-60 lg:mt-80">
         <div className="sm:mb-14 sm:mt-48 mt-16 md:mt-60 custom-md:mt-72">
           <h2 className="text-2xl font-extrabold sm:text-4xl text-center text-white mt-10">
             How It Works
@@ -132,7 +143,7 @@ export default function Home() {
     //   onSwiper={(swiper) => console.log(swiper)}
     >
           {STEPS.map((step, index) => (
-            <SwiperSlide className="p-8">
+            <SwiperSlide className="sm:p-0 p-8">
        <div key={index} className="">
               <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
                 <img src={step.imgSrc} alt="step" />
@@ -154,9 +165,9 @@ export default function Home() {
         <FeaturesSection features={FEATURES} />
 
         {/* REVIEWS SECTION */}
-        <section className="w-full mb-8">
-          <div className="mb-16">
-            <h2 className="text-3xl font-extrabold sm:text-4xl text-center">
+        <section className="w-full sm:px-24">
+          <div className="sm:mb-16 mb-8">
+            <h2 className="text-3xl font-extrabold sm:text-4xl text-center px-[1.8rem]">
               Recent Completed Jobs
             </h2>
           </div>
@@ -165,6 +176,7 @@ export default function Home() {
             
           <Swiper
       className="w-full"
+      wrapperClass="mb-8 sm:mb-4"
       navigation={true} modules={[Navigation]}
       spaceBetween={0}
       slidesPerView={1}
@@ -187,7 +199,7 @@ export default function Home() {
               <SwiperSlide className="w-max" >
               <div
                 key={index}
-                className="min-w-[20rem] max-w-[30rem] bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl mx-4"
+                className="min-w-[20rem] max-w-[30rem] bg-white border border-solid border-gray-300 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8 md:mb-12 shadow-xl sm:mx-0 mx-4"
               >
                 <div className="flex items-center mb-4 gap-1 sm:gap-2 text-amber-400">
                   <ReviewStar />
@@ -219,9 +231,9 @@ export default function Home() {
       <PostJobSection />
 
       {/* TRADESPERSON SECTION */}
-      <section>
-        <div className="w-full flex flex-wrap justify-center sm:gap-24 gap-16 mt-10 relative sm:mb-24 mb-4">
-          <div className="relative order-1 sm:-order-10 sm:mt-0 mt-20 sm:h-auto h-[15rem]">
+      <section className="bg-[#F4F4F46E]">
+        <div className="w-full flex sm:flex-nowrap flex-wrap sm:px-24 px-4 gap-4 sm:mt-0 pt-16 relative sm:mb-24 mb-16">
+          <div className="relative order-1 sm:-order-10 sm:w-1/2 w-full sm:mt-0 mt-20 sm:h-auto h-[15rem]">
             <img
               src="/shapes/ellipse.png"
               alt="ellipse"
@@ -230,12 +242,12 @@ export default function Home() {
             <img
               src="/images/tradesperson.png"
               alt="tradesperson"
-              className="absolute h-full sm:-top-32 -top-1/4 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 "
+              className="absolute h-full sm:-top-32 top-[1rem] md:-top-1 left-1/2 transform -translate-x-1/2 custom-md:left-60 "
             />
             {/* bsolute h-full -top-36 md:-top-32 left-1/2 transform -translate-x-1/2 custom-md:left-60 lg:left-64 xl:left-96 */}
           </div>
 
-          <div className="w-5/6 sm:w-3/5 custom-md:w-2/5 custom-md:-mt-24">
+          <div className="sm:w-1/2 w-full ">
             <h1 className="text-4xl font-extrabold mb-6">
               Are You A Tradesperson?
             </h1>
