@@ -49,7 +49,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
   })
 
   console.log('im gay')
-  if(window){
+  if(typeof(window)!=undefined){
     if(!Cookies.get('accessToken')){
       console.log('im inn')
       router.push('/login')
