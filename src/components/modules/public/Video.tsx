@@ -2,15 +2,7 @@
 
 export default function Video({url,imgUrl,extraClass}:{url:string,imgUrl:string,extraClass?:string}){
     return (
-        <video onTouchStart={(e:any)=>{
-          console.log(e.target.paused)
-          if(e.target.paused){
-            e.target.play()
-            return
-          }
-          e.target.pause()
-
-          }} onClick={(e:any)=>{
+        <video onClick={(e:any)=>{
           console.log(e.target.paused)
           if(e.target.paused){
             e.target.play()
