@@ -48,13 +48,13 @@ export default function TradepersonNavBar({ menuItems }: Props) {
     },
   })
 
-  console.log('im gay')
-  if(typeof(window)!=undefined){
-    if(!Cookies.get('accessToken')){
-      console.log('im inn')
-      router.push('/login')
-    }
-  }
+  // console.log('im gay')
+  // if(typeof(window)!=undefined){
+  //   if(!Cookies.get('accessToken')){
+  //     console.log('im inn')
+  //     router.push('/login')
+  //   }
+  // }
 
   return (
     <Navbar 
