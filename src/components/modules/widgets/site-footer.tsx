@@ -7,8 +7,8 @@ export default function SiteFooter() {
   return (
     <footer className="pt-16">
       <div className=" flex flex-wrap sm:px-24 px-4 w-full pb-4">
-        <div className="flex gap-16 w-full sm:flex-nowrap  flex-wrap">
-          <div className="sm:w-1/2">
+        <div className="flex sm:gap-16 gap-8 w-full sm:flex-nowrap  flex-wrap">
+          <div className="sm:w-1/2 sm:block flex flex-col items-center sm:text-start text-center">
         <Image width={200} src="/logos/original-logo.png" alt="Logo" />
 
             <p className=" text-color-6 font-bold w-full">
@@ -16,11 +16,11 @@ export default function SiteFooter() {
             </p>
           </div>
           <div className="w-full">
-          <div className="grid grid-cols-1 gap-16 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3 w-full">
+          <div className="grid grid-cols-1 sm:gap-16 gap-8 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3 w-full">
             {FOOTER_COLUMNS.map((section, index) => (
-              <div key={index}>
+              <div className="text-center sm:text-start flex flex-col gap-2" key={index}>
                 <p className="text-gray-600 font-bold">{section.title}</p>
-                <ul className="mt-6 space-y-4 text-sm">
+                <ul className="flex flex-col gap-2  text-sm">
                   {section.links.map((link, index) => (
                     <li key={index}>
                       <a
@@ -39,7 +39,7 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <ul className="mt-8 flex gap-6 w-full">
+        <ul className="mt-8 flex gap-6 w-full sm:justify-start justify-center">
           <span>Follow :</span>
           {/* <li>
             <a

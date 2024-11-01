@@ -53,6 +53,7 @@ const config: Config = {
       screens: {
         "custom-sm": "500px",
         "custom-md": "918px",
+        "custom-xs":"400px"
       },
       width: {
         "450px": "450px",

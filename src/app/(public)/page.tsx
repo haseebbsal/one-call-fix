@@ -16,6 +16,8 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 const animals = [
   {label: "Plumber", value: 1},
   {label: "Electrician", value: 2},
@@ -29,6 +31,7 @@ const poppy=Poppins(
   }
 )
 import { Navigation } from 'swiper/modules';
+import { Pagination,Autoplay } from 'swiper/modules';
 import { Poppins } from "next/font/google";
 
 export default function Home() {
@@ -40,7 +43,7 @@ export default function Home() {
       {/* GET STARTED SECTION */}
       <section className="w-full flex flex-wrap justify-center sm:px-24 px-4 gap-8 sm:gap-16 md:mt-12 ">
       <div className="flex w-full sm:flex-nowrap flex-wrap items-center sm:gap-16 gap-16 ">
-        <div className="mt-12 md:mt-0  sm:w-1/2 w-full">
+        <div className="mt-12 md:mt-0 flex flex-col gap-2 sm:w-1/2 w-full">
           <div className="text-center md:text-start">
             <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
               GET QUOTES
@@ -53,7 +56,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-2 text-[#525252]  text-sm mb-4 text-center md:text-start md:text-2xl w-full">
+          <p className=" text-[#525252]  text-sm  text-center md:text-start md:text-2xl w-full">
           It's FREE and there are no obligations!
           </p>
 
@@ -62,7 +65,7 @@ export default function Home() {
       isRequired
       variant="bordered"
       radius="full"
-      className="hidden custom-sm:inline-block"
+      className=" inline-block"
       // label="Favorite Animal"
       onSelectionChange={(key)=>{
         setSelectedKey(key!)
@@ -87,11 +90,14 @@ export default function Home() {
             /> */}
             <Button onClick={()=>{
               router.push(`/homeowner/post-a-job/${selectedKey}`)
-            }} disabled={!selectedKey} className="rounded-3xl bg-color-9 px-8 py-2 !opacity-100 hover:bg-color-9  text-sm font-medium text-white focus:outline-none custom-sm:absolute top-0 right-0 h-full">
+            }} disabled={!selectedKey} className="rounded-3xl bg-color-9 px-8 py-2 !opacity-100 hover:bg-color-9  text-sm font-medium text-white focus:outline-none absolute top-0 right-0 h-full">
               Get Started
             </Button>
           </div>
-          <Image src="/images/trustpilot.svg" alt="trustpilot" width={200} height={120} className="object-contain"/>
+          <div className="">
+
+          <Image src="/images/trustpilot.svg" alt="trustpilot" className="object-contain sm:h-auto h-[4rem]" />
+          </div>
         </div>
         <div className="sm:w-1/2 w-full relative  sm:h-[33rem] h-[15rem]">
           <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute z-[1] w-full h-[90%] object-contain" />
@@ -106,13 +112,13 @@ export default function Home() {
         <HorizontalLine />
 
         {/* VIDEO SECTION */}
-        <div className="w-full  flex justify-center items-center relative sm:-mt-16 -mt-16 z-10">
+        <div className="w-full  flex justify-center items-center relative -mt-16 z-10">
         <Video url="/videos/how.mp4" imgUrl="/images/home-video-image.png"/>
         </div>
       </section>
 
       {/* WORKING SECTION */}
-      <section className="w-full min-h-max sm:px-24 bg-color-4 flex flex-col mt-32 sm:mt-48 md:mt-60 lg:mt-80">
+      <section className="w-full min-h-max sm:px-24 bg-color-4 flex flex-col gap-4 sm:gap-0 mt-32 sm:mt-48 custom-xs:mt-36 lg:mt-80">
         <div className="sm:mb-14 sm:mt-24 mt-8 md:mt-60 custom-md:mt-[12rem]">
           <h2 className="text-2xl font-extrabold sm:text-4xl text-center text-white mt-10">
             How It Works
@@ -122,7 +128,12 @@ export default function Home() {
         <div className="w-full flex flex-wrap justify-center gap-32">
         <Swiper
       className="w-full"
-      navigation={true} modules={[Navigation]}
+      modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
       spaceBetween={0}
       slidesPerView={1}
       breakpoints={{
@@ -143,12 +154,12 @@ export default function Home() {
     //   onSwiper={(swiper) => console.log(swiper)}
     >
           {STEPS.map((step, index) => (
-            <SwiperSlide className="sm:p-0 p-8">
+            <SwiperSlide className="sm:p-0 ">
        <div key={index} className="">
               <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
                 <img src={step.imgSrc} alt="step" />
               </div>
-              <div className="text-white text-sm sm:mt-10 sm:mb-10 my-4">
+              <div className="text-white text-sm sm:mt-10 sm:mb-10 my-8">
                 <h5 className="text-center font-semibold mb-2">{step.step}</h5>
                 <p className="text-center font-extralight">{step.desc}</p>
               </div>
@@ -177,7 +188,12 @@ export default function Home() {
           <Swiper
       className="w-full"
       wrapperClass="mb-8 sm:mb-4"
-      navigation={true} modules={[Navigation]}
+       modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
       spaceBetween={0}
       slidesPerView={1}
       breakpoints={{
@@ -233,7 +249,7 @@ export default function Home() {
       {/* TRADESPERSON SECTION */}
       <section className="bg-[#F4F4F46E]">
         <div className="w-full flex sm:flex-nowrap flex-wrap sm:px-24 px-4 gap-4 sm:mt-0 pt-16 relative sm:mb-24 mb-16">
-          <div className="relative order-1 sm:-order-10 sm:w-1/2 w-full sm:mt-0 mt-20 sm:h-auto h-[15rem]">
+          <div className="relative order-1 sm:-order-10 sm:w-1/2 w-full sm:mt-0 mt-20 sm:h-auto h-[15rem] flex sm:block justify-center">
             <img
               src="/shapes/ellipse.png"
               alt="ellipse"
