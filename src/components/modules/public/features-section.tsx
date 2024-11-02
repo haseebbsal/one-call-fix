@@ -9,6 +9,7 @@ import { MdCancel } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
 
 import { FaCheck } from "react-icons/fa";
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 
 type FeaturesProps = {
   features: Feature[];
@@ -40,6 +41,39 @@ export default function FeaturesSection({ features }: FeaturesProps) {
         </h2>
       </div>
       <div className="flex justify-center  flex-wrap sm:px-24 px-4 py-2 mb-16">
+      {/* <Table classNames={{td:""}} aria-label="Example static collection table">
+      <TableHeader>
+        <TableColumn><p></p></TableColumn>
+        <TableColumn><p className="text-xl">Other Platforms</p></TableColumn>
+        <TableColumn><p className="text-xl">OneCallFix Platform</p></TableColumn>
+      </TableHeader>
+      <TableBody>
+        <TableRow key="1">
+        <TableCell>Features And Capabilities</TableCell>
+        <TableCell><p></p></TableCell>
+        <TableCell><p></p></TableCell>
+
+        </TableRow>
+        <TableRow  key="2">
+        <TableCell > <div className="flex gap-4 h-full"><FaInfoCircle className=" text-2xl"/> <p className="font-semibold text-center ">Full Information on Tradesperson</p></div></TableCell>      
+        <TableCell  ><div className="flex gap-4"><MdCancel className="text-7xl"/> <p className="font-semibold text-center ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
+        <TableCell  ><div className="flex gap-4"><MdCancel className="text-7xl"/> <p className="font-semibold text-center ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
+        </TableRow>
+        <TableRow key="3">
+        <TableCell className="flex gap-4 "> <FaInfoCircle className=""/> <p className="font-semibold text-center ">Accurate Quotes Directly Online</p></TableCell>      
+
+          <TableCell>Jane Fisher</TableCell>
+          <TableCell>Senior Developer</TableCell>
+        </TableRow>
+        <TableRow key="4">
+        <TableCell className="flex gap-4 "> <FaInfoCircle className=""/> <p className="font-semibold text-center ">Privacy Protection</p></TableCell>          
+
+
+          <TableCell>William Howard</TableCell>
+          <TableCell>Community Manager</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table> */}
       <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-color-12 font-bold text-white shadow-2xl">
           <p className="text-xl">Features</p>
           {feature.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaInfoCircle className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}

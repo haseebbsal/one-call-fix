@@ -125,7 +125,7 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="w-full flex flex-wrap justify-center gap-32">
+        <div className="w-full flex flex-wrap justify-center gap-32 sm:p-0 p-4">
         <Swiper
       className="w-full"
       modules={[Pagination,Autoplay]}
