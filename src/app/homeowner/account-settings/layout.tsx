@@ -44,6 +44,8 @@ export default function AccountSettingsLayout({ children }: Props) {
   const [zoom, setZoom] = useState(1)
   const [newImage,setNewImage]=useState<any>()
   const{isOpen,onClose,onOpenChange,onOpen} =useDisclosure()
+  const { isOpen:isOpen1, onOpenChange:onOpenChange1, onOpen:onOpen1, onClose:onClose1 } = useDisclosure();
+
 
   const onChange = (cropper: CropperRef) => {
 		// let newfile:any=''
@@ -102,6 +104,7 @@ export default function AccountSettingsLayout({ children }: Props) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewImage(reader.result as string);
+        onOpen1()
         // setSelectedFile(file);
         setCustomError('')
       };
@@ -158,6 +161,29 @@ export default function AccountSettingsLayout({ children }: Props) {
           </BaseButton>
         </div>
       </BaseModal>
+      <BaseModal
+      onClose={()=>{}}
+      // isDismissable={false}
+      hideCloseButton={true}
+        isOpen={isOpen1}
+        onOpenChange={onOpenChange1}
+        size="md"
+        header="Crop Image"
+        // modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col gap-2 items-center mb-7">
+        <Cropper
+                src={newImage}
+                onChange={onChange}
+                className={'cropper rounded-full h-[20rem] w-[20rem]   border border-color-8'}
+                />
+                <BaseButton type="button" onClick={()=>{
+                  setNewImage(null)
+                  uploadImageToDB()
+                  onClose1()
+                }}>Crop</BaseButton>
+        </div>
+      </BaseModal>
       <main>
       
       <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 lg:px-16 border border-solid bg-[#FCFCFC] border-color-8 rounded-md">
@@ -177,18 +203,7 @@ export default function AccountSettingsLayout({ children }: Props) {
               {!newImage && <div className="rounded-full h-[8rem] w-[8rem] flex items-center justify-center p-[0.02rem] bg-[#C2C2C2] border border-color-8">
                  <img className="w-full h-full rounded-full  object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} />
               </div>}
-              {newImage && <div className="flex flex-col gap-2">
-                <Cropper
-                src={newImage}
-                onChange={onChange}
-                className={'cropper rounded-full h-[20rem] w-[20rem]   border border-color-8'}
-                />
-                <BaseButton type="button" onClick={()=>{
-                  setNewImage(null)
-                  uploadImageToDB()
-                }}>Crop</BaseButton>
-                
-              </div> }
+           
               
               <div>
                 <label  className="pb-2.5 text-color-22 text-sm lg:text-base font-bold text-nowrap">

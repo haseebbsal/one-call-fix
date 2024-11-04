@@ -29,6 +29,8 @@ import 'react-advanced-cropper/dist/style.css'
 
 export default function EditProfile(datas:any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
+  const { isOpen:isOpen1, onOpenChange:onOpenChange1, onOpen:onOpen1, onClose:onClose1 } = useDisclosure();
+
   const [userDetails,setUserDetails]=useState<any>()
   const [previousWork,setPreviousWork]=useState<any>([])
   const [newWork,setNewWork]=useState<any>([])
@@ -57,6 +59,8 @@ export default function EditProfile(datas:any) {
   const [profilePic, setProfilePic] = useState(
     `${config.mediaURL}/${userDetails?.data.user.profilePicture}`,
   );
+
+
   const [profileFile, setProfileFile] = useState<any>(null);
   const [inputValue, setInputValue] = useState("");
   const [services, setServices] = useState<string[]>(
@@ -75,6 +79,8 @@ export default function EditProfile(datas:any) {
     setServices([...services, inputValue]);
     setInputValue("");
   };
+
+
   const {
     register,
     handleSubmit,
@@ -107,6 +113,7 @@ export default function EditProfile(datas:any) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewImage(reader.result as string);
+        onOpen1()
 
         // setProfilePic(reader.result as string);
       };
@@ -123,6 +130,8 @@ export default function EditProfile(datas:any) {
       inputElement.click();
     }
   };
+
+
   const onSubmit = async (data: any) => {
     console.log(data);
     console.log('entries',Object.entries(data))
@@ -245,6 +254,8 @@ export default function EditProfile(datas:any) {
       editTradepersonMutation.mutate(formData)
     
   };
+
+
   const closeModel = () => {
     onClose();
     router.push('/tradeperson/profile')
@@ -287,6 +298,8 @@ export default function EditProfile(datas:any) {
       // return file
     }, 'image/png')
 	};
+
+
   return (
     <>
       <BaseModal
@@ -308,6 +321,30 @@ export default function EditProfile(datas:any) {
           >
             Okay
           </BaseButton>
+        </div>
+      </BaseModal>
+      <BaseModal
+      onClose={()=>{}}
+      // isDismissable={false}
+      hideCloseButton={true}
+        isOpen={isOpen1}
+        onOpenChange={onOpenChange1}
+        size="md"
+        header="Crop Image"
+        // modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col gap-2 items-center mb-7">
+        <Cropper
+                src={newImage}
+                onChange={onChange}
+                className={'cropper rounded-full h-[20rem] w-[20rem]  border border-color-8'}
+                />
+                <BaseButton onClick={()=>{
+                  setNewImage(null)
+                  setProfilePic(imageSrc)
+                  onClose1()
+                  // uploadImageToDB()
+                }}>Crop</BaseButton>
         </div>
       </BaseModal>
       <div className="p-8">
@@ -333,19 +370,10 @@ export default function EditProfile(datas:any) {
                 />
                  {/* <img className="w-full h-full object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} /> */}
               </div>}
-              {newImage && <div className="flex flex-col gap-2">
-                <Cropper
-                src={newImage}
-                onChange={onChange}
-                className={'cropper rounded-full h-[20rem] w-[20rem]  border border-color-8'}
-                />
-                <BaseButton onClick={()=>{
-                  setNewImage(null)
-                  setProfilePic(imageSrc)
-                  // uploadImageToDB()
-                }}>Crop</BaseButton>
+              {/* {newImage && <div className="flex flex-col gap-2">
+               
                 
-              </div> }
+              </div> } */}
                 {!newImage &&  <span
                   className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer"
                   onClick={handleClick}
