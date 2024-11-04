@@ -41,7 +41,7 @@ export default function CompletedJobCard({ job ,openModal,setReviewData}: Props)
           <p className="text-color-6 text-xs font-[300]">{job.chat.issue}</p>
         </div>
       </div>
-      <div className="flex justify-between items-center sm:w-[80%] w-full gap-2">
+      <div className="flex justify-between sm:flex-row flex-col sm:items-center items-start sm:w-[80%] w-full gap-2">
       <div className="flex flex-col gap-1">
           <h3 className=" font-semibold text-color-6">Tradeperson</h3>
           <div className="flex gap-2 items-center">
