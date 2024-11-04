@@ -35,7 +35,7 @@ export default function JobCard({ job }: Props) {
           <p className="text-color-6 text-xs font-[300]">{job.chat.issue}</p>
         </div>
       </div>
-      <div className="flex sm:justify-between sm:flex-nowrap flex-wrap gap-2">
+      <div className="flex sm:justify-between sm:flex-row flex-col gap-2">
         <div className="flex flex-col gap-1">
           <h3 className="text-[12px] text-color-6">Job Type</h3>
           <h2 className="text-base font-medium text-color-6">
