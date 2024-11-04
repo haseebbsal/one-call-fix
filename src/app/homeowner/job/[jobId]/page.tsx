@@ -193,6 +193,8 @@ export default function Jobs(datas:any) {
                         height={120}
                         width={150}
                         controls
+                        className="w-full h-full object-contain"
+
                       />
                     </SwiperSlide>
                   ) : (
@@ -204,7 +206,7 @@ export default function Jobs(datas:any) {
                         alt="Attachments"
                         width={200}
                         height={170}
-                        className=""
+                        className="w-full h-full object-contain"
                       />
                     </SwiperSlide>
                   ),
