@@ -75,12 +75,12 @@ export default function Feedback() {
                             // label="Riddle Description"
                             required
                             placeholder="Write Comment..."
-                            className="sm:w-1/2 w-full"
+                            className="sm:w-1/2 w-full "
                             
                             // labelPlacement="outside"
                             size="lg"
                             minRows={10}
-                            classNames={{ description: "!h-[15rem] ", label: "!font-semibold" ,input:""}}
+                            classNames={{ description: "!h-[15rem] ", label: "!font-semibold" ,inputWrapper:"!bg-gray-200 ", }}
                         />
                     </div>
                     {/* <div className="flex flex-col gap-4 ">
