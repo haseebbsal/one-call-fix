@@ -21,6 +21,11 @@ import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 import BaseModal from "@/components/common/modal/base-modal";
 import { useDisclosure } from "@nextui-org/modal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 export default function Jobs(datas:any) {
   // const queryParams = useParams();
@@ -151,7 +156,76 @@ export default function Jobs(datas:any) {
               Attachments
             </h6>
             <div className="flex justify-between flex-wrap gap-2 items-center">
-              <div className="flex items-center gap-2.5">
+            <Swiper
+      className="w-full"
+      modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+      }}
+    //   onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    >
+      {individualJob.data?.data?.data.media.map((item: any, index: any) =>
+                  item.isVideo ? (
+                    <SwiperSlide className="sm:p-0 ">
+                      
+                      <video
+                        key={index}
+                        src={`${config.mediaURL}/${item.name}`}
+                        height={120}
+                        width={150}
+                        controls
+                      />
+                    </SwiperSlide>
+                  ) : (
+                    <SwiperSlide className="sm:p-0 ">
+
+                      <Image
+                        key={index}
+                        src={`${config.mediaURL}/${item.name}`}
+                        alt="Attachments"
+                        width={200}
+                        height={170}
+                        className=""
+                      />
+                    </SwiperSlide>
+                  ),
+                )}
+          {/* {STEPS.map((step, index) => (
+            <SwiperSlide className="sm:p-0 ">
+       <div key={index} className="">
+              <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
+                <img src={step.imgSrc} alt="step" />
+              </div>
+              <div className="text-white text-sm sm:mt-10 sm:mb-10 my-8">
+                <h5 className="text-center font-semibold mb-2">{step.step}</h5>
+                <p className="text-center font-extralight">{step.desc}</p>
+              </div>
+            </div>
+              </SwiperSlide>
+            
+          ))} */}
+          </Swiper>
+
+              {/* <div className="flex items-center gap-2.5">
                 {individualJob.data?.data?.data.media.map((item: any, index: any) =>
                   item.isVideo ? (
                     <video
@@ -172,7 +246,7 @@ export default function Jobs(datas:any) {
                     />
                   ),
                 )}
-              </div>
+              </div> */}
               <BaseButton onClick={()=>{
                 getMoreLeadsMutation.mutate()
               }} extraClass="!underline !m-auto bg-transparent !text-color-9 !mr-4 !text-medium">

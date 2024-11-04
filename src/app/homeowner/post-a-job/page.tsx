@@ -338,7 +338,7 @@ console.log('addressValue',getValues('address'))
         <>
         
           <PageTopSection pageTopSection={selectTopSection} />
-          <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
+          <div className="mx-auto mb-16 py-16 w-1/3 sm:px-8 px-4 sm:w-2/3  md:px-16 lg:px-20 xl:px-0  bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
             <div className="bg-whitemax-w-[400px]  py-5 px-16 border-color-8 border shadow-xs flex flex-col items-center gap-7">
               <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
                 Electrician
@@ -390,7 +390,7 @@ console.log('addressValue',getValues('address'))
       {stepper === STEPPER.POST_JOB && (
         <>
           <PageTopSection pageTopSection={postJobTopSection} />
-          <div id="questionsGenerated" className="mx-auto mb-16 py-16 w-[90%] sm:w-3/4 px-8  sm:px-12 md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
+          <div id="questionsGenerated" className="mx-auto mb-16 py-16 w-[90%] sm:w-3/4 sm:px-8 px-4  md:px-16 lg:px-20 border border-solid bg-[#FCFCFC]  border-color-8 rounded-md">
             <form onSubmit={handleSubmit(newSubmit)} className="mb-20">
               <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
                 Please describe your issue.
