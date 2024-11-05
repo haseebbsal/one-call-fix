@@ -13,6 +13,11 @@ import { useQuery } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import Image from "next/image";
 import BaseButton from "@/components/common/button/base-button";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 export default function ViewProfile() {
   const router = useRouter();
   const [user,setUser]=useState<any>(null)
@@ -111,12 +116,41 @@ export default function ViewProfile() {
           </div>
 
           {/* Work Gallery Section */}
-          {getUserQuery.data?.data.data.profile.previousJobs.length>0 && <div className="mt-8">
+          {getUserQuery.data?.data.data.profile.previousJobs.length>0 && <div className="mt-8 w-full">
             <h3 className="text-xl font-semibold">Work Gallery</h3>
-            <div className="flex gap-2 flex-wrap">
-                            {getUserQuery.data?.data.data.profile.previousJobs.map((e:any)=>
-                            <div className="h-[8rem] w-[5rem]">
-                            <Image
+            
+            <div className="w-full">
+            <Swiper
+      className="sm:w-[50rem] w-[15rem] !m-0"
+      modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 50,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 50,
+        },
+      }}
+    //   onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    >
+      {getUserQuery.data?.data.data.profile.previousJobs.map((e:any)=>
+                            <SwiperSlide >
+                              <div className="h-[8rem]">
+                              <Image
                                 src={e.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${e}`}
                                 // src="/images/profile-photo.png"
                                 alt="profile-photo"
@@ -124,8 +158,14 @@ export default function ViewProfile() {
                                 height={70}
                                 className="rounded-full w-full h-full object-contain"
                             />
-                        </div>
+
+                              </div>
+                           
+                        </SwiperSlide>
                             )}
+    
+     
+          </Swiper>
                             
                         </div>
             {/* <div className="grid grid-cols-4 gap-4 mt-4">
