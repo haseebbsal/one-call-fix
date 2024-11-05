@@ -9,6 +9,11 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import { TbCloudUpload, TbPlus } from "react-icons/tb";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 type WithRequiredProperty<Type, Key extends keyof Type> = Type & {
   [Property in Key]-?: Type[Property];
@@ -82,7 +87,7 @@ const BaseFileInput = <T extends FieldValues>({
     const isVideo = file.type.startsWith("video/");
 
     return (
-      <div
+      <SwiperSlide
         key={index}
         className="relative w-32 h-32 m-2 border rounded shadow-sm"
       >
@@ -92,7 +97,7 @@ const BaseFileInput = <T extends FieldValues>({
               src={URL.createObjectURL(file)}
               alt={file.name}
               layout="fill"
-              objectFit="cover"
+              className="object-cover"
             />
           )}
           {isVideo && (
@@ -102,20 +107,15 @@ const BaseFileInput = <T extends FieldValues>({
             />
           )}
         </div>
-        <div className="p-2">
-          <p className="text-sm font-medium truncate" title={file.name}>
-            {file.name}
-          </p>
-          {/* <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p> */}
-        </div>
+      
         <button
         type="button"
           onClick={() => removeFile(index)}
-          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+          className="absolute top-1 left-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
         >
           ×
         </button>
-      </div>
+      </SwiperSlide>
     );
   };
 
@@ -159,9 +159,36 @@ const BaseFileInput = <T extends FieldValues>({
       { (
         <div className="mt-4">
           <div className="flex flex-wrap">
-          {apiImages?.map((j:any,index:number)=>{
+          <Swiper
+      className="w-full"
+      modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1024: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+      }}
+    //   onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    >
+       {apiImages?.map((j:any,index:number)=>{
             return (
-                  <div
+                  <SwiperSlide
               key={index}
               className="relative w-32 h-32 m-2 border rounded shadow-sm"
             >
@@ -180,29 +207,27 @@ const BaseFileInput = <T extends FieldValues>({
             />
           )}
               </div>
-              <div className="p-2">
-          <p className="text-sm font-medium truncate" title={j.name}>
-            {j.name}
-          </p>
-          {/* <p className="text-xs text-gray-500"></p> */}
-        </div>
         <button
         type="button"
           onClick={() => {
             deleteMedia.mutate(j._id)
             setApiImages(apiImages.filter((e:any)=>e._id!=j._id))
           }}
-          className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
+          className="absolute top-1 left-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center"
         >
           ×
         </button>
-            </div>)
+            </SwiperSlide>)
             })}
-            {files.length>0 && files.map((file, index) => renderPreview(file, index))}
+          {files.length>0 && files.map((file, index) => renderPreview(file, index))}
+     
+    
+          </Swiper>
+         
             <button
             type="button"
               onClick={open}
-              className="w-48 h-48 m-2 border-2 border-dashed border-gray-300 rounded flex items-center justify-center"
+              className="w-48 h-48 mt-8 sm:m-2 border-2 border-dashed border-gray-300 rounded flex items-center justify-center"
             >
               <TbPlus className="w-8 h-8 text-gray-400" />
             </button>
