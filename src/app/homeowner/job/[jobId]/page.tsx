@@ -68,7 +68,7 @@ export default function Jobs(datas:any) {
   // }, [job]);
 
   return (
-    <section className="mt-20 mx-auto mb-16 w-3/4 sm:w-2/3">
+    <section className="mt-20 mx-auto mb-16 w-[90%] sm:w-2/3">
       <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-6">
         Job Details
       </h5>
@@ -85,7 +85,7 @@ export default function Jobs(datas:any) {
             <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-5">
               Job Details
             </h5>
-            <div className="flex flex-col gap-2.5 w-1/2">
+            <div className="flex flex-col gap-2.5 sm:w-1/2 w-full">
               <div className="flex flex-wrap gap-2" >
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Job ID:
@@ -94,7 +94,7 @@ export default function Jobs(datas:any) {
                   {individualJob.data?.data?.data._id}
                 </p>
               </div>
-              <div className="flex">
+              <div className="flex items-end gap-2">
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Job Type:
                 </h6>
@@ -103,21 +103,30 @@ export default function Jobs(datas:any) {
                 </p>
               </div>
 
-              <div className="flex">
-                <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
+              <div className="flex gap-2 items-end">
+                <h6 className="sm:flex-1 text-color-6 text-[16px] font-[300]">
                   Trade People Applied:
                 </h6>
                 <p className="flex-1 text-color-6 text-[15px] font-semibold">
                   {individualJob.data?.data?.data.bidCount}
                 </p>
               </div>
-              <div className="flex">
+              <div className="flex gap-2 flex-wrap">
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Completion:
                 </h6>
                 <p className="flex-1 text-color-6 text-[15px] font-semibold">
                   {individualJob.data?.data?.data.completion}
                 </p>
+              </div>
+              <div className="flex gap-2 flex-wrap items-end ">
+                <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
+                  Issue:
+                </h6>
+               
+            <p className="flex-1 text-color-6 font-semibold text-[15px]">
+              {individualJob.data?.data?.data.chat.issue}
+            </p>
               </div>
             </div>
           </div>
@@ -132,9 +141,7 @@ export default function Jobs(datas:any) {
                 </li>
               ))}
             </ul>
-            <p className="text-color-6 font-[300] text-[15px]">
-              {individualJob.data?.data?.data.chat.issue}
-            </p>
+            
           </div>
           <div className="mb-2">
             <h6 className="text-black py-2.5 font-[500] text-[18px]">
