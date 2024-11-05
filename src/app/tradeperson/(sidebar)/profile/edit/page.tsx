@@ -26,6 +26,11 @@ import { MdDelete } from "react-icons/md";
 import { Button } from "@nextui-org/button";
 import { CropperRef, Cropper } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
 
 export default function EditProfile(datas:any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
@@ -569,8 +574,37 @@ export default function EditProfile(datas:any) {
                 Work Gallery
               </label>
              <div className="flex gap-4 mt-4 w-full flex-wrap">
-              {previousWork?.map((e:any)=>
-              <div className="relative flex flex-col ">
+             <Swiper
+      className="sm:w-[50rem] w-[15rem] !m-0"
+
+      modules={[Pagination,Autoplay]}
+       autoplay={{
+        delay: 2500,
+        disableOnInteraction: false,
+      }}
+      pagination={{clickable:true}}
+      spaceBetween={0}
+      slidesPerView={1}
+      breakpoints={{
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 100,
+        },
+      }}
+    //   onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    >
+      {previousWork?.map((e:any)=>
+      <SwiperSlide>
+        <div className="relative flex flex-col ">
                 <button type="button" onClick={()=>{
                   // console.log('clickinngg')
                  
@@ -583,9 +617,13 @@ export default function EditProfile(datas:any) {
                   deleteImage.mutate(e)
                 }} className="bg-transparent ml-auto z-[4] top-[-1rem] text-sm bg-red-400  p-0 rounded-full w-max min-w-max h-max min-h-max right-0 text-red-500">x</button>
                 <Image src={e.includes('blob')?e:`${config.mediaURL}/${e}`} alt="previous" width={100} height={100} className="object-contain"/>
-              </div>)}
+              </div>
+      </SwiperSlide>
+              )}
               {newWork?.map((e:any,index:number)=>
-              <div className="relative flex flex-col">
+              <SwiperSlide >
+                <div className="relative flex flex-col">
+                  
                 <button type="button" onClick={()=>{
                  
                   const filter=newWork.filter((j:string)=>j!=e)
@@ -595,7 +633,25 @@ export default function EditProfile(datas:any) {
                  
                 }} className="bg-transparent ml-auto z-[4] top-[-1rem]   p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
                 <Image src={e} alt="previous" width={100} height={100} className="object-contain"/>
-              </div>)}
+                </div>
+              </SwiperSlide>)}
+  
+          {/* {STEPS.map((step, index) => (
+            <SwiperSlide className="sm:p-0 ">
+       <div key={index} className="">
+              <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
+                <img src={step.imgSrc} alt="step" />
+              </div>
+              <div className="text-white text-sm sm:mt-10 sm:mb-10 my-8">
+                <h5 className="text-center font-semibold mb-2">{step.step}</h5>
+                <p className="text-center font-extralight">{step.desc}</p>
+              </div>
+            </div>
+              </SwiperSlide>
+            
+          ))} */}
+          </Swiper>
+              
              </div>
 
 
