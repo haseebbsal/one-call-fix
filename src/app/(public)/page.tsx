@@ -1,14 +1,11 @@
 'use client';
 import { Image } from "@nextui-org/image";
-import { Input } from "@nextui-org/input";
-
 import { FEATURES, REVIEWS, STEPS, TRADESPERSON } from "@/_utils/constant";
 import BaseButton from "@/components/common/button/base-button";
 import HorizontalLine from "@/components/common/horizontal-line/horizontal-line";
 import FeaturesSection from "@/components/modules/public/features-section";
 import PostJobSection from "@/components/modules/public/post-job-section";
 import ReviewStar from "@/components/modules/public/review-star";
-import Link from "next/link";
 import Video from "@/components/modules/public/Video";
 import { Autocomplete, AutocompleteItem, Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
@@ -44,7 +41,7 @@ export default function Home() {
       <section className="w-full flex flex-wrap justify-center sm:px-24 px-4 gap-8 sm:gap-16 md:mt-12 ">
       <div className="flex w-full sm:flex-nowrap flex-wrap items-center sm:gap-16 gap-16 ">
         <div className="mt-12 md:mt-0 flex flex-col gap-2 sm:w-1/2 w-full">
-          <div className="text-center md:text-start">
+          <div className="text-center md:text-start flex flex-col gap-1">
             <h2 className="font-extrabold text-xl md:text-2xl lg:text-3xl">
               GET QUOTES
             </h2>
@@ -60,12 +57,13 @@ export default function Home() {
           It's FREE and there are no obligations!
           </p>
 
-          <div className="relative text-center w-full m-auto custom-sm:m-0 custom-sm:text-start ">
+          <div className="relative text-center flex w-full sm:flex-row sm:gap-0 gap-2 flex-col items-center m-auto custom-sm:m-0 custom-sm:text-start sm:border-2 rounded-full">
           <Autocomplete
       isRequired
       variant="bordered"
       radius="full"
-      className=" inline-block"
+      // classNames={{:"!border-none"}}
+      className=" inline-block sm:custom-auto w-full"
       // label="Favorite Animal"
       onSelectionChange={(key)=>{
         setSelectedKey(key!)
@@ -73,6 +71,8 @@ export default function Home() {
       defaultItems={animals}
       placeholder="You are looking for Electrician or Plumber?"
       defaultSelectedKey="cat"
+      selectorIcon={false}
+
       // className="max-w-xs"
     >
       {(item) => 
@@ -88,9 +88,9 @@ export default function Home() {
               radius="full"
               className="hidden custom-sm:inline-block"
             /> */}
-            <Button onClick={()=>{
+            <Button  onClick={()=>{
               router.push(`/homeowner/post-a-job/${selectedKey}`)
-            }} disabled={!selectedKey} className="rounded-3xl bg-color-9 px-8 py-2 !opacity-100 hover:bg-color-9  text-sm font-medium text-white focus:outline-none absolute top-0 right-0 h-full">
+            }} disabled={!selectedKey} className="rounded-3xl bg-color-9 px-8 py-[0.8rem] !opacity-100 hover:bg-color-9  text-sm font-medium text-white focus:outline-none  h-full">
               Get Started
             </Button>
           </div>
@@ -99,7 +99,7 @@ export default function Home() {
           <Image src="/images/trustpilot.svg" alt="trustpilot" className="object-contain sm:h-auto h-[4rem]" />
           </div>
         </div>
-        <div className="sm:w-1/2 w-full relative  sm:h-[33rem] h-[15rem]">
+        <div className="sm:w-1/2 w-full relative  sm:h-[33rem] h-[15rem] sm:block hidden">
           <img alt="Ellipse" src="/shapes/ellipse.png" className="absolute z-[1] w-full h-[90%] object-contain" />
           <img
             alt="HomeImage"
@@ -249,7 +249,7 @@ export default function Home() {
       {/* TRADESPERSON SECTION */}
       <section className="bg-[#F4F4F46E]">
         <div className="w-full flex sm:flex-nowrap flex-wrap sm:px-24 px-4 gap-4 sm:mt-0 pt-16 relative sm:mb-24 mb-16">
-          <div className="relative order-1 sm:-order-10 sm:w-1/2 w-full sm:mt-0 mt-20 sm:h-auto h-[15rem] flex sm:block justify-center">
+          <div className="relative order-1 sm:block hidden sm:-order-10 sm:w-1/2 w-full sm:mt-0 mt-20 sm:h-auto h-[15rem]   justify-center">
             <img
               src="/shapes/ellipse.png"
               alt="ellipse"
@@ -275,7 +275,7 @@ export default function Home() {
                 </div>
               ))}
               <div>
-                <BaseButton as="link" link="/tradeperson/signup" extraClass="bg-color-9 mt-10 w-max max-w-[100%]">
+                <BaseButton as="link" link="/tradeperson/signup" extraClass="bg-color-9 mt-10 w-max max-w-[100%] sm:m-0 mx-auto">
                 Learn More
                 </BaseButton>
               </div>

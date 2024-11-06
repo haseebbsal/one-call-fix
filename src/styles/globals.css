@@ -13,3 +13,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+
+.custom-auto div[data-slot=input-wrapper]{
+  border: none !important;
+  box-shadow: none;
+}
