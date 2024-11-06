@@ -1,3 +1,4 @@
+'use client'
 import { Image } from "@nextui-org/image";
 import { FaCircleCheck } from "react-icons/fa6";
 type Feature = {
@@ -49,7 +50,7 @@ export default function FeaturesSection({ features }: FeaturesProps) {
       <TableBody>
        
         <TableRow  key="2">
-        <TableCell  ><div className="flex gap-4"><MdCancel className="text-8xl sm:text-3xl  text-color-5"/> <p className="font-semibold  ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
+        <TableCell  className="w-[50%]" ><div className="flex gap-4"><MdCancel className="text-8xl sm:text-3xl  text-color-5"/> <p className="font-semibold  ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
         <TableCell  ><div className="flex gap-4"><FaCircleCheck className="text-7xl sm:text-2xl"/> <p className="font-semibold  ">AI-powered form helping to provide accurate quotes online, reducing need for home visits</p></div> </TableCell>
         </TableRow>
         <TableRow key="3">
