@@ -91,9 +91,9 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
             formData.append("files", file);
           }
         }
-        Cookies.set('accessToken',access_token)
-        Cookies.set('refreshToken',refresh_token)
-        Cookies.set('userData',JSON.stringify(user))
+        // Cookies.set('accessToken',access_token)
+        // Cookies.set('refreshToken',refresh_token)
+        // Cookies.set('userData',JSON.stringify(user))
         createJobMutation.mutate(formData)
       }
 

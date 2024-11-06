@@ -1,5 +1,5 @@
 import { Image } from "@nextui-org/image";
-
+import { FaCircleCheck } from "react-icons/fa6";
 type Feature = {
   imgSrc: string;
   heading: string;
@@ -40,41 +40,29 @@ export default function FeaturesSection({ features }: FeaturesProps) {
           We Do The Hard Work For You
         </h2>
       </div>
-      <div className="flex justify-center  flex-wrap sm:px-24 px-4 py-2 mb-16">
-      {/* <Table classNames={{td:""}} aria-label="Example static collection table">
+      <div className="flex justify-center  flex-wrap sm:px-24 px-4 py-2 mb-16 w-[90%] m-auto">
+      <Table classNames={{td:""}} aria-label="Example static collection table">
       <TableHeader>
-        <TableColumn><p></p></TableColumn>
-        <TableColumn><p className="text-xl">Other Platforms</p></TableColumn>
-        <TableColumn><p className="text-xl">OneCallFix Platform</p></TableColumn>
+        <TableColumn className="bg-color-5 text-white"><p className="text-xl">Other Platforms</p></TableColumn>
+        <TableColumn className="bg-color-4 text-white"><p className="text-xl ">OneCallFix Platform</p></TableColumn>
       </TableHeader>
       <TableBody>
-        <TableRow key="1">
-        <TableCell>Features And Capabilities</TableCell>
-        <TableCell><p></p></TableCell>
-        <TableCell><p></p></TableCell>
-
-        </TableRow>
+       
         <TableRow  key="2">
-        <TableCell > <div className="flex gap-4 h-full"><FaInfoCircle className=" text-2xl"/> <p className="font-semibold text-center ">Full Information on Tradesperson</p></div></TableCell>      
-        <TableCell  ><div className="flex gap-4"><MdCancel className="text-7xl"/> <p className="font-semibold text-center ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
-        <TableCell  ><div className="flex gap-4"><MdCancel className="text-7xl"/> <p className="font-semibold text-center ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
+        <TableCell  ><div className="flex gap-4"><MdCancel className="text-8xl sm:text-3xl  text-color-5"/> <p className="font-semibold  ">Generic forms, making it difficult for tradespeople to provide accurate quotes online & requiring home visits</p></div> </TableCell>
+        <TableCell  ><div className="flex gap-4"><FaCircleCheck className="text-7xl sm:text-2xl"/> <p className="font-semibold  ">AI-powered form helping to provide accurate quotes online, reducing need for home visits</p></div> </TableCell>
         </TableRow>
         <TableRow key="3">
-        <TableCell className="flex gap-4 "> <FaInfoCircle className=""/> <p className="font-semibold text-center ">Accurate Quotes Directly Online</p></TableCell>      
-
-          <TableCell>Jane Fisher</TableCell>
-          <TableCell>Senior Developer</TableCell>
+        <TableCell  ><div className="flex gap-4"><MdCancel className="text-5xl sm:text-xl text-color-5"/> <p className="font-semibold  ">Contact details shared with all tradespeople</p></div> </TableCell>
+        <TableCell  ><div className="flex gap-4"><FaCircleCheck className="text-6xl sm:text-lg"/> <p className="font-semibold  ">Contact details are only shared with the tradespeople you shortlist</p></div> </TableCell>
         </TableRow>
         <TableRow key="4">
-        <TableCell className="flex gap-4 "> <FaInfoCircle className=""/> <p className="font-semibold text-center ">Privacy Protection</p></TableCell>          
-
-
-          <TableCell>William Howard</TableCell>
-          <TableCell>Community Manager</TableCell>
+        <TableCell  ><div className="flex gap-4"><MdCancel className="text-3xl sm:text-xl text-color-5"/> <p className="font-semibold  ">Limited tradesperson details</p></div> </TableCell>
+        <TableCell  ><div className="flex gap-4"><FaCircleCheck className="text-6xl sm:text-xl"/> <p className="font-semibold  ">Full details including availability for urgent jobs, price, and timeline upfront</p></div> </TableCell>
         </TableRow>
       </TableBody>
-    </Table> */}
-      <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-color-12 font-bold text-white shadow-2xl">
+    </Table>
+      {/* <div className="flex flex-col w-full sm:w-1/3 items-center px-4 sm:px-16 py-4 gap-2 bg-color-12 font-bold text-white shadow-2xl">
           <p className="text-xl">Features</p>
           {feature.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaInfoCircle className="w-[40%] sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
         </div>
@@ -85,7 +73,7 @@ export default function FeaturesSection({ features }: FeaturesProps) {
         <div className="flex sm:w-1/3 w-full flex-col gap-2 items-center px-4 sm:px-16 py-4 bg-green-200 font-bold text-green-700 shadow-xl">
           <p className="text-xl">OneCallFix Platform</p>
           {ourPlatform.map((e)=><div className="flex items-start gap-4 w-full min-h-[4rem]"> <FaCheck className="w-[40%]  sm:w-[10%] "/> <p className="font-semibold text-center w-full">{e}</p></div>)}
-        </div>
+        </div> */}
         
       </div>
       {/* <div className="w-full sm:w-5/6 m-auto flex flex-wrap gap-8 sm:gap-10 md:gap-20 justify-center mb-20 sm:mb-32 md:mb-48">

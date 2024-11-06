@@ -53,7 +53,7 @@ export default function EmailVerification(datas:any) {
         router.push("/admin/dashboard");
       }
       if(user.role === ROLES.TRADESPERSON){
-        cardClientSecretMutation.mutate()
+        // cardClientSecretMutation.mutate()
       }
 
       localStorage.clear()

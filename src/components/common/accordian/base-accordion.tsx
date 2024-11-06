@@ -37,8 +37,9 @@ export default function BaseAccordion({ faq }: FaqProps) {
               key={item.key}
               aria-label={item.title}
               title={styledTitle(item.title, activeKey.has(item.key))}
+              classNames={{title:"sm:text-auto text-md"}}
               className={
-                activeKey.has(item.key) ? "!bg-color-4 text-white text-sm" : ""
+                activeKey.has(item.key) ? "!bg-color-4 text-white text-sm" : "text-sm"
               }
             >
               {item.desc}
