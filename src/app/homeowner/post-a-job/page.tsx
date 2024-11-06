@@ -338,7 +338,7 @@ console.log('addressValue',getValues('address'))
         <>
         
           <PageTopSection pageTopSection={selectTopSection} />
-          <div className="mx-auto mb-16 py-16 w-1/3 sm:px-8 px-4 sm:w-2/3  md:px-16 lg:px-20 xl:px-0  bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
+          <div className="mx-auto mb-16 sm:py-16 w-1/3 sm:px-8 px-4 sm:w-2/3  md:px-16 lg:px-20 xl:px-0  bg-[#FCFCFC]  border-color-8 rounded-md flex flex-col justify-center items-center gap-5 md:flex-row">
             <div className="bg-whitemax-w-[400px]  py-5 px-16 border-color-8 border shadow-xs flex flex-col items-center gap-7">
               <h4 className="text-center text-base lg:text-xl font-bold text-color-6">
                 Electrician

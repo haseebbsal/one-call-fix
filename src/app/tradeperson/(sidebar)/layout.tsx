@@ -17,7 +17,7 @@ export default function TradepersonLayout({
         <TradepersonNavBar menuItems={TRADE_PERSON_SIDEBAR_MENU_ITEMS} />
         <div className="flex">
           <Sidebar menuItems={TRADE_PERSON_SIDEBAR_MENU_ITEMS} />
-          <main className="flex-1 flex flex-col bg-gray-100">{children}</main>
+          <main className="flex-1 flex flex-col bg-gray-100 overflow-x-hidden">{children}</main>
         </div>
       </main>
     </>

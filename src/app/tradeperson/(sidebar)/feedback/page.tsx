@@ -68,7 +68,7 @@ export default function Feedback() {
                         </div>
                     </div> */}
 
-                    <div className="flex flex-col ">
+                    <div className="flex flex-col gap-4">
                         <p className="font-semibold">Please explain the feedback you would like to provide.</p>
                         <Textarea
                             name="description"

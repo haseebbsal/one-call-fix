@@ -25,7 +25,7 @@ export default function BaseAccordion({ faq }: FaqProps) {
   );
 
   return (
-    <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid border-color-8 rounded-md">
+    <div className="mx-auto mb-16 sm:py-16 py-8 w-[90%] sm:px-8 px-2 sm:w-2/3 md:px-16 lg:px-20 xl:px-0 border border-solid border-color-8 rounded-md">
       <div className="mx-auto max-w-[48rem]">
         <Accordion
           variant="splitted"

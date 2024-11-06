@@ -60,7 +60,7 @@ export default function ComplaintsPolicy() {
     <main>
       <PageTopSection pageTopSection={pageTopSection} />
       {/* <PoliciesSection policies={COMPLAINTS_POLICY} /> */}
-      <div className="mx-auto mb-16 py-16 w-3/4 px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid border-color-8 rounded-md">
+      <div className="mx-auto mb-16 py-16 w-[90%] px-8 sm:w-2/3 sm:px-12 md:px-16 lg:px-20 xl:px-0 border border-solid border-color-8 rounded-md">
       <div className="mx-auto flex flex-col gap-8 max-w-[48rem]">
         <div className="flex flex-col gap-1">
         <p className="font-bold">OneCallFix Complaint Policy </p>

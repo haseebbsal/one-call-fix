@@ -18,7 +18,7 @@ export default function AboutUs() {
   return (
     <main className={`${poppins.className}`}>
       <section className="bg-[url('/shapes/ellipse-bg.png')]">
-        <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex">
+        <div className="mx-auto max-w-screen-xl px-4 sm:py-32 py-8 lg:flex">
           <div className="mx-auto max-w-xl text-center">
             <h1 className={`text-3xl font-extrabold sm:text-5xl ${poppins.className}`}>ABOUT US</h1>
 
@@ -33,12 +33,12 @@ export default function AboutUs() {
 
       <HorizontalLine />
 
-      <section className=" sm:px-24 p-4 pt-32 pb-16 lg:flex items-center">
+      <section className=" sm:px-24 p-4 sm:pt-32 pt-8 sm:pb-16 pb-0 lg:flex items-center">
         <div className={`${poppins.className} sm:w-full `}>
           <h1 className="text-3xl font-extrabold sm:text-5xl mb-6">
             Our Mission
           </h1>
-          <div className="flex w-full sm:flex-nowrap flex-wrap">
+          <div className="flex w-full sm:flex-nowrap flex-wrap sm:gap-0 gap-8">
             <div className="sm:w-1/2 w-full">
             <p className="mb-6 text-color-6">
             Finding a reliable tradesperson is not always the easiest of tasks.
@@ -69,7 +69,7 @@ export default function AboutUs() {
           </p>
             </div>
           <div className="sm:w-1/2 w-full ">
-        <Video extraClass="!static !h-[30rem] " url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
+        <Video extraClass="!static sm:!h-[30rem] " url="/videos/about.mp4" imgUrl="/images/about-us-video-image.png"/>
         
           {/* <img src="/images/about-us-video-image.png" alt="video-image" /> */}
         </div>
@@ -78,7 +78,7 @@ export default function AboutUs() {
         </div>
       </section>
 
-      <section className=" sm:px-24 p-4 mb-16">
+      <section className=" sm:px-24 sm:p-4 px-4 py-8 sm:mb-16">
         <div className="mb-16">
           <h2 className="text-3xl font-extrabold sm:text-5xl mb-7">
             Why use our service as a homeowner?

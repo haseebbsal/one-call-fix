@@ -141,7 +141,7 @@ export default function EditJob(datas:any){
     })
     return (
         <>
-        <section className="mt-20 mb-16 sm:px-16 p-4 flex flex-col gap-5">
+        <section className="sm:mt-20 mt-8 sm:mb-16 sm:px-16 p-4 flex flex-col gap-5">
             <div>
                 <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-2">
                 Edit Job Post

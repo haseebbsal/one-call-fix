@@ -15,7 +15,7 @@ export default function Faq() {
   return (
     <main>
       <PageTopSection pageTopSection={pageTopSection} />
-      <div className="flex justify-center p-8 border-2 gap-4 sm:flex-nowrap flex-wrap rounded-lg sm:w-[60%] m-auto bg-gray-100">
+      <div className="flex justify-center p-8 border-2 gap-4 sm:flex-nowrap flex-wrap rounded-lg sm:w-[60%] w-[90%] m-auto bg-gray-100">
         <div className="flex flex-col items-center gap-2 sm:w-[35%] text-center bg-white p-4 rounded-lg">
           <h1 className="font-bold">Homeowner</h1>
           <Image src={'/images/pl (2).svg'} height={200} width={200} alt="homeowner"/>

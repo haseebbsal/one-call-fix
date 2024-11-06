@@ -68,7 +68,7 @@ export default function Jobs(datas:any) {
   // }, [job]);
 
   return (
-    <section className="mt-20 mx-auto mb-16 w-[90%] sm:w-2/3">
+    <section className="sm:mt-20 mt-8 mx-auto sm:mb-16 w-[90%] sm:w-2/3">
       <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-6">
         Job Details
       </h5>

@@ -10,7 +10,7 @@ export default function PageTopSection({
 }: PageTopSectionProps) {
   return (
     <section>
-      <div className="mx-auto max-w-screen-xl px-4 pt-32 pb-20 lg:flex">
+      <div className="mx-auto max-w-screen-xl px-4 sm:pt-32 pt-8 sm:pb-20 pb-8 lg:flex">
         <div className="mx-auto max-w-xl text-center">
           <h1 className="text-3xl font-extrabold sm:text-5xl">
             {pageTopSection.title}
