@@ -14,8 +14,10 @@
   box-sizing: border-box;
 }
 
-
-.custom-auto div[data-slot=input-wrapper]{
-  border: none !important;
-  box-shadow: none;
+@media screen and (min-width: 1080px)  {
+  .custom-auto div[data-slot=input-wrapper]{
+    border: none !important;
+    box-shadow: none;
+  }
+  
 }

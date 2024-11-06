@@ -57,13 +57,13 @@ export default function Home() {
           It's FREE and there are no obligations!
           </p>
 
-          <div className="relative text-center flex w-full sm:flex-row sm:gap-0 gap-2 flex-col items-center m-auto custom-sm:m-0 custom-sm:text-start sm:border-2 rounded-full">
+          <div className="relative text-center flex w-full sm:flex-row sm:gap-0 gap-4 flex-col items-center m-auto custom-sm:m-0 custom-sm:text-start sm:border-2 rounded-full">
           <Autocomplete
       isRequired
       variant="bordered"
       radius="full"
       // classNames={{:"!border-none"}}
-      className=" inline-block sm:custom-auto w-full"
+      className=" inline-block custom-auto w-full"
       // label="Favorite Animal"
       onSelectionChange={(key)=>{
         setSelectedKey(key!)
@@ -94,9 +94,9 @@ export default function Home() {
               Get Started
             </Button>
           </div>
-          <div className="">
+          <div className="sm:mt-0 mt-8 flex sm:justify-start justify-center">
 
-          <Image src="/images/trustpilot.svg" alt="trustpilot" className="object-contain sm:h-auto h-[4rem]" />
+          <Image src="/images/trustpilot.svg" alt="trustpilot" className="object-contain sm:h-auto h-[8rem]" />
           </div>
         </div>
         <div className="sm:w-1/2 w-full relative  sm:h-[33rem] h-[15rem] sm:block hidden">
