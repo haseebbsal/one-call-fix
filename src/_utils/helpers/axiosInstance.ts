@@ -13,6 +13,7 @@ axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
             if (Cookies.get('accessToken')) {
                 config.headers.Authorization = `Bearer ${Cookies.get('accessToken')}`
             }
+            
             else {
                 console.log('url',config.url)
                 window.location.href='/login'

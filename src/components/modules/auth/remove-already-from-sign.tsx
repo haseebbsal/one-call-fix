@@ -56,13 +56,16 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
 
   // const dispatch = useAppDispatch();
   const createJobMutation=useMutation((data:any)=>{
-    return axiosInstance.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data)
+    const token =localStorage.getItem('accessToken')
+    return axios.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data,{headers:{Authorization:`Bearer ${token}`}})
     
   },{
     onSuccess(data) {
       console.log('create job',data.data)
-      onOpen()
     //   toast.success("Job Created Successfully")
+    },
+    onError(error, variables, context) {
+      console.log('error in creating job',error)
     },
   })
   const signUpMutation=useMutation((data:SignUpPayload)=>axiosInstance.post('/auth/signup',data),{
@@ -133,22 +136,26 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           }
         }
         // localStorage.setItem('accessToken',access_token)
-        Cookies.set('accessToken',access_token)
-        Cookies.set('refreshToken',refresh_token)
-        Cookies.set('userData',JSON.stringify(data.data.data.user))
-
-        createJobMutation.mutate(formData)
-
-
+        
+        
+        
         if(data.data.data.user.isApproved){
           if (data.data.data.user.role === ROLES.HOMEOWNER) {
+            Cookies.set('accessToken',access_token)
+            Cookies.set('refreshToken',refresh_token)
+            Cookies.set('userData',JSON.stringify(data.data.data.user))
+            createJobMutation.mutate(formData)
             onClose()
             onOpen3()
-          } else if (data.data.data.user.role === ROLES.TRADESPERSON) {
-            router.push("/tradeperson/dashboard");
-          } else {
-            router.push("/admin/dashboard");
+          } 
+          else{
+            toast.error('Account Is Not A HomeOwner')
           }
+          // else if (data.data.data.user.role === ROLES.TRADESPERSON) {
+          //   router.push("/tradeperson/dashboard");
+          // } else {
+          //   router.push("/admin/dashboard");
+          // }
          
           // if(data.data.data.user.role === ROLES.TRADESPERSON){
           //   cardClientSecretMutation.mutate()
@@ -233,7 +240,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   };
 
   const closeModel = () => {
-    onClose();
+    onClose3();
     router.push('/homeowner/jobs')
   };
   return (

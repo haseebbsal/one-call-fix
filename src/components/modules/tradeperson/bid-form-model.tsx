@@ -106,10 +106,10 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
               id="input1"
               isInvalid={errors.quote as any}
               errorMessage={errors.quote?.message as any}
-              placeholder="$53"
+              placeholder="£53"
               isRequired
               {...register("quote", { required: true ,
-                validate:(value)=>value<=dataPayment.data?.data.data.price || "Quote Should Not Exceed Job Price"
+                // validate:(value)=>value<=dataPayment.data?.data.data.price || "Quote Should Not Exceed Job Price"
               })}
             />
           </div>
