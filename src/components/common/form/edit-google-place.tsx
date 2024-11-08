@@ -71,7 +71,7 @@ console.log('address key',addressKey)
       postalCode: getAddressComponent(place, "postal_code"),
       city: getAddressComponent(place, "locality"),
       country: getAddressComponent(place, "country"),
-      formattedAddress: place.formatted_address || "",
+      text: place.formatted_address || "",
     };
 
     field.onChange(addressDetails);
@@ -121,7 +121,7 @@ console.log('address key',addressKey)
           postalCode: getAddressComponent(place, "postal_code"),
           city: getAddressComponent(place, "locality"),
           country: getAddressComponent(place, "country"),
-          formattedAddress: place.formatted_address || "",
+          text: place.formatted_address || "",
         };
         console.log(addressDetails, "addressDetails");
         if(field.value!=undefined){
