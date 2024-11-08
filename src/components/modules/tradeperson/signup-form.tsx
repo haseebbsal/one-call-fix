@@ -18,6 +18,7 @@ import { useMutation } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import toast from "react-hot-toast";
 import BaseInputPassword from "@/components/common/form/base-password";
+import NewGoogleMaps from "@/components/common/form/new-google-places";
 
 interface SignUpFormValues {
   firstName: string;
@@ -33,6 +34,8 @@ interface SignUpFormValues {
   externalReviews: string;
   website: string;
   trade: number;
+  addressText:string;
+  city:string;
   gasSafeRegistered?: boolean;
 }
 
@@ -79,13 +82,13 @@ export default function HomeOwnerSignUpForm() {
         phone: data.mobile,
         password: data.password,
         address: {
-          formattedAddress: data.address.formattedAddress,
+          text: data.addressText,
           latitude: data.address.latitude,
           longitude: data.address.longitude,
           ...(data.address.postalCode && {
             postalCode: data.address.postalCode,
           }),
-          ...(data.address.city && { city: data.address.city }),
+          city: data.city,
           country: data.address.country,
         },
         companyName: data.companyName,
@@ -97,6 +100,8 @@ export default function HomeOwnerSignUpForm() {
           : false,
       },
     };
+
+    // console.log('payloadpayload)
     tradePersonSignupMutation.mutate(payload)
     // const response = await dispatch(signUpUser(payload));
     // if (!response.type.includes("rejected")) {
@@ -138,13 +143,41 @@ export default function HomeOwnerSignUpForm() {
       />
 
       {/* address */}
-      <GooglePlacesInput
+      <BaseInput
+        name="companyName"
+        type="text"
+        control={control}
+        placeholder="Company Name *"
+        rules={{ required: "Company Name is required" }}
+      />
+      
+      <BaseInput
+        name="addressText"
+        type="text"
+        control={control}
+        placeholder="Address"
+        rules={{ required: "Address is required" }}
+      />
+
+      <BaseInput
+        name="city"
+        type="text"
+        control={control}
+        placeholder="City"
+        rules={{ required: "City is required" }}
+      />
+
+      <NewGoogleMaps extraClass="pb-0" classNames={{inputWrapper:"bg-white data-[open]:border-color-3 data-[focus]:border-color-3 rounded-full  border border-color-7 !py-3.5 !min-h-[57px]",input:"ml-4"}} name="address"
+                          control={control}
+                          placeholder="Postcode"
+                          rules={{ required: "Post Code is required" }}/>
+      {/* <GooglePlacesInput
         name="address"
         control={control}
         placeholder="Address *"
         rules={{ required: "Address is required" }}
         addressKey="formattedAddress"
-      />
+      /> */}
 
       <BaseInput
         name="email"

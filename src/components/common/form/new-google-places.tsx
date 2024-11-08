@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import {Autocomplete, AutocompleteItem, Input} from "@nextui-org/react";
+import {Autocomplete, AutocompleteItem, Input, InputProps} from "@nextui-org/react";
 import {useFilter} from "@react-aria/i18n";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { address } from "framer-motion/client";
-import { Control, useController } from "react-hook-form";
+import { Control, RegisterOptions, useController } from "react-hook-form";
 
 
   interface Address {
@@ -16,13 +16,14 @@ import { Control, useController } from "react-hook-form";
     country: string;
   }
 
-  interface GooglePlacesInputProps {
+  interface GooglePlacesInputProps  extends InputProps{
     name: string;
     control: Control<any>;
-    rules: any;
+    rules?: Omit<RegisterOptions<any, string>, "disabled" | "valueAsNumber" | "valueAsDate" | "setValueAs">;
     placeholder?: string;
     addressKey?: string;
     radius?: "none" | "full" | "sm" | "md" | "lg";
+    extraClass?:string
   }
 
 export default function NewGoogleMaps(
@@ -33,6 +34,7 @@ export default function NewGoogleMaps(
         placeholder,
         addressKey,
         radius,
+        extraClass,classNames
     }:GooglePlacesInputProps
 ) {
   // Store Autocomplete input value, selected option, open state, and items
@@ -161,7 +163,8 @@ export default function NewGoogleMaps(
   return (
 
     <Input {...field}
-    className="w-full font-bold text-xl lg:text-2xl text-color-6 pb-6"
+    classNames={classNames}
+    className={`w-full font-bold text-xl lg:text-2xl text-color-6 pb-6  ${extraClass} `}
       value={typeof(field.value)=='object'?field.value.postalCode:field.value}
     isInvalid={getPostalQuery.data && !field.value?.postalCode}
     errorMessage={'Enter Valid Postal Code'}

@@ -14,6 +14,8 @@ import Cookies from "js-cookie";
 import GooglePlacesInput from "@/components/common/form/google-places-input";
 import EditGooglePlacesInput from "@/components/common/form/edit-google-place";
 import toast from "react-hot-toast";
+import BaseInput from "@/components/common/form/base-input";
+import NewGoogleMaps from "@/components/common/form/new-google-places";
 export default function AccountDetails() {
   const { control,setValue ,handleSubmit,watch,getValues} = useForm();
   const [notMatch,setNotMatch]=useState(false)
@@ -42,6 +44,8 @@ export default function AccountDetails() {
       setValue('accountFirstName',data.data.data.user.firstName)
       setValue('accountLastName',data.data.data.user.lastName)
       setValue('phoneNumber',data.data.data.user.phone)
+      setValue('addressText',data.data.data.profile.address.text)
+      setValue('city',data.data.data.profile.address.city)
       setValue('address',{
         city:data.data.data.profile.address.city,
         country:data.data.data.profile.address.country,
@@ -82,22 +86,23 @@ export default function AccountDetails() {
   const submit=(data:FieldValues)=>{
     console.log('submit data',data)
     if(data.oldPassword && data.confirmPassword){
-      updatePassword.mutate({
-        "oldPassword": data.oldPassword,
-        "newPassword": data.confirmPassword
-    })
+    //   updatePassword.mutate({
+    //     "oldPassword": data.oldPassword,
+    //     "newPassword": data.confirmPassword
+    // })
     }
     const formData=new FormData()
     formData.append('companyName',data.businessName)
     formData.append('firstName',data.accountFirstName)
     formData.append('lastName',data.accountLastName)
     formData.append("address[postalCode]", (data.address as any).postalCode);
-    formData.append("address[formattedAddress]", (data.address as any).formattedAddress);
+    formData.append("address[text]", (data.addressText as any));
     formData.append("address[latitude]", (data.address as any).latitude);
     formData.append("address[longitude]", (data.address as any).longitude);
-    formData.append("address[city]", (data.address as any).city);
+    formData.append("address[city]", (data.city as any));
     formData.append("address[country]", (data.address as any).country);
     formData.append('phone',data.phoneNumber)
+    // console.log("payload",[...formData.entries()])
     updateProfileMutation.mutate(formData)
   }
   
@@ -192,13 +197,41 @@ export default function AccountDetails() {
                   extraClass="max-w-xl"
                 />
               </InputWrapper>
+              <InputWrapper className="mb-8"
+                title="Address">
+              <BaseInput
+              name="addressText"
+              type="text"
+              control={control}
+              // defaultValue={'addressText'}
+              placeholder="Address"
+              // rules={{ required: "Address is required" }}
+            />
+              </InputWrapper>
+              <InputWrapper className="mb-8"
+                title="City">
+      <BaseInput
+        name="city"
+        type="text"
+        // defaultValue={'yessir'}
+        control={control}
+        placeholder="City"
+        // rules={{ required: "City is required" }}
+      />
+              </InputWrapper>
 
               <InputWrapper
                 className="mb-8"
-                title="Business Address"
+                title="Postal Code"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <EditGooglePlacesInput
+                
+                      <NewGoogleMaps extraClass="pb-0" classNames={{inputWrapper:"bg-white data-[open]:border-color-3 data-[focus]:border-color-3 rounded-full  border border-color-7 !py-3.5 !min-h-[57px]",input:"ml-4"}} name="address"
+                                          control={control}
+                                          placeholder="Postcode"
+                                          // rules={{ required: "Post Code is required" }}
+                                          />
+                {/* <EditGooglePlacesInput
                     // changeAddressKey={setMandatoryAnswers}
                       name="address"
                       control={control}
@@ -207,7 +240,7 @@ export default function AccountDetails() {
                       // rules={(mandatoryAnswers.address as any).postalCode?{}:{ required: "Post Code is required" }}
                       addressKey={getUserQuery.data?.data.data.profile.address}
                       radius="sm"
-                    />
+                    /> */}
               </InputWrapper>
 
               <InputWrapper
@@ -246,7 +279,7 @@ export default function AccountDetails() {
                   type="password"
                   rules={
                     {
-                    required:"Enter New Password",
+                    // required:"Enter New Password",
 
                       pattern: {
                         value: /^.{8,30}$/,
@@ -273,7 +306,7 @@ export default function AccountDetails() {
                   name="confirmPassword"
                   type="password"
                   rules={{
-                    required:"Enter Confirm Password",
+                    // required:"Enter Confirm Password",
                     pattern: {
                       value: /^.{8,30}$/,
                       message:"Password must contain at least 8 to 30 characters",
@@ -294,7 +327,7 @@ export default function AccountDetails() {
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">
-                <CustomButton type="submit" extraClass="bg-color-12 text-white">
+                <CustomButton type="submit" isLoading={updateProfileMutation.isLoading} extraClass="bg-color-12 text-white">
                   Save Changes
                 </CustomButton>
                 <CustomButton extraClass="bg-white text-white border-2 px-10 border-color-12 text-color-12 font-bold">

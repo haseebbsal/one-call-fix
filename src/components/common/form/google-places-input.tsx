@@ -71,7 +71,7 @@ const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
       postalCode: getAddressComponent(place, "postal_code"),
       city: getAddressComponent(place, "locality"),
       country: getAddressComponent(place, "country"),
-      formattedAddress: place.formatted_address || "",
+      text: place.formatted_address || "",
     };
 
     field.onChange(addressDetails);
@@ -122,7 +122,7 @@ const GooglePlacesInput: React.FC<GooglePlacesInputProps> = ({
           postalCode: getAddressComponent(place, "postal_code"),
           city: getAddressComponent(place, "locality"),
           country: getAddressComponent(place, "country"),
-          formattedAddress: place.formatted_address || "",
+          text: place.formatted_address || "",
         };
         console.log(addressDetails, "addressDetails");
         

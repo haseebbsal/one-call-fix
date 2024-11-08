@@ -118,7 +118,7 @@ export interface HomeOwnerPayload {
 }
 
 export interface Address {
-  formattedAddress: string;
+  text: string;
   latitude: number;
   longitude: number;
   postalCode?: string;

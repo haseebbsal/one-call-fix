@@ -45,7 +45,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props<FieldValues>>(
       value: propValue,
       onBlur,
       onChangee,
-      id
+      id,defaultValue
     },
     ref,
   ) => {
@@ -87,6 +87,7 @@ const BaseInput = forwardRef<HTMLInputElement, Props<FieldValues>>(
         }
         placeholder={placeholder}
         type={type}
+        defaultValue={defaultValue}
         label={label} 
         labelPlacement="outside"
         disabled={disabled}
