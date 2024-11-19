@@ -143,13 +143,13 @@ export default function HomeOwnerSignUpForm() {
       />
 
       {/* address */}
-      <BaseInput
+      {/* <BaseInput
         name="companyName"
         type="text"
         control={control}
         placeholder="Company Name *"
         rules={{ required: "Company Name is required" }}
-      />
+      /> */}
       
       <BaseInput
         name="addressText"

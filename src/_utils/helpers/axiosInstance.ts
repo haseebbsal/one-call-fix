@@ -74,14 +74,6 @@ axiosInstance.interceptors.response.use((response:AxiosResponse) => {
         catch (e) {
             console.log('refresh token error')
             try {
-                // const userData = JSON.parse(Cookies.get('userData')!)
-                // if (userData.role == 'Admin') {
-                //     window.location.href = '/admin/login'
-                // }
-                // else {
-                //     window.location.href = '/auth/login'
-                // }
-                // window.location.href = '/login'
                 Cookies.remove('userData')
                 Cookies.remove('accessToken')
                 Cookies.remove('refreshToken')
@@ -89,14 +81,6 @@ axiosInstance.interceptors.response.use((response:AxiosResponse) => {
             }
             catch(e) {
                 console.log('userdata error', e)
-                // // redirect("/auth/login");
-                // if (window.location.href.includes('/admin')) {
-                //     window.location.href = '/admin/login'
-                // }
-                // else {
-                //     window.location.href = '/auth/login'
-                // }
-                // // console.log(window.location.href)
             }
         }
     }
