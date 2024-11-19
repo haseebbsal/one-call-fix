@@ -56,8 +56,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
 
   // const dispatch = useAppDispatch();
   const createJobMutation=useMutation((data:any)=>{
-    const token =localStorage.getItem('accessToken')
-    return axios.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data,{headers:{Authorization:`Bearer ${token}`}})
+    // const token =localStorage.getItem('accessToken')
+    return axiosInstance.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data)
     
   },{
     onSuccess(data) {
@@ -76,29 +76,29 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
       localStorage.setItem('accessToken',access_token)
       localStorage.setItem('refreshToken',refresh_token)
       localStorage.setItem('userData',JSON.stringify(user))
-      if(headlineRef){
-        const formData = new FormData();
-        const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
-        formData.append("completion", mandatoryAnswers.completion);
-        formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
-        formData.append("headline", headline);
-        formData.append("address[postalCode]", postalCode);
-        formData.append("address[formattedAddress]", formattedAddress);
-        formData.append("address[latitude]", latitude);
-        formData.append("address[longitude]", longitude);
-        formData.append("address[city]", city?city:"random");
-        formData.append("address[country]", country);
-        formData.append("chatId", chatId!);
-        if(files){
-          for (const file of files) {
-            formData.append("files", file);
-          }
-        }
-        // Cookies.set('accessToken',access_token)
-        // Cookies.set('refreshToken',refresh_token)
-        // Cookies.set('userData',JSON.stringify(user))
-        createJobMutation.mutate(formData)
-      }
+      // if(headlineRef){
+      //   const formData = new FormData();
+      //   const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
+      //   formData.append("completion", mandatoryAnswers.completion);
+      //   formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
+      //   formData.append("headline", headline);
+      //   formData.append("address[postalCode]", postalCode);
+      //   formData.append("address[formattedAddress]", formattedAddress);
+      //   formData.append("address[latitude]", latitude);
+      //   formData.append("address[longitude]", longitude);
+      //   formData.append("address[city]", city?city:"random");
+      //   formData.append("address[country]", country);
+      //   formData.append("chatId", chatId!);
+      //   if(files){
+      //     for (const file of files) {
+      //       formData.append("files", file);
+      //     }
+      //   }
+      //   // Cookies.set('accessToken',access_token)
+      //   // Cookies.set('refreshToken',refresh_token)
+      //   // Cookies.set('userData',JSON.stringify(user))
+      //   // createJobMutation.mutate(formData)
+      // }
 
       router.push(`/email-verify/${user._id}?job=1`)
 
@@ -145,8 +145,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
             Cookies.set('refreshToken',refresh_token)
             Cookies.set('userData',JSON.stringify(data.data.data.user))
             createJobMutation.mutate(formData)
-            onClose()
-            onOpen3()
+            // onClose()
+            // onOpen3()
           } 
           else{
             toast.error('Account Is Not A HomeOwner')
@@ -349,18 +349,21 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         />
       </div>
 
-      <div className="w-full flex flex-wrap flex-row gap-4 items-start gap-2.5">
+      <div className="w-full flex  flex-col items-start gap-2.5">
         <BaseButton type="submit" 
         isLoading={signUpMutation.isLoading} disabled={signUpMutation.isLoading}
         >
           Sign Up
         </BaseButton>
 
+        <div className="flex flex-col gap-2">
+        <p className="text-blue-900">Already have an account?</p>
         <BaseButton onClick={onOpen2} type="button" 
         // isLoading={loading} disabled={loading}
         >
           Log In
         </BaseButton>
+        </div>
 
       </div>
       

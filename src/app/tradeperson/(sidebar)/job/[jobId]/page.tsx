@@ -234,9 +234,9 @@ console.log('data payment',dataPayment)
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <p className="text-sm text-gray-600">
-              Purchased By Other Tradepeople
+            Tradespeople Interested
             </p>
-            <p className="text-sm font-semibold text-gray-900">02 / 03</p>
+            <p className="text-sm font-semibold text-gray-900">{getUserQuery.data?.data.data.bidCount}</p>
           </div>
           <div>
             <p className="text-sm text-gray-600">Homeowner Name</p>
@@ -250,7 +250,7 @@ console.log('data payment',dataPayment)
           <h3 className="text-sm  text-gray-600">
             Homeowner Address
           </h3>
-          <p className="text-gray-700 mt-2">{getUserQuery.data?.data.data.address.city} {getUserQuery.data?.data.data.address.country}</p>
+          <p className="text-gray-700 mt-2"> {getUserQuery.data?.data.data.address.country}</p>
         </div>
         <div className="mb-6">
           <h3 className="text-sm  text-gray-600">
@@ -259,10 +259,23 @@ console.log('data payment',dataPayment)
           <p className="text-gray-700 mt-2">{getUserQuery.data?.data.data.completion} </p>
         </div>
 
+        <div className="mb-6">
+          <h3 className="text-sm  text-gray-600">
+            Question And Answers
+          </h3>
+          <div className="flex flex-col gap-2">
+
+          {getUserQuery.data?.data.data.chat.questionAnswers.map((e:any,index:number)=><div className="flex flex-col gap-1">
+            <p>{index+1}. {e.question}</p>
+            <p>- {e.options[e.answerIndex]}</p>
+          </div>)}
+          </div>
+        </div>
+
         <div className="flex flex-col gap-2 items-start justify-between">
             <p>Lead Fee</p>
           <p className="text-lg font-semibold text-red-500 rounded-md px-8 py-2 border-2 ">
-          £{getUserQuery.data?.data.data.price}
+          £{getUserQuery.data?.data.data.price.toPrecision(4)}
           </p>
           <button onClick={()=>{
             onOpen()

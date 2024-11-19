@@ -69,7 +69,7 @@ export default function Home() {
         setSelectedKey(key!)
       }}
       defaultItems={animals}
-      placeholder="You are looking for Electrician or Plumber?"
+      placeholder="What trade are you looking for?"
       defaultSelectedKey="cat"
       selectorIcon={false}
 

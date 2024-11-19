@@ -73,36 +73,40 @@ export default function HomeOwnerSignUpForm() {
 
   const onSubmit = async (data: SignUpFormValues) => {
     // dispatch(resetError());
-    const payload: SignUpPayload = {
-      role: ROLES.TRADESPERSON,
-      tradesPerson: {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phone: data.mobile,
-        password: data.password,
-        address: {
-          text: data.addressText,
-          latitude: data.address.latitude,
-          longitude: data.address.longitude,
-          ...(data.address.postalCode && {
-            postalCode: data.address.postalCode,
-          }),
-          city: data.city,
-          country: data.address.country,
+    console.log('googlemap',data.address)
+    if(data.address.latitude){
+      const payload: SignUpPayload = {
+        role: ROLES.TRADESPERSON,
+        tradesPerson: {
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.mobile,
+          password: data.password,
+          address: {
+            text: data.addressText,
+            latitude: data.address.latitude,
+            longitude: data.address.longitude,
+            ...(data.address.postalCode && {
+              postalCode: data.address.postalCode,
+            }),
+            city: data.city,
+            country: data.address.country,
+          },
+          companyName: data.companyName,
+          externalReviews: data.externalReviews,
+          website: data.website,
+          trade: data.trade,
+          gasSafeRegistered: data.gasSafeRegistered
+            ? data.gasSafeRegistered
+            : false,
         },
-        companyName: data.companyName,
-        externalReviews: data.externalReviews,
-        website: data.website,
-        trade: data.trade,
-        gasSafeRegistered: data.gasSafeRegistered
-          ? data.gasSafeRegistered
-          : false,
-      },
-    };
+      };
+  
+      // console.log('payloadpayload)
+      tradePersonSignupMutation.mutate(payload)
 
-    // console.log('payloadpayload)
-    tradePersonSignupMutation.mutate(payload)
+    }
     // const response = await dispatch(signUpUser(payload));
     // if (!response.type.includes("rejected")) {
     //   // redirect to verify email page
