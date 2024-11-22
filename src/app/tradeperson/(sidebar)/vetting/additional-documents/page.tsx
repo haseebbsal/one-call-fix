@@ -67,7 +67,7 @@ export default function AdditionalDocuments() {
                 title="Attach Screenshot Proving You Are Part Of The Competent Persons Register"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="competentPersonRegister"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.competentPersonRegister,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="competentPersonRegister"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
              
               
@@ -77,7 +77,7 @@ export default function AdditionalDocuments() {
                 title="EAL Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.ealQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.ealQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
               </>
 
@@ -88,7 +88,7 @@ export default function AdditionalDocuments() {
                 title="Diploma"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.diploma} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="diploma"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.diploma,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="diploma"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
              
               
@@ -98,7 +98,7 @@ export default function AdditionalDocuments() {
                 title="City Guild Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="cityGuildQualification"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="cityGuildQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
                 </>}
               <InputWrapper
@@ -106,7 +106,7 @@ export default function AdditionalDocuments() {
                 title="NVQ Level 3 Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.nvqQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.nvqQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="nvqQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -114,7 +114,7 @@ export default function AdditionalDocuments() {
                 title="Public Liability Insurance"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.publicLiabilityInsurance} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="publicLiabilityInsurance"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.publicLiabilityInsurance,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="publicLiabilityInsurance"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -122,7 +122,7 @@ export default function AdditionalDocuments() {
                 title="Trustmark"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.additional.trustMark} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="trustMark"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.trustMark,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="trustMark"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <div className="flex flex-wrap gap-6 ml-5">
