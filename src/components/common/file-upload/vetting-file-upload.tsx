@@ -49,8 +49,9 @@ export default function BaseVettingFileUpload({ labelClass,register,name ,rules,
       </div>
     </div>
     
+
     {(currentValue.isVerified || imageSrc) && <div className="">
-      {(currentValue || imageSrc) &&   <Image className="object-contain" src={imageSrc?imageSrc:`${config.mediaURL}/${currentValue.imgSrc}`} alt='doc' width={200} height={200}/>}
+      {(currentValue.imgSrc || imageSrc) &&   <Image className="object-contain" src={imageSrc?imageSrc:`${config.mediaURL}/${currentValue.imgSrc}`} alt='doc' width={200} height={200}/>}
     </div>}
 
     {!currentValue.isVerified && !imageSrc && <p>Your Document Is Pending Verification</p>}
