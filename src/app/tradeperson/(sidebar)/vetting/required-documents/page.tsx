@@ -14,10 +14,20 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 import BaseVettingFileUpload from "@/components/common/file-upload/vetting-file-upload";
+import { useRouter } from "next/navigation";
+
+
+enum Verified {
+  identification = 'isIdVerified',
+  gasSafeId = 'isGasSafeVerified',
+}
+
+
 export default function RequiredDocuments() {
   const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
   const queryClient=useQueryClient()
+  const router=useRouter()
   useEffect(()=>{
     const user=JSON.parse(Cookies.get('userData')!)
     console.log(user)
@@ -32,6 +42,7 @@ export default function RequiredDocuments() {
     onSuccess(data, variables, context) {
       console.log('update',data.data)
       queryClient.invalidateQueries('tradePerson')
+      router.refresh()
     },
     onError(error:any) {
       if (Array.isArray(error.response.data.message)) {
@@ -69,7 +80,7 @@ export default function RequiredDocuments() {
                 title="ID (Passport, Driving License)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.identification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.required.identification,isVerified:getUserQuery.data?.data.data.profile[Verified['identification']]}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="identification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               { getUserQuery.data?.data.data.profile.trade==2 && <>
@@ -106,7 +117,7 @@ export default function RequiredDocuments() {
                 title="Gas Safe ID"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.gasSafeId} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="gasSafeId"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.required.gasSafeId,isVerified:getUserQuery.data?.data.data.profile[Verified['gasSafeId']]}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="gasSafeId"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
               }
              

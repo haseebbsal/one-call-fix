@@ -1,10 +1,18 @@
 'use client'
 import { Link } from "@nextui-org/link";
 
-import { PROFILE_TASKS } from "@/_utils/constant";
 
-export default function ProfileCompletion({data}:{data:any}) {
-  console.log('completion',data)
+enum Verified {
+  identification = 'isIdVerified',
+  gasSafeId = 'isGasSafeVerified',
+}
+
+// partPQualification
+// wiringRegulationsCertificate
+// eicrDocumentation
+
+export default function ProfileCompletion({ data }: { data: any }) {
+  console.log('completion', data)
   // console.log('docs',Object.keys(data.profile.documents.required))
   return (
     <>
@@ -21,113 +29,113 @@ export default function ProfileCompletion({data}:{data:any}) {
         </p>
       </div>
       <ul className="space-y-5 my-7">
-        {data && Object.keys(data?.profile.documents.required).filter((e)=>e!='_id').map((task, index) => data?.profile.documents.required[task]?<li
-            key={index}
-            className={`flex ${data?.profile.documents.required[task] ? "line-through decoration-color-4" : ""}`}
+        {data && Object.keys(data?.profile.documents.required).filter((e) => e != '_id').map((task, index) => data?.profile[Verified[task as 'identification']] ? <li
+          key={index}
+          className={`flex ${data?.profile[Verified[task as 'identification']] ? "line-through decoration-color-4" : ""}`}
+        >
+          <p
+            className={`${data?.profile[Verified[task as 'identification']] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
           >
-            <p
-              className={`${data?.profile.documents.required[task] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
-            >
-              {task}
-            </p>
-          </li>:(
+            {task}
+          </p>
+        </li> : (
 
           <li
             key={index}
-            className={`flex ${data?.profile.documents.required[task] ? "line-through decoration-color-4" : ""}`}
+            className={`flex ${data?.profile[Verified[task as 'identification']] ? "line-through decoration-color-4" : ""}`}
           >
             <Link
               href="/tradeperson/vetting/required-documents"
-              className={`${data?.profile.documents.required[task] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
+              className={`${data?.profile[Verified[task as 'identification']] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
             >
               {task}
             </Link>
           </li>
         ))}
         {
-          data?.profile.servicesOffered.length>0? <li
-          className={`flex line-through decoration-color-4`}
-        >
-          <p
-            className={`  "text-base font-normal leading-tight text-color-4`}
+          data?.profile.servicesOffered.length > 0 ? <li
+            className={`flex line-through decoration-color-4`}
           >
-            Services Offered
-          </p>
-        </li>:
-        <li
-        className={`flex `}
-      >
-        <Link
-          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
-          className={`text-base font-normal leading-tight text-color-4`}
-        >
-                      Services Offered
-        </Link>
-      </li>
+            <p
+              className={`  "text-base font-normal leading-tight text-color-4`}
+            >
+              Services Offered
+            </p>
+          </li> :
+            <li
+              className={`flex `}
+            >
+              <Link
+                href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+                className={`text-base font-normal leading-tight text-color-4`}
+              >
+                Services Offered
+              </Link>
+            </li>
         }
         {
-          !data?.user.profilePicture.includes('placeholder')? <li
-          className={`flex line-through decoration-color-4`}
-        >
-          <p
-            className={`  "text-base font-normal leading-tight text-color-4`}
+          !data?.user.profilePicture.includes('placeholder') ? <li
+            className={`flex line-through decoration-color-4`}
           >
-            Upload Profile Photo
-          </p>
-        </li>:
-        <li
-        className={`flex `}
-      >
-        <Link
-          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
-          className={`text-base font-normal leading-tight text-color-4`}
-        >
-                      Upload Profile Photo
-        </Link>
-      </li>
+            <p
+              className={`  "text-base font-normal leading-tight text-color-4`}
+            >
+              Upload Profile Photo
+            </p>
+          </li> :
+            <li
+              className={`flex `}
+            >
+              <Link
+                href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+                className={`text-base font-normal leading-tight text-color-4`}
+              >
+                Upload Profile Photo
+              </Link>
+            </li>
         }
         {
-          data?.profile.previousJobs.length>0? <li
-          className={`flex line-through decoration-color-4`}
-        >
-          <p
-            className={`  "text-base font-normal leading-tight text-color-4`}
+          data?.profile.previousJobs.length > 0 ? <li
+            className={`flex line-through decoration-color-4`}
           >
-            Upload Previous Jobs
-          </p>
-        </li>:
-        <li
-        className={`flex `}
-      >
-        <Link
-          href={`/tradeperson/profile/edit?id=${data?.user._id}`}
-          className={`text-base font-normal leading-tight text-color-4`}
-        >
-                      Upload Previous Jobs
+            <p
+              className={`  "text-base font-normal leading-tight text-color-4`}
+            >
+              Upload Previous Jobs
+            </p>
+          </li> :
+            <li
+              className={`flex `}
+            >
+              <Link
+                href={`/tradeperson/profile/edit?id=${data?.user._id}`}
+                className={`text-base font-normal leading-tight text-color-4`}
+              >
+                Upload Previous Jobs
 
-        </Link>
-      </li>
+              </Link>
+            </li>
         }
-         {
-          data?.profile.address? <li
-          className={`flex line-through decoration-color-4`}
-        >
-          <p
-            className={`  "text-base font-normal leading-tight text-color-4`}
+        {
+          data?.profile.address ? <li
+            className={`flex line-through decoration-color-4`}
           >
-            Upload Business Address
-          </p>
-        </li>:
-        <li
-        className={`flex `}
-      >
-        <p
-          className={`  "text-base font-normal leading-tight text-color-4`}
-        >
-          Upload Business Address
-        </p>
-      </li>
-       
+            <p
+              className={`  "text-base font-normal leading-tight text-color-4`}
+            >
+              Upload Business Address
+            </p>
+          </li> :
+            <li
+              className={`flex `}
+            >
+              <p
+                className={`  "text-base font-normal leading-tight text-color-4`}
+              >
+                Upload Business Address
+              </p>
+            </li>
+
         }
       </ul>
     </>

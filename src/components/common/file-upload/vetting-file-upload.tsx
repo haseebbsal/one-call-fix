@@ -1,5 +1,6 @@
 'use client'
 import { config } from "@/_utils/helpers/config";
+import { p } from "framer-motion/client";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -9,7 +10,7 @@ interface FileUploadProps {
   name?:string
   rules?:any,
   extraClass?:string,
-  currentValue:string,
+  currentValue:{imgSrc:string,isVerified:boolean},
   setValue:any
 }
 
@@ -47,9 +48,13 @@ export default function BaseVettingFileUpload({ labelClass,register,name ,rules,
         </label>
       </div>
     </div>
-    <div className="">
-      {(currentValue || imageSrc) &&   <Image className="object-contain" src={imageSrc?imageSrc:`${config.mediaURL}/${currentValue}`} alt='doc' width={200} height={200}/>}
-    </div>
+    
+    {(currentValue.isVerified || imageSrc) && <div className="">
+      {(currentValue || imageSrc) &&   <Image className="object-contain" src={imageSrc?imageSrc:`${config.mediaURL}/${currentValue.imgSrc}`} alt='doc' width={200} height={200}/>}
+    </div>}
+
+    {!currentValue.isVerified && !imageSrc && <p>Your Document Is Pending Verification</p>}
+    
     </div>
   );
 }
