@@ -189,8 +189,9 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
             {renderJobDetails()}
           </div>
 
-          <div className="py-2 px-5 sm:py-4 sm:px-8 border-b border-color-19 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-14">
-            <div className="flex flex-col justify-between text-gray-600">
+          
+        {jobType!='pending' && <div className="py-2 px-5 sm:py-4 sm:px-8 border-b border-color-19 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-14">
+          {jobType=='myJobs' && <div className="flex flex-col justify-between text-gray-600">
               <span className="text-sm text-color-14 mb-3">
                 Contact Details
               </span>
@@ -203,7 +204,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
 
               <span className="text-xs text-color-14">Email:</span>
               <h3 className="font-semibold text-md mb-2">{actualJob.user.email}</h3>
-            </div>
+            </div>}
+            
 
             {jobType=='shortlisted' && <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <img src="/icons/warning.png" alt="warning" className="w-5 h-5" />
@@ -212,7 +214,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               </span>
             </div>}
             
-          </div>
+          </div>}
+          
 
           <div className="py-2 px-5 sm:py-4 sm:px-8">
             <div className="flex flex-col justify-between text-gray-600">

@@ -46,36 +46,38 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   chatId,
   mandatoryAnswers,
   onOpen
-}:{headlineRef?:any,chatId?:any,
-  mandatoryAnswers?:any,onOpen:any}) {
+}: {
+  headlineRef?: any, chatId?: any,
+  mandatoryAnswers?: any, onOpen: any
+}) {
   const router = useRouter();
-  const { isOpen, onOpenChange, onOpen:onOpen2, onClose } = useDisclosure();
-  const { isOpen:isOpen3, onOpenChange:onOpenChange3, onOpen:onOpen3, onClose:onClose3 } = useDisclosure();
+  const { isOpen, onOpenChange, onOpen: onOpen2, onClose } = useDisclosure();
+  const { isOpen: isOpen3, onOpenChange: onOpenChange3, onOpen: onOpen3, onClose: onClose3 } = useDisclosure();
 
 
 
   // const dispatch = useAppDispatch();
-  const createJobMutation=useMutation((data:any)=>{
+  const createJobMutation = useMutation((data: any) => {
     // const token =localStorage.getItem('accessToken')
-    return axiosInstance.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,data)
-    
-  },{
+    return axiosInstance.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`, data)
+
+  }, {
     onSuccess(data) {
-      console.log('create job',data.data)
-    //   toast.success("Job Created Successfully")
+      console.log('create job', data.data)
+      //   toast.success("Job Created Successfully")
     },
     onError(error, variables, context) {
-      console.log('error in creating job',error)
+      console.log('error in creating job', error)
     },
   })
-  const signUpMutation=useMutation((data:SignUpPayload)=>axiosInstance.post('/auth/signup',data),{
+  const signUpMutation = useMutation((data: SignUpPayload) => axiosInstance.post('/auth/signup', data), {
     onSuccess(data) {
-      console.log('sign up',data.data)
-      const{access_token,refresh_token}=data.data.data.tokens
-      const {user}=data.data.data
-      localStorage.setItem('accessToken',access_token)
-      localStorage.setItem('refreshToken',refresh_token)
-      localStorage.setItem('userData',JSON.stringify(user))
+      console.log('sign up', data.data)
+      const { access_token, refresh_token } = data.data.data.tokens
+      const { user } = data.data.data
+      localStorage.setItem('accessToken', access_token)
+      localStorage.setItem('refreshToken', refresh_token)
+      localStorage.setItem('userData', JSON.stringify(user))
       // if(headlineRef){
       //   const formData = new FormData();
       //   const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
@@ -106,19 +108,19 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
     onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     }
   })
 
-  const loginMutation=useMutation((data:LoginPayload)=>axiosInstance.post('/auth/login',data),{
+  const loginMutation = useMutation((data: LoginPayload) => axiosInstance.post('/auth/login', data), {
     onSuccess(data) {
-      console.log('data',data.data)
-      const {tokens:{access_token,refresh_token}}=data.data.data
-      if(headlineRef){
+      console.log('data', data.data)
+      const { tokens: { access_token, refresh_token } } = data.data.data
+      if (headlineRef) {
         const formData = new FormData();
-        const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
+        const { files, headline, address: { latitude, longitude, city, country, formattedAddress, postalCode } } = headlineRef()
         formData.append("completion", mandatoryAnswers.completion);
         formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
         formData.append("headline", headline);
@@ -129,26 +131,26 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
         formData.append("address[city]", city);
         formData.append("address[country]", country);
         formData.append("chatId", chatId!);
-        if(files){
+        if (files) {
 
           for (const file of files) {
             formData.append("files", file);
           }
         }
         // localStorage.setItem('accessToken',access_token)
-        
-        
-        
-        if(data.data.data.user.isApproved){
+
+
+
+        if (data.data.data.user.isApproved) {
           if (data.data.data.user.role === ROLES.HOMEOWNER) {
-            Cookies.set('accessToken',access_token)
-            Cookies.set('refreshToken',refresh_token)
-            Cookies.set('userData',JSON.stringify(data.data.data.user))
+            Cookies.set('accessToken', access_token)
+            Cookies.set('refreshToken', refresh_token)
+            Cookies.set('userData', JSON.stringify(data.data.data.user))
             createJobMutation.mutate(formData)
-            // onClose()
-            // onOpen3()
-          } 
-          else{
+            onClose()
+            onOpen3()
+          }
+          else {
             toast.error('Account Is Not A HomeOwner')
           }
           // else if (data.data.data.user.role === ROLES.TRADESPERSON) {
@@ -156,34 +158,37 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           // } else {
           //   router.push("/admin/dashboard");
           // }
-         
+
           // if(data.data.data.user.role === ROLES.TRADESPERSON){
           //   cardClientSecretMutation.mutate()
           // }
         }
-        else{
-        router.push(`/email-verify/${data.data.data.user._id}?job=1`)
+        else {
+          localStorage.setItem('accessToken', access_token)
+          localStorage.setItem('refreshToken', refresh_token)
+          localStorage.setItem('userData', JSON.stringify(data.data.data.user))
+          router.push(`/email-verify/${data.data.data.user._id}?job=1`)
         }
       }
-      
-        
+
+
 
     },
     onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     }
   })
-  const cardClientSecretMutation=useMutation(()=>axiosInstance.put('/payment/card'),{
+  const cardClientSecretMutation = useMutation(() => axiosInstance.put('/payment/card'), {
     onSuccess(data) {
-      console.log('data client secret',data.data)
-      Cookies.set('clientSecret',data.data.data.clientSecret)
+      console.log('data client secret', data.data)
+      Cookies.set('clientSecret', data.data.data.clientSecret)
     },
   })
-  const { control:control2, handleSubmit:handleSubmit2, watch:watch2 } = useForm<any>();
+  const { control: control2, handleSubmit: handleSubmit2, watch: watch2 } = useForm<any>();
   // reroute to specific page based on user role
   // useEffect(() => {
   //   if (user) {
@@ -245,184 +250,184 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   };
   return (
     <>
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mt-10 flex flex-col gap-4"
-    >
-      <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-3">
-        Create Account
-      </h3>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-10 flex flex-col gap-4"
+      >
+        <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-3">
+          Create Account
+        </h3>
 
-      {/* split in 2 fields in same row */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <BaseInput
-          name="firstName"
-          type="text"
-          control={control}
-          placeholder="First Name *"
-          rules={{ required: "First Name is required" }}
-        />
-        <BaseInput
-          name="lastName"
-          type="text"
-          control={control}
-          placeholder="Last Name *"
-          rules={{ required: "Last Name is required" }}
-        />
-      </div>
-
-      <Controller
-        name="mobile"
-        control={control}
-        rules={{
-          required: "Phone number is required",
-          validate: validateUKPhoneNumber,
-        }}
-        render={({ field, fieldState: { error } }) => (
-          <>
-            <PhoneInput
-              {...field}
-              placeholder="Enter Phone Number"
-              defaultCountry="GB"
-              international
-              addInternationalOption={false}
-              countries={["GB"]}
-              className="px-4 py-3 rounded-full border border-gray-300"
-            />
-            {error && (
-              <span className="text-red-500 text-sm">{error.message}</span>
-            )}
-          </>
-        )}
-      />
-
-      <BaseInput
-        name="email"
-        type="email"
-        control={control}
-        placeholder="Email Address *"
-        rules={{
-          required: "Email is required",
-          pattern: {
-            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-            message: "Invalid email address",
-          },
-        }}
-      />
-      <BaseInputPassword
-        name="password"
-        type="password"
-        control={control}
-        placeholder="Create Password *"
-        rules={{
-          required: "Password is required",
-          // pattern: {
-          //   value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-          //   message:
-          //     "Password must contain at least 8 characters, one uppercase letter and one number",
-          // },
-        }}
-      />
-      <BaseInputPassword
-        name="confirmPassword"
-        type="password"
-        control={control}
-        placeholder="Confirm Password *"
-        rules={{
-          required: "Please confirm your password",
-          validate: (value) =>
-            value === watch("password") || "Passwords do not match",
-        }}
-      />
-
-      {/* add 2 horizontal checkboxes */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <BaseCheckbox
-          name="terms"
-          label="Accept terms & condition"
-          control={control}
-        />
-        <BaseCheckbox
-          name="marketing"
-          label="For marketing"
-          control={control}
-        />
-      </div>
-
-      <div className="w-full flex  flex-col items-start gap-2.5">
-        <BaseButton type="submit" 
-        isLoading={signUpMutation.isLoading} disabled={signUpMutation.isLoading}
-        >
-          Sign Up
-        </BaseButton>
-
-        <div className="flex flex-col gap-2">
-        <p className="text-blue-900">Already have an account?</p>
-        <BaseButton onClick={onOpen2} type="button" 
-        // isLoading={loading} disabled={loading}
-        >
-          Log In
-        </BaseButton>
+        {/* split in 2 fields in same row */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <BaseInput
+            name="firstName"
+            type="text"
+            control={control}
+            placeholder="First Name *"
+            rules={{ required: "First Name is required" }}
+          />
+          <BaseInput
+            name="lastName"
+            type="text"
+            control={control}
+            placeholder="Last Name *"
+            rules={{ required: "Last Name is required" }}
+          />
         </div>
 
-      </div>
-      
-    </form>
-        <BaseModal isDismissable={true} onClose={onClose} isOpen={isOpen}>
+        <Controller
+          name="mobile"
+          control={control}
+          rules={{
+            required: "Phone number is required",
+            validate: validateUKPhoneNumber,
+          }}
+          render={({ field, fieldState: { error } }) => (
+            <>
+              <PhoneInput
+                {...field}
+                placeholder="Enter Phone Number"
+                defaultCountry="GB"
+                international
+                addInternationalOption={false}
+                countries={["GB"]}
+                className="px-4 py-3 rounded-full border border-gray-300"
+              />
+              {error && (
+                <span className="text-red-500 text-sm">{error.message}</span>
+              )}
+            </>
+          )}
+        />
+
+        <BaseInput
+          name="email"
+          type="email"
+          control={control}
+          placeholder="Email Address *"
+          rules={{
+            required: "Email is required",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+              message: "Invalid email address",
+            },
+          }}
+        />
+        <BaseInputPassword
+          name="password"
+          type="password"
+          control={control}
+          placeholder="Create Password *"
+          rules={{
+            required: "Password is required",
+            // pattern: {
+            //   value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
+            //   message:
+            //     "Password must contain at least 8 characters, one uppercase letter and one number",
+            // },
+          }}
+        />
+        <BaseInputPassword
+          name="confirmPassword"
+          type="password"
+          control={control}
+          placeholder="Confirm Password *"
+          rules={{
+            required: "Please confirm your password",
+            validate: (value) =>
+              value === watch("password") || "Passwords do not match",
+          }}
+        />
+
+        {/* add 2 horizontal checkboxes */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <BaseCheckbox
+            name="terms"
+            label="Accept terms & condition"
+            control={control}
+          />
+          <BaseCheckbox
+            name="marketing"
+            label="For marketing"
+            control={control}
+          />
+        </div>
+
+        <div className="w-full flex  flex-col items-start gap-2.5">
+          <BaseButton type="submit"
+            isLoading={signUpMutation.isLoading} disabled={signUpMutation.isLoading}
+          >
+            Sign Up
+          </BaseButton>
+
+          <div className="flex flex-col gap-2">
+            <p className="text-blue-900">Already have an account?</p>
+            <BaseButton onClick={onOpen2} type="button"
+            // isLoading={loading} disabled={loading}
+            >
+              Log In
+            </BaseButton>
+          </div>
+
+        </div>
+
+      </form>
+      <BaseModal isDismissable={true} onClose={onClose} isOpen={isOpen}>
         <div className="pt-4 pb-6 px-5  border border-[#E1E1E1] bg-white shadow-lg rounded-lg w-full md:max-w-[700px] 2xl:max-w-[800px]">
-        <h3 className="text-2xl font-bold sm:text-3xl mb-2 text-color-1">
-          Login
-        </h3>
-        <p className="text-color-6 text-base sm:text-xl font-light">
-          Access your OneCallFix account.
-        </p>
-        <form
-      className="mt-10 flex flex-col gap-4"
-      onSubmit={handleSubmit2(onSubmitt)}
-    >
-      <BaseInput
-        name={"email"}
-        type="email"
-        control={control2}
-        placeholder="Email Address *"
-        rules={{
-          required: "Email is required",
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-            message: "Invalid email address",
-          },
-        }}
-      />
-      <BaseInputPassword
-        name={"password"}
-        type="password"
-        control={control2}
-        rules={{required:"Enter Password"}}
-        placeholder="Password *"
-        // rules={{
-        //   required: "Password is required",
-        //   pattern: {
-        //     value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
-        //     message:
-        //       "Password must contain at least 8 characters, one uppercase letter and one number",
-        //   },
-        // }}
-      />
-      <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-2.5">
-        <BaseButton type="submit" 
-        isLoading={loginMutation.isLoading}
-        disabled={loginMutation.isLoading}
-        >
-          Login
-        </BaseButton>
-        {/* <Link
+          <h3 className="text-2xl font-bold sm:text-3xl mb-2 text-color-1">
+            Login
+          </h3>
+          <p className="text-color-6 text-base sm:text-xl font-light">
+            Access your OneCallFix account.
+          </p>
+          <form
+            className="mt-10 flex flex-col gap-4"
+            onSubmit={handleSubmit2(onSubmitt)}
+          >
+            <BaseInput
+              name={"email"}
+              type="email"
+              control={control2}
+              placeholder="Email Address *"
+              rules={{
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  message: "Invalid email address",
+                },
+              }}
+            />
+            <BaseInputPassword
+              name={"password"}
+              type="password"
+              control={control2}
+              rules={{ required: "Enter Password" }}
+              placeholder="Password *"
+            // rules={{
+            //   required: "Password is required",
+            //   pattern: {
+            //     value: /^(?=.[A-Z])(?=.\d)[A-Za-z\d@$!%*?&]{8,30}$/,
+            //     message:
+            //       "Password must contain at least 8 characters, one uppercase letter and one number",
+            //   },
+            // }}
+            />
+            <div className="w-full flex flex-col sm:flex-row justify-between items-start gap-2.5">
+              <BaseButton type="submit"
+                isLoading={loginMutation.isLoading}
+                disabled={loginMutation.isLoading}
+              >
+                Login
+              </BaseButton>
+              {/* <Link
           href={"/forgot-password"}
           className="text-xs text-color-9 transition-all duration-400 hover:opacity-80 text-right w-full"
         >
           Forgotten Password?
         </Link> */}
-      </div>
-      {/* <div className="mt-4">
+            </div>
+            {/* <div className="mt-4">
         <p className="text-xs md:text-base text-color-10 w-full">
           <Link
             href={"/homeowner/signup"}
@@ -433,13 +438,13 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           <span> {` if you don't have one.`}</span>
         </p>
       </div> */}
-    </form>
+          </form>
         </div>
-        
-        </BaseModal>
 
-        <BaseModal
-      onClose={()=>router.push('/homeowner/jobs')}
+      </BaseModal>
+
+      <BaseModal
+        onClose={() => router.push('/homeowner/jobs')}
         isOpen={isOpen3}
         onOpenChange={onOpenChange3}
         size="md"
@@ -459,6 +464,6 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           </BaseButton>
         </div>
       </BaseModal>
-        </>
+    </>
   );
 }
