@@ -20,6 +20,9 @@ import { useRouter } from "next/navigation";
 enum Verified {
   identification = 'isIdVerified',
   gasSafeId = 'isGasSafeVerified',
+  partPQualification="isPartPQualified",
+  eicrDocumentation="isEicrDocumentationVerified",
+  wiringRegulationsCertificate="IsWiringRegulationsCertified"
 }
 
 
@@ -89,7 +92,7 @@ export default function RequiredDocuments() {
                 title="Part P Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.partPQualification} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.required.partPQualification,isVerified:getUserQuery.data?.data.data.profile[Verified['partPQualification']]}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="partPQualification"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -97,7 +100,7 @@ export default function RequiredDocuments() {
                 title="17th or 18th Edition Wiring Regulations (BS 7671) Certificate"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate,isVerified:getUserQuery.data?.data.data.profile[Verified['wiringRegulationsCertificate']]}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wiringRegulationsCertificate"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               <InputWrapper
@@ -105,7 +108,7 @@ export default function RequiredDocuments() {
                 title="EICR documentation (e.g. City and Guilts 2391-52)"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseVettingFileUpload>
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation,isVerified:getUserQuery.data?.data.data.profile[Verified['eicrDocumentation']]}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="eicrDocumentation"  labelClass="h-20"></BaseVettingFileUpload>
               </InputWrapper>
 
               </>}
