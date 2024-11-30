@@ -173,7 +173,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
             <Input
               type="number"
               id="input3"
-              placeholder="$53"
+              placeholder="£53"
               isRequired
               {...register("depositAmount", { required: true })}
             />
