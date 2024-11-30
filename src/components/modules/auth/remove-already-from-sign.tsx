@@ -78,29 +78,29 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
       localStorage.setItem('accessToken', access_token)
       localStorage.setItem('refreshToken', refresh_token)
       localStorage.setItem('userData', JSON.stringify(user))
-      // if(headlineRef){
-      //   const formData = new FormData();
-      //   const {files,headline,address:{latitude,longitude,city,country,formattedAddress,postalCode}}=headlineRef()
-      //   formData.append("completion", mandatoryAnswers.completion);
-      //   formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
-      //   formData.append("headline", headline);
-      //   formData.append("address[postalCode]", postalCode);
-      //   formData.append("address[formattedAddress]", formattedAddress);
-      //   formData.append("address[latitude]", latitude);
-      //   formData.append("address[longitude]", longitude);
-      //   formData.append("address[city]", city?city:"random");
-      //   formData.append("address[country]", country);
-      //   formData.append("chatId", chatId!);
-      //   if(files){
-      //     for (const file of files) {
-      //       formData.append("files", file);
-      //     }
-      //   }
-      //   // Cookies.set('accessToken',access_token)
-      //   // Cookies.set('refreshToken',refresh_token)
-      //   // Cookies.set('userData',JSON.stringify(user))
-      //   // createJobMutation.mutate(formData)
-      // }
+      if (headlineRef) {
+        const formData = new FormData();
+        const { files, headline, address: { latitude, longitude, city, country, formattedAddress, postalCode } } = headlineRef()
+        formData.append("completion", mandatoryAnswers.completion);
+        formData.append("estimatedBudget", mandatoryAnswers.estimatedBudget);
+        formData.append("headline", headline);
+        formData.append("address[postalCode]", postalCode);
+        formData.append("address[formattedAddress]", formattedAddress);
+        formData.append("address[latitude]", latitude);
+        formData.append("address[longitude]", longitude);
+        formData.append("address[city]", city ? city : "random");
+        formData.append("address[country]", country);
+        formData.append("chatId", chatId!);
+        if (files) {
+          for (const file of files) {
+            formData.append("files", file);
+          }
+        }
+        // Cookies.set('accessToken',access_token)
+        // Cookies.set('refreshToken',refresh_token)
+        // Cookies.set('userData',JSON.stringify(user))
+        createJobMutation.mutate(formData)
+      }
 
       router.push(`/email-verify/${user._id}?job=1`)
 
@@ -167,6 +167,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           localStorage.setItem('accessToken', access_token)
           localStorage.setItem('refreshToken', refresh_token)
           localStorage.setItem('userData', JSON.stringify(data.data.data.user))
+          createJobMutation.mutate(formData)
           router.push(`/email-verify/${data.data.data.user._id}?job=1`)
         }
       }
