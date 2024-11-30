@@ -104,6 +104,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
             <Input
               type="number"
               id="input1"
+              min={0}
               isInvalid={errors.quote as any}
               errorMessage={errors.quote?.message as any}
               placeholder="£53"
@@ -174,6 +175,7 @@ export const BidFormModel: React.FC<BidFormModelProps> = ({ openModal ,setQuoteM
               type="number"
               id="input3"
               placeholder="£53"
+              min={0}
               isRequired
               {...register("depositAmount", { required: true })}
             />
