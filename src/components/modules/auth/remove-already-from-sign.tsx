@@ -96,10 +96,12 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
             formData.append("files", file);
           }
         }
+
+        // axios.post(`${process.env}`)
         // Cookies.set('accessToken',access_token)
         // Cookies.set('refreshToken',refresh_token)
         // Cookies.set('userData',JSON.stringify(user))
-        createJobMutation.mutate(formData)
+        // createJobMutation.mutate(formData)
       }
 
       router.push(`/email-verify/${user._id}?job=1`)
@@ -167,7 +169,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           localStorage.setItem('accessToken', access_token)
           localStorage.setItem('refreshToken', refresh_token)
           localStorage.setItem('userData', JSON.stringify(data.data.data.user))
-          createJobMutation.mutate(formData)
+          // createJobMutation.mutate(formData)
           router.push(`/email-verify/${data.data.data.user._id}?job=1`)
         }
       }
