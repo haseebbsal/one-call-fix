@@ -194,7 +194,7 @@ console.log('card',savedCard)
                     </div>
                     {type=='1' && <BaseButton
                     as={'link'}
-                    link={savedCard && Object.keys(savedCard).length>0?`/tradeperson/job/${e._id}`:'/tradeperson/billing'}
+                    link={`/tradeperson/job/${e._id}`}
                       // variant="bordered"
                       // radius="full"
                       extraClass="!border !border-[#3571EC] !bg-transparent !text-color-9 text-lg w-fit px-12 py-4"
