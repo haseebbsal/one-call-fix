@@ -92,7 +92,6 @@ export default function JobDetailsPage(datas: any) {
     },
   })
 
-  const getCreditsQuery = useQuery(['credits'], () => axiosInstance.get('/wallet'))
   //   const queryParams = useParams();
   //   const [jobId, setJobId] = useState(queryParams.jobId as String);
   //   const dispatch = useAppDispatch();
@@ -110,7 +109,9 @@ export default function JobDetailsPage(datas: any) {
   const submitForm = (data: FieldValues) => {
     console.log('values', data)
     setDataPayment({ ...dataPayment, ...data })
-    setPayment(true)
+    paymentMutation.mutate({ ...dataPayment, ...data })
+    console.log('checkkkkk',{ ...dataPayment, ...data })
+    // setPayment(true)
   }
 
   const paymentForm = (data: FieldValues) => {
@@ -165,7 +166,6 @@ export default function JobDetailsPage(datas: any) {
     console.log('payment form', data)
   }
 
-  const savedCardQuery = useQuery(['savedCard'], () => axiosInstance.get('/payment/card'));
 
   console.log('data payment', dataPayment)
   return (
@@ -335,14 +335,14 @@ export default function JobDetailsPage(datas: any) {
                 <BaseTextArea rules={{ required: "Enter Message" }} control={control} name="message" label="Want to leave a message for lead?" extraClass={{ label: "font-semibold text-lg ml-0" }} />
               </div>
               <div className="flex gap-4 flex-wrap mt-4">
-                <BaseButton type="submit">Submit</BaseButton>
+                <BaseButton disabled={paymentMutation.isLoading} isLoading={paymentMutation.isLoading}  type="submit">Submit</BaseButton>
                 <BaseButton onClick={() => setDataPayment(null)} type="button">Back</BaseButton>
               </div>
 
             </form>
           </>
         }
-        {
+        {/* {
           payment && < form onSubmit={handleSubmit2(paymentForm)}>
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">
               Payment Method
@@ -354,13 +354,6 @@ export default function JobDetailsPage(datas: any) {
                   {...field}
                 >
                   <Radio value={'card'}><SavedPaymentCard card={savedCardQuery.data.data.data} /></Radio>
-                  {/* <Radio value={'credits'}><div className="flex items-center border-2 rounded-lg">
-            <div className="w-[3rem] h-[3rem]">
-              <Image alt="logo" src={'/logos/Original Logo (1) 2.svg'} className="w-full h-full object-contain" width={50} height={50}/>
-            </div>
-            <p><span className="font-light">OneCallFix Credits :</span> £{getCreditsQuery.data?.data.data.amount}</p>
-            
-            </div></Radio> */}
                 </RadioGroup>
 
 
@@ -377,34 +370,21 @@ export default function JobDetailsPage(datas: any) {
                 <p><span className="font-light">OneCallFix Credits :</span> £{getCreditsQuery.data?.data.data.amount}</p>
 
               </div>
-              {/* <div className="flex flex-col ">
-                                    <p className="text-gray-400 text-sm">Price</p>
-                                    <p className="font-semibold">{getUserQuery.data?.data.data.price }</p>
-                                </div> */}
+     
               <div className="flex flex-col mt-8 gap-2">
-                {/* <p className="font-semibold">Total Amount</p> */}
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col gap-2">
                     <div className="flex justify-between border-b-[0.1rem] border-dashed border-[#c9c9c9] pb-4">
                       <p className="text-[#c9c9c9] ">Price</p>
                       <p className="font-semibold">£{getUserQuery.data?.data.data.price}</p>
                     </div>
-                    {/* <div className="w-[98%] h-[0.1rem] bg-gray-400 "></div> */}
                   </div>
                   <div>
                     <Switch {...register('wallet')} >
                       Use Wallet Credits
                     </Switch>
                   </div>
-                  {/* <div className="flex flex-col gap-2">
-                          <div className="flex justify-between">
-                              <p>Tax</p>
-                              <p className="font-semibold">$2.30</p>
-                          </div>
-                          <div className="w-[98%] h-[0.1rem] bg-gray-400"></div>
-                      </div> */}
                   <div className="flex flex-col gap-2">
-                    {/* <div className="w-[98%] h-[0.1rem] bg-gray-400"></div> */}
                     <div className="flex justify-between">
                       <p className="text-[#c9c9c9] ">Subtotal (Incl.VAT)</p>
                       <p className="font-semibold">£{watch('wallet') ? getUserQuery.data?.data.data.price - getCreditsQuery.data?.data.data.amount : getUserQuery.data?.data.data.price}</p>
@@ -414,7 +394,6 @@ export default function JobDetailsPage(datas: any) {
               </div>
               <div className="flex gap-4 flex-wrap items-center mt-4">
                 <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading} type="submit" onClick={() => {
-                  // setCheckoutPage(1)
                 }} >Pay Now</BaseButton>
                 <BaseButton onClick={() => setPayment(false)}>Back</BaseButton>
               </div>
@@ -422,7 +401,7 @@ export default function JobDetailsPage(datas: any) {
             </div>
 
           </form>
-        }
+        } */}
       </div>
     </div>
   );

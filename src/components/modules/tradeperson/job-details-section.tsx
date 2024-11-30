@@ -13,6 +13,7 @@ import { Input } from "@nextui-org/input";
 import { FieldValues, useController, useForm } from "react-hook-form";
 import { CalendarDate, DateInput } from "@nextui-org/react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface Job {
   title: string;
@@ -63,6 +64,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
 
   const {isOpen,onOpen,onClose}=useDisclosure()
 
+  const router=useRouter()
+
   const acceptJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
     onSuccess(data) {
       console.log('accepted',data.data)
@@ -111,7 +114,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={()=>{
-                acceptJobMutation.mutate({status:2})
+                router.push(`/tradeperson/payment?id=${actualJob?._id}&bidId=${actualJob?.bidId}`)
+                // acceptJobMutation.mutate({status:2})
               }} extraClass="bg-color-12 text-white w-max px-2 sm:px-7">
                 Accept Job
               </BaseButton>
@@ -147,7 +151,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
   //   }
   // })
 
-  console.log('errors',errors)
+  // console.log('errors',errors)
   const markCompletedMutation=useMutation((data:any)=>axiosInstance.post(`/job/completion?jobId=${actualJob._id}`,data),{
     onSuccess(data, variables, context) {
       console.log('mark completed ',data.data)
@@ -170,6 +174,8 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
       "completionDate": data.completionDate
   })
   }
+
+  console.log('fucker see this',actualJob)
 
   return (
     <div className="sm:min-w-[30rem] w-full flex-1 flex flex-col">

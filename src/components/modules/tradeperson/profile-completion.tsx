@@ -5,6 +5,9 @@ import { Link } from "@nextui-org/link";
 enum Verified {
   identification = 'isIdVerified',
   gasSafeId = 'isGasSafeVerified',
+  partPQualification="isPartPQualified",
+  eicrDocumentation="isEicrDocumentationVerified",
+  wiringRegulationsCertificate="IsWiringRegulationsCertified"
 }
 
 // partPQualification

@@ -6,13 +6,13 @@ import JobListSection from "@/components/modules/tradeperson/job-list-section";
 import { useState } from "react";
 import { useInfiniteQuery } from "react-query";
 
-export default function ShortlistedJobs({jobsInfinite,job,setJob}:{jobsInfinite:any,job:any,setJob:any}) {
+export default function ShortlistedJobs({ jobsInfinite, job, setJob }: { jobsInfinite: any, job: any, setJob: any }) {
   // const [job,setJob]=useState(null)
-  
+
   return (
     <div className="flex gap-4 sm:flex-nowrap flex-wrap">
       <JobListSection
-      setJob={setJob}
+        setJob={setJob}
         type={'3'}
         title=""
         job={job}

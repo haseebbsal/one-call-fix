@@ -12,35 +12,35 @@ import { Tab, Tabs } from "@nextui-org/tabs";
 import { Key, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 
-export default function Jobs(){
-    const [type,setType]=useState<null|number>()
-    const [job,setJob]=useState<any>(null)
-    const jobsInfinite = useInfiniteQuery(
-        ["allJobs",type],
-        ({ queryKey, pageParam = 1 }) =>
-          axiosInstance.get(`/job/trades-person?page=${pageParam}&limit=10&type=${queryKey[1]}`),
-        {
-          getNextPageParam: (lastPage:any, pages) => {
-            if(lastPage.page!=lastPage.lastPage){
-              return lastPage.page+=1;
-            }
-            return null;
-          },
-          refetchOnWindowFocus:false,
-          onSuccess(data) {
-            if(data.pages[0].data.data.length){
-              setJob(data.pages[0].data.data[0])
-            }
-            // console.log('success',data.pages[0].data.data)
-          },
-          // enabled: !!activeDomain,
+export default function Jobs() {
+  const [type, setType] = useState<null | number>()
+  const [job, setJob] = useState<any>(null)
+  const jobsInfinite = useInfiniteQuery(
+    ["allJobs", type],
+    ({ queryKey, pageParam = 1 }) =>
+      axiosInstance.get(`/job/trades-person?page=${pageParam}&limit=10&type=${queryKey[1]}`),
+    {
+      getNextPageParam: (lastPage: any, pages) => {
+        if (lastPage.page != lastPage.lastPage) {
+          return lastPage.page += 1;
         }
-      );
-    return (
-        <>
-        <div className="w-full flex gap-4 sm:flex-nowrap flex-wrap">
-            <div className="w-full">
-            <Tabs
+        return null;
+      },
+      refetchOnWindowFocus: false,
+      onSuccess(data) {
+        if (data.pages[0].data.data.length) {
+          setJob(data.pages[0].data.data[0])
+        }
+        // console.log('success',data.pages[0].data.data)
+      },
+      // enabled: !!activeDomain,
+    }
+  );
+  return (
+    <>
+      <div className="w-full flex gap-4 sm:flex-nowrap flex-wrap">
+        <div className="w-full">
+          <Tabs
             variant={"underlined"}
             aria-label="Tabs variants"
             fullWidth
@@ -54,7 +54,7 @@ export default function Jobs(){
             }}
             onSelectionChange={(key: Key) => {
               const index = key as unknown as HomeOwnerJobTypes;
-              console.log('index',index)
+              console.log('index', index)
               setType(index)
               setJob(null)
               // handleJobs(index);
@@ -64,7 +64,7 @@ export default function Jobs(){
               {jobsInfinite.isFetching ? (
                 <Loader />
               ) : (
-                <Pending jobsInfinite={jobsInfinite} job={job} setJob={setJob}/>
+                <Pending jobsInfinite={jobsInfinite} job={job} setJob={setJob} />
               )}
               {/* {!false && jobsQuery.data?.data && !jobsQuery.data?.data.data?.length ? (
                 <p className="text-lg font-bold text-center">
@@ -78,9 +78,9 @@ export default function Jobs(){
               {jobsInfinite.isFetching ? (
                 <Loader />
               ) : (
-                <ShortlistedJobs  jobsInfinite={jobsInfinite} job={job} setJob={setJob}/>
+                <ShortlistedJobs jobsInfinite={jobsInfinite} job={job} setJob={setJob} />
                 // <p>Anything 2</p>
-                
+
               )}
               {/* {!false && jobsQuery.data?.data && !jobsQuery.data?.data.data?.length ? (
                 <p className="text-lg font-bold text-center">
@@ -94,8 +94,8 @@ export default function Jobs(){
               {false ? (
                 <Loader />
               ) : (
-                <MyJobs jobsInfinite={jobsInfinite} job={job} setJob={setJob}/>
-                
+                <MyJobs jobsInfinite={jobsInfinite} job={job} setJob={setJob} />
+
               )}
               {/* {!false && jobsQuery.data?.data && !jobsQuery.data?.data.data?.length ? (
                 <p className="text-lg font-bold text-center">
@@ -106,13 +106,13 @@ export default function Jobs(){
               )} */}
             </Tab>
           </Tabs>
-            </div>
-
-      {job && <JobDetailsSection  jobType={type==3?"shortlisted":type==2?"pending":"myJobs"} actualJob={job} job={JOB_DETAILS} />}
-
         </div>
-        </>
-    )
+
+        {job && <JobDetailsSection jobType={type == 3 ? "shortlisted" : type == 2 ? "pending" : "myJobs"} actualJob={job} job={JOB_DETAILS} />}
+
+      </div>
+    </>
+  )
 }
 
 
