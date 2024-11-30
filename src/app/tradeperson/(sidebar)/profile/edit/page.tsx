@@ -32,32 +32,32 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
-export default function EditProfile(datas:any) {
+export default function EditProfile(datas: any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
-  const { isOpen:isOpen1, onOpenChange:onOpenChange1, onOpen:onOpen1, onClose:onClose1 } = useDisclosure();
+  const { isOpen: isOpen1, onOpenChange: onOpenChange1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
 
-  const [userDetails,setUserDetails]=useState<any>()
-  const [previousWork,setPreviousWork]=useState<any>([])
-  const [newWork,setNewWork]=useState<any>([])
+  const [userDetails, setUserDetails] = useState<any>()
+  const [previousWork, setPreviousWork] = useState<any>([])
+  const [newWork, setNewWork] = useState<any>([])
   const [imageSrc, setImageSrc] = useState<string>('');
 
-  const [files,setFiles]=useState<any>([])
+  const [files, setFiles] = useState<any>([])
   // const dispatch = useAppDispatch();
   // const { userDetails }: any = useAppSelector((state) => state.user);
-  const getUserQuery=useQuery(['tradePerson',datas.searchParams.id],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`),{
+  const getUserQuery = useQuery(['tradePerson', datas.searchParams.id], ({ queryKey }) => axiosInstance.get(`/user/?userId=${queryKey[1]}`), {
     onSuccess(data) {
       setUserDetails(data.data)
-      setValue('trade',`${data?.data.data.profile.trade}`)
-      setValue('externalReviews',data?.data.data.profile.externalReviews)
-      setValue('gasSafeRegistered',data.data.data.profile.gasSafeRegistered)
-      setValue('website',data.data.data.profile.website)
+      setValue('trade', `${data?.data.data.profile.trade}`)
+      setValue('externalReviews', data?.data.data.profile.externalReviews)
+      setValue('gasSafeRegistered', data.data.data.profile.gasSafeRegistered)
+      setValue('website', data.data.data.profile.website)
       setServices(data.data.data.profile.servicesOffered)
-      setValue('about',data?.data.data.profile.about)
-      setProfilePic(data?.data.data.user.profilePicture.includes('placeholder')?'/images/profile-review.png':`${config.mediaURL}/${data?.data.data.user.profilePicture}`)
-      
+      setValue('about', data?.data.data.profile.about)
+      setProfilePic(data?.data.data.user.profilePicture.includes('placeholder') ? '/images/profile-review.png' : `${config.mediaURL}/${data?.data.data.user.profilePicture}`)
+
       setPreviousWork(data?.data.data.profile.previousJobs)
     },
-    refetchOnWindowFocus:false
+    refetchOnWindowFocus: false
   })
   const router = useRouter();
   // const userInfo = getUserInfo();
@@ -96,7 +96,7 @@ export default function EditProfile(datas:any) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      about:"",
+      about: "",
       trade: userDetails?.data?.profile?.trade.toString(),
       gasSafeRegistered: userDetails?.data?.profile?.gasSafeRegistered
         ? "Yes"
@@ -107,10 +107,10 @@ export default function EditProfile(datas:any) {
     },
   });
 
-  console.log('values',getValues())
-  const [newImage,setNewImage]=useState<any>(null)
+  console.log('values', getValues())
+  const [newImage, setNewImage] = useState<any>(null)
 
-  const queryClient=useQueryClient()
+  const queryClient = useQueryClient()
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file: any = e.target.files?.[0];
     if (file) {
@@ -139,125 +139,131 @@ export default function EditProfile(datas:any) {
 
   const onSubmit = async (data: any) => {
     console.log(data);
-    console.log('entries',Object.entries(data))
+    console.log('entries', Object.entries(data))
 
-    const filteredData:any = Object.fromEntries(
+    const filteredData: any = Object.fromEntries(
       Object.entries(data).filter(
-        ([_, value]) => value !== "" && value !== null,
+        ([_, value]) => !!value,
       ),
     );
 
-    // console.log('filtered data',filteredData)
+    console.log('filtered data', filteredData)
 
     if (!Object.keys(filteredData).length && !services.length && !profileFile) {
       let err: any = ["No Data to Update"];
       toast.error(err);
       return;
     }
-    if(!services.length && profileFile){
-      const payload={
+    if (!services.length && profileFile) {
+      const payload = {
         // servicesOffered: services,
         profileImage: profileFile,
         ...filteredData,
       }
-      const formData=new FormData()
-      formData.append('profileImage',profileFile)
-      formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
-      formData.append('externalReviews',filteredData.externalReviews)
-      formData.append('trade',filteredData.trade)
-      formData.append('website',filteredData.website)
-      formData.append('about',data.about)
+      const formData = new FormData()
+      formData.append('profileImage', profileFile)
+      Object.entries(filteredData).forEach(([key, value]: any) => {
+        if (key != 'previousJobs') {
+          formData.append(key, value)
+        }
+      })
+      // formData.append('gasSafeRegistered', filteredData.gasSafeRegistered)
+      // formData.append('externalReviews', filteredData.externalReviews)
 
-      if(files.length>0){
-        files.forEach((e:any)=>{
-          formData.append('previousJobs',e)
+      // formData.append('trade', filteredData.trade)
+      // formData.append('website', filteredData.website)
+      // formData.append('about', data.about)
+
+      if (files.length > 0) {
+        files.forEach((e: any) => {
+          formData.append('previousJobs', e)
         })
       }
-  
-      console.log('payload2',payload)
+
+      console.log('payload2', payload)
       editTradepersonMutation.mutate(formData)
       // toast.error(err);
       return
     }
-    else if(services.length && !profileFile){
-      const payload={
+    else if (services.length && !profileFile) {
+      const payload = {
         servicesOffered: services,
         // profileImage: profileFile,
         ...filteredData,
       }
-      const formData=new FormData()
+      const formData = new FormData()
       // console.log('services',services)
       // formData.append('servicesOffered',services as any)
-      services.forEach((item,index) => {
-        if(item.trim()){
-  
+      services.forEach((item, index) => {
+        if (item.trim()) {
+
           formData.append(`servicesOffered[${index}]`, item);
         }
-       })
+      })
       //  formData.append('servicesOffered', ' ');
 
-      formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
-      formData.append('externalReviews',filteredData.externalReviews)
-      formData.append('trade',filteredData.trade)
-      formData.append('website',filteredData.website)
-      formData.append('about',data.about)
-      console.log('previous',data.previousJobs)
-      if(files.length>0){
-        files.forEach((e:any)=>{
-          formData.append('previousJobs',e)
+      Object.entries(filteredData).forEach(([key, value]: any) => {
+        if (key != 'previousJobs') {
+          formData.append(key, value)
+        }
+      })
+      console.log('previous', data.previousJobs)
+      if (files.length > 0) {
+        files.forEach((e: any) => {
+          formData.append('previousJobs', e)
         })
       }
-  
-      console.log('payload3',[...formData.entries()])
+
+      console.log('payload3', [...formData.entries()])
       editTradepersonMutation.mutate(formData)
-      return 
+      return
     }
-    else if(!services.length && !profileFile){
-      const payload={
+    else if (!services.length && !profileFile) {
+      const payload = {
         // servicesOffered: services,
         // profileImage: profileFile,
         ...filteredData,
       }
-      const formData=new FormData()
+      const formData = new FormData()
       // formData.append('servicesOffered',services as any)
-      formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
-      formData.append('externalReviews',filteredData.externalReviews)
-      formData.append('trade',filteredData.trade)
-      formData.append('website',filteredData.website)
-      formData.append('about',data.about)
-      console.log('payload4',payload)
+      Object.entries(filteredData).forEach(([key, value]: any) => {
+        if (key != 'previousJobs') {
+          formData.append(key, value)
+        }
+      })
+      console.log('payload4', payload)
       editTradepersonMutation.mutate(formData)
-      return 
+      return
     }
-    const payload={
+    const payload = {
       servicesOffered: services,
       profileImage: profileFile,
       ...filteredData,
     }
 
-    console.log('payload',payload)
-    const formData=new FormData()
-    services.forEach((item,index) => {
-      if(item.trim()){
+    console.log('payload', payload)
+    const formData = new FormData()
+    services.forEach((item, index) => {
+      if (item.trim()) {
 
         formData.append(`servicesOffered[${index}]`, item);
       }
-     })
-      // formData.append('servicesOffered',services as any)
-      formData.append('gasSafeRegistered',filteredData.gasSafeRegistered)
-      formData.append('profileImage',profileFile!)
-      formData.append('externalReviews',filteredData.externalReviews)
-      formData.append('trade',filteredData.trade)
-      formData.append('about',data.about)
-      formData.append('website',filteredData.website)
-      if(files.length>0){
-        files.forEach((e:any)=>{
-          formData.append('previousJobs',e)
-        })
+    })
+    // formData.append('servicesOffered',services as any)
+    formData.append('profileImage', profileFile!)
+    Object.entries(filteredData).forEach(([key, value]: any) => {
+      if (key != 'previousJobs') {
+        formData.append(key, value)
       }
-      // console.log('payload',payload)
-      editTradepersonMutation.mutate(formData)
-    
+    })
+    if (files.length > 0) {
+      files.forEach((e: any) => {
+        formData.append('previousJobs', e)
+      })
+    }
+    // console.log('payload',payload)
+    editTradepersonMutation.mutate(formData)
+
   };
 
 
@@ -266,11 +272,11 @@ export default function EditProfile(datas:any) {
     router.push('/tradeperson/profile')
   };
 
-  
 
-  const editTradepersonMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
+
+  const editTradepersonMutation = useMutation((data: any) => axiosInstance.putForm('/trades-person', data), {
     onSuccess(data) {
-      console.log('edit profile',data.data)
+      console.log('edit profile', data.data)
       queryClient.invalidateQueries('tradePerson')
       // router.refresh()
       setNewWork(null)
@@ -279,36 +285,36 @@ export default function EditProfile(datas:any) {
     },
   })
 
-  const deleteImage=useMutation((datasss:any)=>{
+  const deleteImage = useMutation((datasss: any) => {
     // console.log('dataaaa',datasss)
     return axiosInstance.delete(`/trades-person/previous-jobs?name=${datasss}`)
-  },{
+  }, {
     onSuccess(data, variables, context) {
-      console.log('delteeee',data.data)
+      console.log('delteeee', data.data)
       queryClient.invalidateQueries('tradePerson')
     },
   })
 
   const onChange = (cropper: CropperRef) => {
-		// let newfile:any=''
+    // let newfile:any=''
     cropper.getCanvas()?.toBlob((blob) => {
       const file = new File([blob!], 'croppedImage.png', { type: 'image/png' });
       // console.log('new file',file)
       // newfile=file
-      console.log('new',file)
+      console.log('new', file)
       setProfileFile(file)
       // setSelectedFile(file)
       // setProfilePic()
       setImageSrc(URL.createObjectURL(file))
       // return file
     }, 'image/png')
-	};
+  };
 
 
   return (
     <>
       <BaseModal
-      onClose={()=>router.push('/tradeperson/profile')}
+        onClose={() => router.push('/tradeperson/profile')}
         isOpen={isOpen}
         onOpenChange={onOpenChange}
         size="md"
@@ -329,27 +335,27 @@ export default function EditProfile(datas:any) {
         </div>
       </BaseModal>
       <BaseModal
-      onClose={()=>{}}
-      // isDismissable={false}
-      hideCloseButton={true}
+        onClose={() => { }}
+        // isDismissable={false}
+        hideCloseButton={true}
         isOpen={isOpen1}
         onOpenChange={onOpenChange1}
         size="md"
         header="Crop Image"
-        // modalHeaderImage="/images/modal-success.png"
+      // modalHeaderImage="/images/modal-success.png"
       >
         <div className="flex flex-col gap-2 items-center mb-7">
-        <Cropper
-                src={newImage}
-                onChange={onChange}
-                className={'cropper rounded-full h-[20rem] w-[20rem]  border border-color-8'}
-                />
-                <BaseButton onClick={()=>{
-                  setNewImage(null)
-                  setProfilePic(imageSrc)
-                  onClose1()
-                  // uploadImageToDB()
-                }}>Crop</BaseButton>
+          <Cropper
+            src={newImage}
+            onChange={onChange}
+            className={'cropper rounded-full h-[20rem] w-[20rem]  border border-color-8'}
+          />
+          <BaseButton onClick={() => {
+            setNewImage(null)
+            setProfilePic(imageSrc)
+            onClose1()
+            // uploadImageToDB()
+          }}>Crop</BaseButton>
         </div>
       </BaseModal>
       <div className="p-8">
@@ -364,22 +370,22 @@ export default function EditProfile(datas:any) {
           >
             <div className="flex flex-col gap-2 items-start">
               <div className="relative w-max">
-              {!newImage && <div className="rounded-full h-[5rem] w-[5rem] flex items-center justify-center p-[0.02rem] bg-[#C2C2C2] border border-color-8">
-                <Image
-                width={50}
-                height={50}
-                  src={profilePic}
-                  alt="Profile Image"
-                  className="w-full h-full rounded-full object-contain cursor-pointer"
-                  onClick={handleClick}
-                />
-                 {/* <img className="w-full h-full object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} /> */}
-              </div>}
-              {/* {newImage && <div className="flex flex-col gap-2">
+                {!newImage && <div className="rounded-full h-[5rem] w-[5rem] flex items-center justify-center p-[0.02rem] bg-[#C2C2C2] border border-color-8">
+                  <Image
+                    width={50}
+                    height={50}
+                    src={profilePic}
+                    alt="Profile Image"
+                    className="w-full h-full rounded-full object-contain cursor-pointer"
+                    onClick={handleClick}
+                  />
+                  {/* <img className="w-full h-full object-contain" src={imageSrc.includes('placeholder')?'/images/user.png':imageSrc} /> */}
+                </div>}
+                {/* {newImage && <div className="flex flex-col gap-2">
                
                 
               </div> } */}
-                {!newImage &&  <span
+                {!newImage && <span
                   className="absolute bottom-0 right-0 bg-blue-500 text-white p-1 rounded-full cursor-pointer"
                   onClick={handleClick}
                 >
@@ -398,7 +404,7 @@ export default function EditProfile(datas:any) {
                     />
                   </svg>
                 </span>}
-                
+
                 {/* Hidden File Input */}
                 <input
                   type="file"
@@ -423,11 +429,10 @@ export default function EditProfile(datas:any) {
               </label>
               <div className="flex space-x-4">
                 <label
-                  className={`inline-flex items-center justify-center px-4 py-2 border rounded-lg cursor-pointer ${
-                    watch("trade") === "1"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
+                  className={`inline-flex items-center justify-center px-4 py-2 border rounded-lg cursor-pointer ${watch("trade") === "1"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 text-gray-700"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -438,11 +443,10 @@ export default function EditProfile(datas:any) {
                   <span className="ml-2">Plumber</span>
                 </label>
                 <label
-                  className={`inline-flex items-center justify-center px-4 py-2 border rounded-lg cursor-pointer ${
-                    watch("trade") === "2"
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
+                  className={`inline-flex items-center justify-center px-4 py-2 border rounded-lg cursor-pointer ${watch("trade") === "2"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 text-gray-700"
+                    }`}
                 >
                   <input
                     type="radio"
@@ -503,39 +507,39 @@ export default function EditProfile(datas:any) {
             <div className="mt-4 flex gap-2 flex-wrap w-full">
               {services.map((service, index) => (
 
-                service.trim()!='' && 
+                service.trim() != '' &&
                 <div className="flex flex-col gap-1">
-                  <button type="button" onClick={()=>{
-                    setServices(services.filter((e,inde)=>inde!=index))
+                  <button type="button" onClick={() => {
+                    setServices(services.filter((e, inde) => inde != index))
                   }} className="text-red-500 bg-red-200 p-1 rounded-full ml-auto text-xs !">X</button>
-                   <span
-                  key={index}
-                  className="inline-block bg-blue-600 text-white px-3 py-1 rounded-lg text-lg  mb-2"
-                >
-                  {service}
-                </span>
+                  <span
+                    key={index}
+                    className="inline-block bg-blue-600 text-white px-3 py-1 rounded-lg text-lg  mb-2"
+                  >
+                    {service}
+                  </span>
                 </div>
-               
+
               ))}
             </div>
 
             <div className="mt-6 w-full">
-            <label className="block text-lg font-medium text-black mb-2">
+              <label className="block text-lg font-medium text-black mb-2">
                 About Me
               </label>
-              <BaseTextArea 
-              name="about"
+              <BaseTextArea
+                name="about"
 
-              // defaultValue={getUserQuery.data?.data.data.profile.about}
-              control={control}
-              // rules={{
-              //   required:""
-              // }}
-              placeholder="Write details..."
-              // label="About Me"
-              extraClass={{
-                label:"font-medium text-lg m-0"
-              }}
+                // defaultValue={getUserQuery.data?.data.data.profile.about}
+                control={control}
+                // rules={{
+                //   required:""
+                // }}
+                placeholder="Write details..."
+                // label="About Me"
+                extraClass={{
+                  label: "font-medium text-lg m-0"
+                }}
               />
             </div>
 
@@ -570,73 +574,73 @@ export default function EditProfile(datas:any) {
             </div>
 
             <div className="mt-6">
-            <label className="block text-lg font-medium text-black">
+              <label className="block text-lg font-medium text-black">
                 Work Gallery
               </label>
-             <div className="flex gap-4 mt-4 w-full flex-wrap">
-             <Swiper
-      className="sm:w-[50rem] w-[15rem] !m-0"
+              <div className="flex gap-4 mt-4 w-full flex-wrap">
+                <Swiper
+                  className="sm:w-[50rem] w-[15rem] !m-0"
 
-      modules={[Pagination,Autoplay]}
-       autoplay={{
-        delay: 2500,
-        disableOnInteraction: false,
-      }}
-      pagination={{clickable:true}}
-      spaceBetween={0}
-      slidesPerView={1}
-      breakpoints={{
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 100,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 100,
-        },
-      }}
-    //   onSlideChange={() => console.log('slide change')}
-    //   onSwiper={(swiper) => console.log(swiper)}
-    >
-      {previousWork?.map((e:any)=>
-      <SwiperSlide>
-        <div className="relative flex flex-col ">
-                <button type="button" onClick={()=>{
-                  // console.log('clickinngg')
-                 
-                  // console.log('delete',{
-                  //   name:e
-                  // })
-                  // console.log('image',e)
-                  // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
-                  // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
-                  deleteImage.mutate(e)
-                }} className="bg-transparent ml-auto z-[4] top-[-1rem] text-sm bg-red-400  p-0 rounded-full w-max min-w-max h-max min-h-max right-0 text-red-500">x</button>
-                <Image src={e.includes('blob')?e:`${config.mediaURL}/${e}`} alt="previous" width={100} height={100} className="object-contain"/>
-              </div>
-      </SwiperSlide>
-              )}
-              {newWork?.map((e:any,index:number)=>
-              <SwiperSlide >
-                <div className="relative flex flex-col">
-                  
-                <button type="button" onClick={()=>{
-                 
-                  const filter=newWork.filter((j:string)=>j!=e)
-                    setNewWork(filter)
-                    setFiles((prev:any)=>prev.filter((j:any,ind:number)=>ind!=index))
-                    return
-                 
-                }} className="bg-transparent ml-auto z-[4] top-[-1rem]   p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
-                <Image src={e} alt="previous" width={100} height={100} className="object-contain"/>
-                </div>
-              </SwiperSlide>)}
-  
-          {/* {STEPS.map((step, index) => (
+                  modules={[Pagination, Autoplay]}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
+                  pagination={{ clickable: true }}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 2,
+                      spaceBetween: 20,
+                    },
+                    768: {
+                      slidesPerView: 3,
+                      spaceBetween: 100,
+                    },
+                    1024: {
+                      slidesPerView: 3,
+                      spaceBetween: 100,
+                    },
+                  }}
+                //   onSlideChange={() => console.log('slide change')}
+                //   onSwiper={(swiper) => console.log(swiper)}
+                >
+                  {previousWork?.map((e: any) =>
+                    <SwiperSlide>
+                      <div className="relative flex flex-col ">
+                        <button type="button" onClick={() => {
+                          // console.log('clickinngg')
+
+                          // console.log('delete',{
+                          //   name:e
+                          // })
+                          // console.log('image',e)
+                          // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
+                          // axiosInstance.delete('/trades-person/previous-jobs',{name:e})
+                          deleteImage.mutate(e)
+                        }} className="bg-transparent ml-auto z-[4] top-[-1rem] text-sm bg-red-400  p-0 rounded-full w-max min-w-max h-max min-h-max right-0 text-red-500">x</button>
+                        <Image src={e.includes('blob') ? e : `${config.mediaURL}/${e}`} alt="previous" width={100} height={100} className="object-contain" />
+                      </div>
+                    </SwiperSlide>
+                  )}
+                  {newWork?.map((e: any, index: number) =>
+                    <SwiperSlide >
+                      <div className="relative flex flex-col">
+
+                        <button type="button" onClick={() => {
+
+                          const filter = newWork.filter((j: string) => j != e)
+                          setNewWork(filter)
+                          setFiles((prev: any) => prev.filter((j: any, ind: number) => ind != index))
+                          return
+
+                        }} className="bg-transparent ml-auto z-[4] top-[-1rem]   p-0 rounded-full w-max min-w-max text-md h-max min-h-max right-0 text-red-500">x</button>
+                        <Image src={e} alt="previous" width={100} height={100} className="object-contain" />
+                      </div>
+                    </SwiperSlide>)}
+
+                  {/* {STEPS.map((step, index) => (
             <SwiperSlide className="sm:p-0 ">
        <div key={index} className="">
               <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
@@ -650,37 +654,37 @@ export default function EditProfile(datas:any) {
               </SwiperSlide>
             
           ))} */}
-          </Swiper>
-              
-             </div>
+                </Swiper>
+
+              </div>
 
 
-      
-             <label htmlFor="work" className="block bg-color-9 text-white text-center p-2 rounded-full mt-2 cursor-pointer relative">
-              Add Work Gallery
-              <input {...register('previousJobs' as any)} id="work" type="file" accept=".jpeg,.png,.jpg" className="absolute invisible" multiple onChange={(e)=>{
-                const newFiles=(e.target.files)
-                Object.values(newFiles as any).forEach((e)=>{
-                  const newUrl=URL.createObjectURL(e as File)
-                  setNewWork((prev:any)=>[...prev,newUrl])
-                  setFiles((prev:any)=>[...prev,e])
-                  // console.log(newUrl)
-                })
 
-              }}/>
-             </label>
+              <label htmlFor="work" className="block bg-color-9 text-white text-center p-2 rounded-full mt-2 cursor-pointer relative">
+                Add Work Gallery
+                <input {...register('previousJobs' as any)} id="work" type="file" accept=".jpeg,.png,.jpg" className="absolute invisible" multiple onChange={(e) => {
+                  const newFiles = (e.target.files)
+                  Object.values(newFiles as any).forEach((e) => {
+                    const newUrl = URL.createObjectURL(e as File)
+                    setNewWork((prev: any) => [...prev, newUrl])
+                    setFiles((prev: any) => [...prev, e])
+                    // console.log(newUrl)
+                  })
+
+                }} />
+              </label>
             </div>
             <div className="py-4">
               <BaseButton
-              isLoading={editTradepersonMutation.isLoading}
-              disabled={editTradepersonMutation.isLoading}
+                isLoading={editTradepersonMutation.isLoading}
+                disabled={editTradepersonMutation.isLoading}
                 type="submit"
                 extraClass=" text-lg"
-                // className="px-12 py-4 text-lg text-white bg-blue-500 rounded-full hover:bg-blue-600"
+              // className="px-12 py-4 text-lg text-white bg-blue-500 rounded-full hover:bg-blue-600"
               >
                 Save Profile
               </BaseButton>
-              
+
             </div>
           </form>
         </div>
