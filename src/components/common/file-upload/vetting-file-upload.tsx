@@ -27,7 +27,7 @@ export default function BaseVettingFileUpload({ labelClass,register,name ,rules,
           <span className="flex items-center space-x-2">
             <img src="/icons/upload.png" alt="upload" />
             <span className="font-medium text-sm lg:text-medium text-center">
-              Drop items here or
+          
               <span className="font-extrabold ml-[4px]">Browse Files</span>
             </span>
           </span>

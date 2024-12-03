@@ -138,8 +138,14 @@ console.log('id',)
   });
 
   useEffect(()=>{
-    if(Cookies.get('accessToken')){
-      setIsloggedIn(true)
+    const getUser=Cookies.get('userData')
+    if(getUser){
+      const {role}=JSON.parse(getUser)
+      if(role=='HomeOwner'){
+        // setDisplay(false)
+        setIsloggedIn(true)
+      }
+      // console.log('user',parse)
     }
   },[])
   const createJobMutation=useMutation((data:any)=>axiosInstance.postForm('/job',data),{

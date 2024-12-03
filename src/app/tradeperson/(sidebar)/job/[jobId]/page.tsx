@@ -275,7 +275,7 @@ export default function JobDetailsPage(datas: any) {
             <div className="flex flex-col gap-2 items-start justify-between">
               <p>Lead Fee</p>
               <p className="text-lg font-semibold text-red-500 rounded-md px-8 py-2 border-2 ">
-                £{getUserQuery.data?.data.data.price.toPrecision(4)}
+                £{getUserQuery.data?.data.data.price.toFixed(2)}
               </p>
               <div className="flex flex-col gap-2">
                 <p className="text-sm">Submitting interest is free! You only have to pay once the homeowner has shortlisted you and you have confirmed that you would like their details</p>

@@ -23,7 +23,7 @@ import { Button } from "@nextui-org/button";
 // import { useAppDispatch } from "@/lib/hooks";
 // import { logoutUser } from "@/lib/features/authSlice";
 
-export default function HomeownerNavBar() {
+export default function HomeownerNavBar({user}:{user:any}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [display,setDisplay]=useState(false)
   const pathname=usePathname()
@@ -93,14 +93,15 @@ export default function HomeownerNavBar() {
               POST A JOB
             </Button>
           </NavbarItem>}
-          <NavbarItem>
+          {user?.role=='HomeOwner' && <NavbarItem>
             <Button onClick={()=>{
                 router.push("/homeowner/jobs" )
                   // setIsMenuOpen(!isMenuOpen)
                 }} className={`text-sm font-semibold bg-transparent p-0 ${pathname=="/homeowner/jobs"?"!text-color-9":""}`}>
               MY JOB
             </Button>
-          </NavbarItem>
+          </NavbarItem>}
+          
           <NavbarItem className="mr-5" 
           >
             <BaseButton type="button" 
@@ -123,7 +124,11 @@ export default function HomeownerNavBar() {
             <BaseButton
               // as="link"
               onClick={()=>{
-                router.push("/homeowner/account-settings")
+                if(user.role=='HomeOwner'){
+                  router.push("/homeowner/account-settings")
+                  return
+                }
+                router.push("/tradeperson/dashboard")
                   // setIsMenuOpen(!isMenuOpen)
                 }}
               // link="/homeowner/account-settings"

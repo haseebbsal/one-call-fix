@@ -15,6 +15,8 @@ import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 import BaseVettingFileUpload from "@/components/common/file-upload/vetting-file-upload";
 import { useRouter } from "next/navigation";
+import { useDisclosure } from "@nextui-org/modal";
+import BaseModal from "@/components/common/modal/base-modal";
 
 
 enum Verified {
@@ -27,6 +29,7 @@ enum Verified {
 
 
 export default function RequiredDocuments() {
+  const {isOpen,onOpen,onClose,onOpenChange}=useDisclosure()
   const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
   const queryClient=useQueryClient()
@@ -45,6 +48,7 @@ export default function RequiredDocuments() {
     onSuccess(data, variables, context) {
       console.log('update',data.data)
       queryClient.invalidateQueries('tradePerson')
+      onOpen()
       router.refresh()
     },
     onError(error:any) {
@@ -72,9 +76,29 @@ export default function RequiredDocuments() {
   }
   return (
     <>
-      <LayoutWrapper
+    <BaseModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Documents Submitted Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={()=>onClose()}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
+    {getUserQuery.data &&   <LayoutWrapper
         sectionOneTitle="Required Documents"
-        sectionOneHeading="Electrician"
+        sectionOneHeading={getUserQuery.data?.data.data.profile.trade==2?"Electrician":"Plumber"}
         sectionOneChildren={
           <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -141,7 +165,8 @@ export default function RequiredDocuments() {
             <ProfileCompletion data={getUserQuery.data?.data.data}/>
           </>
         }
-      ></LayoutWrapper>
+      ></LayoutWrapper>}
+     
     </>
   );
 }

@@ -32,6 +32,7 @@ import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
+import Cookies from 'js-cookie'
 export default function EditProfile(datas: any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const { isOpen: isOpen1, onOpenChange: onOpenChange1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
@@ -54,11 +55,12 @@ export default function EditProfile(datas: any) {
       setServices(data.data.data.profile.servicesOffered)
       setValue('about', data?.data.data.profile.about)
       setProfilePic(data?.data.data.user.profilePicture.includes('placeholder') ? '/images/profile-review.png' : `${config.mediaURL}/${data?.data.data.user.profilePicture}`)
-
       setPreviousWork(data?.data.data.profile.previousJobs)
     },
     refetchOnWindowFocus: false
   })
+
+  console.log(Cookies.get('userData'))
   const router = useRouter();
   // const userInfo = getUserInfo();
   const [profilePic, setProfilePic] = useState(
@@ -138,9 +140,6 @@ export default function EditProfile(datas: any) {
 
 
   const onSubmit = async (data: any) => {
-    console.log(data);
-    console.log('entries', Object.entries(data))
-
     const filteredData: any = Object.fromEntries(
       Object.entries(data).filter(
         ([_, value]) => !!value,
@@ -148,6 +147,7 @@ export default function EditProfile(datas: any) {
     );
 
     console.log('filtered data', filteredData)
+    console.log('services', services)
 
     if (!Object.keys(filteredData).length && !services.length && !profileFile) {
       let err: any = ["No Data to Update"];
@@ -207,6 +207,7 @@ export default function EditProfile(datas: any) {
           formData.append(key, value)
         }
       })
+
       console.log('previous', data.previousJobs)
       if (files.length > 0) {
         files.forEach((e: any) => {
@@ -245,7 +246,6 @@ export default function EditProfile(datas: any) {
     const formData = new FormData()
     services.forEach((item, index) => {
       if (item.trim()) {
-
         formData.append(`servicesOffered[${index}]`, item);
       }
     })
@@ -279,6 +279,8 @@ export default function EditProfile(datas: any) {
       console.log('edit profile', data.data)
       queryClient.invalidateQueries('tradePerson')
       // router.refresh()
+      Cookies.set('userData',JSON.stringify(data.data.data.user))
+      router.refresh()
       setNewWork(null)
 
       onOpen()
@@ -299,7 +301,7 @@ export default function EditProfile(datas: any) {
     // let newfile:any=''
     cropper.getCanvas()?.toBlob((blob) => {
       const file = new File([blob!], 'croppedImage.png', { type: 'image/png' });
-      // console.log('new file',file)
+      console.log('new file',file)
       // newfile=file
       console.log('new', file)
       setProfileFile(file)
@@ -352,7 +354,12 @@ export default function EditProfile(datas: any) {
           />
           <BaseButton onClick={() => {
             setNewImage(null)
-            setProfilePic(imageSrc)
+            if(!imageSrc){
+              setProfilePic(newImage)
+            }
+            else{
+              setProfilePic(imageSrc)
+            }
             onClose1()
             // uploadImageToDB()
           }}>Crop</BaseButton>

@@ -21,15 +21,15 @@ import Cookies from 'js-cookie'
 export default function PublicNavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname=usePathname()
-  const [display,setDisplay]=useState(true)
+  const [display,setDisplay]=useState<any>()
 
   useEffect(()=>{
     const getUser=Cookies.get('userData')
     if(getUser){
-      const {role}=JSON.parse(getUser)
-      if(role!='HomeOwner'){
-        setDisplay(false)
-      }
+      const user=JSON.parse(getUser)
+
+        setDisplay(user)
+      
       // console.log('user',parse)
 
     }
@@ -63,7 +63,7 @@ export default function PublicNavBar() {
               HOME
             </Link>
           </NavbarItem>
-          {display && <NavbarItem>
+          {<NavbarItem>
             <Link
               href="/homeowner/post-a-job"
               className={`text-sm font-semibold ${pathname=='/homeowner/post-a-job'?'text-color-5':""} hover:text-color-5`}
@@ -71,13 +71,15 @@ export default function PublicNavBar() {
               POST A JOB
             </Link>
           </NavbarItem>}
-          <NavbarItem className="mr-5">
+          {!display &&  <NavbarItem className="mr-5">
             <Link href="/login" className={` ${pathname=='/login'?'text-color-5':""} text-sm font-semibold hover:text-color-5`}>
               LOGIN
             </Link>
-          </NavbarItem>
+          </NavbarItem>}
+         
+        
 
-          <NavbarItem>
+        {(display?.role=='HomeOwner' || !display) && <NavbarItem>
             <BaseButton
               as="link"
               link="/tradeperson/signup"
@@ -85,7 +87,8 @@ export default function PublicNavBar() {
             >
               TRADEPERSON SIGN UP
             </BaseButton>
-          </NavbarItem>
+          </NavbarItem> }
+          
         </NavbarContent>
 
         <NavbarMenu className="mt-10">

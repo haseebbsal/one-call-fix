@@ -71,7 +71,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
     },
   })
   const signUpMutation = useMutation((data: SignUpPayload) => axiosInstance.post('/auth/signup', data), {
-    onSuccess(data) {
+    onSuccess:async (data) =>{
       console.log('sign up', data.data)
       const { access_token, refresh_token } = data.data.data.tokens
       const { user } = data.data.data
@@ -97,7 +97,12 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           }
         }
 
-        // axios.post(`${process.env}`)
+        const postJob=await axios.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,formData,{
+          headers:{
+            Authorization:`Bearer ${access_token}`
+          }
+        })
+        console.log('postjobbbb',postJob.data)
         // Cookies.set('accessToken',access_token)
         // Cookies.set('refreshToken',refresh_token)
         // Cookies.set('userData',JSON.stringify(user))
@@ -117,7 +122,7 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   })
 
   const loginMutation = useMutation((data: LoginPayload) => axiosInstance.post('/auth/login', data), {
-    onSuccess(data) {
+    onSuccess:async (data)=> {
       console.log('data', data.data)
       const { tokens: { access_token, refresh_token } } = data.data.data
       if (headlineRef) {
@@ -170,6 +175,12 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
           localStorage.setItem('refreshToken', refresh_token)
           localStorage.setItem('userData', JSON.stringify(data.data.data.user))
           // createJobMutation.mutate(formData)
+          const postJob=await axios.postForm(`${process.env.NEXT_PUBLIC_BASE_API_URL}/job`,formData,{
+            headers:{
+              Authorization:`Bearer ${access_token}`
+            }
+          })
+          console.log('postjobbbb',postJob.data)
           router.push(`/email-verify/${data.data.data.user._id}?job=1`)
         }
       }

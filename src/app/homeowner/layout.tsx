@@ -22,7 +22,7 @@ export default function HomeownerLayout({
   },[pathname])
   return (
     <main>
-      {user ? <HomeownerNavBar /> : <PublicNavBar />}
+      {user ? <HomeownerNavBar user={user} /> : <PublicNavBar />}
       {children}
       <SiteFooter />
     </main>

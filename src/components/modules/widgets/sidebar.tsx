@@ -17,13 +17,11 @@ interface Props {
 export default function Sidebar({ menuItems }: Props) {
   const [currentPath, setCurrentPath] = useState("");
   const pathname = usePathname();
+  let user:any=Cookies.get('userData')
+  if(user){
+    user=JSON.parse(user)
+  }
 
-  const [user,setUser]=useState<any>(null)
-  useEffect(()=>{
-    const user=JSON.parse(Cookies.get('userData')!)
-    console.log('user',user)
-    setUser(user)
-  },[])
   useEffect(() => {
     setCurrentPath(pathname);
   }, [pathname]);

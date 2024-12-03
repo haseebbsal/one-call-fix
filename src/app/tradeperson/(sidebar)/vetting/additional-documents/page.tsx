@@ -14,9 +14,13 @@ import axiosInstance from "@/_utils/helpers/axiosInstance";
 import BaseButton from "@/components/common/button/base-button";
 import toast from "react-hot-toast";
 import BaseVettingFileUpload from "@/components/common/file-upload/vetting-file-upload";
+import { useDisclosure } from "@nextui-org/modal";
+import BaseModal from "@/components/common/modal/base-modal";
 export default function AdditionalDocuments() {
   const { control,register,handleSubmit ,setValue} = useForm();
   const [user,setUser]=useState<any>(null)
+  const {isOpen,onOpen,onClose,onOpenChange}=useDisclosure()
+
   const queryClient=useQueryClient()
   useEffect(()=>{
     const user=JSON.parse(Cookies.get('userData')!)
@@ -32,6 +36,7 @@ export default function AdditionalDocuments() {
     onSuccess(data, variables, context) {
       console.log('update',data.data)
       queryClient.invalidateQueries('tradePerson')
+      onOpen()
     },
     onError(error:any) {
       if (Array.isArray(error.response.data.message)) {
@@ -55,6 +60,26 @@ export default function AdditionalDocuments() {
   }
   return (
     <>
+    <BaseModal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Documents Submitted Successfully
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={()=>onClose()}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
       <LayoutWrapper
         sectionOneTitle="Additional Documents"
         sectionOneHeading="Electrician"
