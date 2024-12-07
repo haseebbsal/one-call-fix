@@ -10,6 +10,14 @@ enum Verified {
   wiringRegulationsCertificate="IsWiringRegulationsCertified"
 }
 
+enum VerifiedNames{
+  identification = 'Identification',
+  gasSafeId = 'Gas safe ID',
+  partPQualification="Part P Qualification",
+  eicrDocumentation="EICR Documentation",
+  wiringRegulationsCertificate="Wiring Regulations Certificate"
+}
+
 // partPQualification
 // wiringRegulationsCertificate
 // eicrDocumentation
@@ -39,7 +47,7 @@ export default function ProfileCompletion({ data }: { data: any }) {
           <p
             className={`${data?.profile[Verified[task as 'identification']] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
           >
-            {task}
+            {VerifiedNames[task as 'identification']}
           </p>
         </li> : (
 
@@ -51,7 +59,7 @@ export default function ProfileCompletion({ data }: { data: any }) {
               href="/tradeperson/vetting/required-documents"
               className={`${data?.profile[Verified[task as 'identification']] ? "text-base font-normal leading-tight text-color-4" : "text-base font-normal leading-tight"}`}
             >
-              {task}
+              {VerifiedNames[task as 'identification']}
             </Link>
           </li>
         ))}
