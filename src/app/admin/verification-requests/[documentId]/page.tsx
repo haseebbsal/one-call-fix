@@ -362,6 +362,36 @@ export default function VerificationDocument(datas: any) {
                   </a>
 
                 </div>}
+                {getUserQuery.data?.data.data.profile.documents.additional.wras && <div>
+                  <h5 className="text-color-20 text-base font-medium pb-2">
+                    Competent Person Register
+                  </h5>
+                  <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.wras}`} target="_blank">
+                    <Image
+                      src="/images/certificate.png"
+                      alt="Qualification"
+                      width={144}
+                      height={144}
+                      className="object-contain"
+                    />
+                  </a>
+
+                </div>}
+                {getUserQuery.data?.data.data.profile.documents.additional.professionalIndemnityInsurance && <div>
+                  <h5 className="text-color-20 text-base font-medium pb-2">
+                    Competent Person Register
+                  </h5>
+                  <a href={`${config.mediaURL}/${getUserQuery.data?.data.data.profile.documents.additional.professionalIndemnityInsurance}`} target="_blank">
+                    <Image
+                      src="/images/certificate.png"
+                      alt="Qualification"
+                      width={144}
+                      height={144}
+                      className="object-contain"
+                    />
+                  </a>
+
+                </div>}
 
               </div>
             </>}

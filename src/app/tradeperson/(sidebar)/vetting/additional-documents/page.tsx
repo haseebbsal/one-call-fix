@@ -117,7 +117,7 @@ export default function AdditionalDocuments() {
               
 
               {
-                !getUserQuery.data?.data.data.profile.gasSafeRegistered && getUserQuery.data?.data.data.profile.trade==1 && <>
+                getUserQuery.data?.data.data.profile.trade==1 && <>
                 <InputWrapper
                 className="mb-8"
                 title="Diploma"
@@ -128,13 +128,13 @@ export default function AdditionalDocuments() {
              
               
 
-              {/* <InputWrapper
+              <InputWrapper
                 className="mb-8"
                 title="WRAS Certificate"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="cityGuildQualification"  labelClass="h-20"></BaseVettingFileUpload>
-              </InputWrapper> */}
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.wras,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="wras"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper>
                 </>
                 }
               <InputWrapper

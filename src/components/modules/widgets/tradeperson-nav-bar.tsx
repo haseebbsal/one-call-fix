@@ -80,7 +80,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
           </Link>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden md:flex">
+      {/* <NavbarContent className="hidden md:flex">
         <Input
           classNames={{
             base: "max-w-full sm:max-w-[14rem] h-10",
@@ -93,7 +93,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
           startContent={<SearchIcon size={18} />}
           type="search"
         />
-      </NavbarContent>
+      </NavbarContent> */}
       <NavbarContent className="sm:flex gap-3 mr-10" justify="end">
         {/* <NavbarItem className="hidden md:block">
           <Image
@@ -153,7 +153,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
           </div>
         </div>
 
-        <div className="md:hidden p-2">
+        {/* <div className="md:hidden p-2">
           <Input
             classNames={{
               base: "max-w-full sm:max-w-[14rem] h-10",
@@ -166,7 +166,7 @@ export default function TradepersonNavBar({ menuItems }: Props) {
             startContent={<SearchIcon size={18} />}
             type="search"
           />
-        </div>
+        </div> */}
 
         <ul className="space-y-4 font-medium h-[57%] overflow-auto">
           {menuItems.map((item, index) => (
