@@ -1,6 +1,6 @@
 "use client";
 import { Image } from "@nextui-org/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomButton from "@/components/common/button/custom-button";
 import { toTitleCase } from "@/_utils/helpers";
 import { Button } from "@nextui-org/button";
@@ -35,12 +35,13 @@ interface JobListSectionProps {
   errorMessage?: string | null;
   loadMoreData?: () => void;
   onJobClick?: (jobId: string) => void;
-  type:string;
-  setJob?:any
-  savedCard?:any,
-  job?:any
-  user:any
+  type: string;
+  setJob?: any
+  savedCard?: any,
+  job?: any
 }
+
+import Cookies from 'js-cookie'
 
 export default function JobListSection({
   setJob,
@@ -53,13 +54,18 @@ export default function JobListSection({
   loadMoreData,
   savedCard,
   job,
-  user,
   onJobClick, // <-- Added this prop
 }: JobListSectionProps) {
   // const dispatch = useAppDispatch();
   const router = useRouter();
-  console.log('job items',jobItems)
-console.log('card',savedCard)
+  console.log('job items', jobItems)
+  console.log('card', savedCard)
+  const [user, setUser] = useState<any>(null)
+  useEffect(() => {
+    const user = JSON.parse(Cookies.get('userData')!)
+    console.log(user)
+    setUser(user)
+  }, [])
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const [selectedJob, setSelectedJob] = useState<JobItem>({
     jobId: "",
@@ -94,11 +100,11 @@ console.log('card',savedCard)
   };
 
 
-  console.log('selectedjob',selectedJob)
+  console.log('selectedjob', selectedJob)
 
 
 
-  
+
 
 
   return (
@@ -159,89 +165,89 @@ console.log('card',savedCard)
             {errorMessage}
           </p>
         ) : (
-          jobItems.data?.pages.map((item:any, index:number) => (
-            item.data.data.map((e:any)=>{
+          jobItems.data?.pages.map((item: any, index: number) => (
+            item.data.data.map((e: any) => {
               return <React.Fragment key={index}>
-              {type == '3' && (
-                <div className="flex items-center justify-end mb-1">
-                  <div className="py-1 px-3 border-2 rounded-lg text-xs font-normal text-white bg-color-21">
-                    {`${e.tradesPersonApplied}`} Tradespeople Shortlisted
-                  </div>
-                </div>
-              )}
-              {/* job div */}
-              <div
-                className={`mb-2 ${e._id==job?._id?"bg-[#F9FBFF] border-l-[0.2rem] border-color-9 border-b-0":"bg-white"} p-4 sm:p-8 last:mb-0 gap-2 flex ${type=='1'?"cursor-text":"cursor-pointer"}  flex-col sm:flex-row items-start border-b border-color-19`}
-                onClick={() => {
-                  if(setJob){
-                    setJob(e)
-                    
-                  }
-                  // if (item.jobId) {
-                  //   // onJobClick(item.jobId);
-                  // }
-                }}
-              >
-                <Image
-                  className="mr-4 h-8 w-8 sm:h-16 sm:w-16 "
-                  src="/images/job-bell.png"
-                  alt="bellProfile Picture"
-                />
-                <div className="flex flex-col w-full">
-                  <div className="mb-1 flex flex-col gap-2 sm:flex-row justify-between text-gray-600">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-medium">{toTitleCase(e.headline)}</h3>
-                      <span className="text-xs sm:text-sm text-color-14">
-                        {Number(e.distance).toFixed(2)} miles away
-                      </span>
+                {type == '3' && (
+                  <div className="flex items-center justify-end mb-1">
+                    <div className="py-1 px-3 border-2 rounded-lg text-xs font-normal text-white bg-color-21">
+                      {`${e.tradesPersonApplied}`} Tradespeople Shortlisted
                     </div>
-                    {type=='1' && <BaseButton
-                    as={'link'}
-                    link={`/tradeperson/job/${e._id}`}
-                      // variant="bordered"
-                      // radius="full"
-                      extraClass="!border !border-[#3571EC] !bg-transparent !text-color-9 text-lg w-fit px-12 py-4"
+                  </div>
+                )}
+                {/* job div */}
+                <div
+                  className={`mb-2 ${e._id == job?._id ? "bg-[#F9FBFF] border-l-[0.2rem] border-color-9 border-b-0" : "bg-white"} p-4 sm:p-8 last:mb-0 gap-2 flex ${type == '1' ? "cursor-text" : "cursor-pointer"}  flex-col sm:flex-row items-start border-b border-color-19`}
+                  onClick={() => {
+                    if (setJob) {
+                      setJob(e)
+
+                    }
+                    // if (item.jobId) {
+                    //   // onJobClick(item.jobId);
+                    // }
+                  }}
+                >
+                  <Image
+                    className="mr-4 h-8 w-8 sm:h-16 sm:w-16 "
+                    src="/images/job-bell.png"
+                    alt="bellProfile Picture"
+                  />
+                  <div className="flex flex-col w-full">
+                    <div className="mb-1 flex flex-col gap-2 sm:flex-row justify-between text-gray-600">
+                      <div className="flex flex-col gap-1">
+                        <h3 className="font-medium">{toTitleCase(e.headline)}</h3>
+                        <span className="text-xs sm:text-sm text-color-14">
+                          {Number(e.distance).toFixed(2)} miles away
+                        </span>
+                      </div>
+                      {type == '1' && <BaseButton
+                        as={'link'}
+                        link={`/tradeperson/job/${e._id}`}
+                        // variant="bordered"
+                        // radius="full"
+                        extraClass="!border !border-[#3571EC] !bg-transparent !text-color-9 text-lg w-fit px-12 py-4"
                       // onClick={(f) => {
                       //   f.stopPropagation();
                       //   applyBid(e);
                       // }}
-                    >
-                      Submit Interest
-                    </BaseButton>}
-                    
-                  </div>
-                  <p className="mt-1 text-sm">{e.issue}</p>
-                  <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
-                    <span className="text-xs sm:text-sm text-color-14">
-                      Posted {((new Date().getMonth()-new Date(e.createdAt).getMonth())*30 + (new Date().getDate()-new Date(e.createdAt).getDate()))} days ago
-                      {/* {item.posted} */}
-                    </span>
-                    <div className="py-1 px-9 border-2 rounded-lg text-sm font-semibold text-color-15">
-                      £{e.price}
+                      >
+                        Submit Interest
+                      </BaseButton>}
+
+                    </div>
+                    <p className="mt-1 text-sm">{e.issue}</p>
+                    <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
+                      <span className="text-xs sm:text-sm text-color-14">
+                        Posted {((new Date().getMonth() - new Date(e.createdAt).getMonth()) * 30 + (new Date().getDate() - new Date(e.createdAt).getDate()))} days ago
+                        {/* {item.posted} */}
+                      </span>
+                      <div className="py-1 px-9 border-2 rounded-lg text-sm font-semibold text-color-15">
+                        £{e.price}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </React.Fragment>
+              </React.Fragment>
             })
           ))
         )}
-        {!jobItems.isLoading && !jobItems.data? (
+        {!jobItems.isLoading && !jobItems.data ? (
           <p className="text-lg font-bold text-center">No Job Avaliable</p>
         ) : (
           ""
         )}
-        {jobItems.hasNextPage &&  <BaseButton
-        isLoading={jobItems.isFetching}
-        disabled={jobItems.isFetching}
+        {jobItems.hasNextPage && <BaseButton
+          isLoading={jobItems.isFetching}
+          disabled={jobItems.isFetching}
           extraClass="bg-color-12 text-white px-7"
-          onClick={()=>{
+          onClick={() => {
             jobItems.fetchNextPage()
           }}
         >
           Load More
         </BaseButton>}
-        
+
       </section>
     </div>
   );
