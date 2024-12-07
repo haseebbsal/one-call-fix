@@ -106,13 +106,13 @@ export default function AdditionalDocuments() {
               </InputWrapper> */}
               </>
 
-              {/* <InputWrapper
+              <InputWrapper
                 className="mb-8"
                 title="Professional indemnity insurance"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.professionalIndemnityInsurance,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="professionalIndemnityInsurance"  labelClass="h-20"></BaseVettingFileUpload>
-              </InputWrapper> */}
+              </InputWrapper>
 
               
 
