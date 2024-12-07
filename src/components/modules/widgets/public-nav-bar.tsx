@@ -93,15 +93,25 @@ export default function PublicNavBar() {
 
         <NavbarMenu className="mt-10">
           {MENU_ITEMS.map((item, index) => {
-            if(index==1){
-              return display && <NavbarItem>
+            if(index==2){
+              return  !display && <NavbarItem>
                 <Link
-                  href="/homeowner/post-a-job"
+                  href={item.link}
                   className={`text-sm font-semibold ${pathname==item.link?'text-color-5':""} hover:text-color-5`}
                 >
-                  POST A JOB
+                  {item.title}
                 </Link>
               </NavbarItem>
+            }
+            if(index==3){
+              return (display?.role=='HomeOwner' || !display) && <NavbarItem>
+              <Link
+                href={item.link}
+                className={`text-sm font-semibold ${pathname==item.link?'text-color-5':""} hover:text-color-5`}
+              >
+                {item.title}
+              </Link>
+            </NavbarItem> 
             }
             return (
             <NavbarMenuItem key={`${item}-${index}`}>

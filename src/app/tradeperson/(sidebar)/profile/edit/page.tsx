@@ -148,6 +148,7 @@ export default function EditProfile(datas: any) {
 
     console.log('filtered data', filteredData)
     console.log('services', services)
+    console.log('dataaaaaa',data)
 
     if (!Object.keys(filteredData).length && !services.length && !profileFile) {
       let err: any = ["No Data to Update"];
@@ -228,11 +229,15 @@ export default function EditProfile(datas: any) {
       const formData = new FormData()
       // formData.append('servicesOffered',services as any)
       Object.entries(filteredData).forEach(([key, value]: any) => {
+        if(key=='gasSafeRegistered'){
+          formData.append(key,value=='No'?false:true as any)
+          return
+        }
         if (key != 'previousJobs') {
           formData.append(key, value)
         }
       })
-      console.log('payload4', payload)
+      console.log('payload4',[...formData.entries()])
       editTradepersonMutation.mutate(formData)
       return
     }

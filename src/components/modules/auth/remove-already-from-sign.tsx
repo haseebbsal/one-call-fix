@@ -64,6 +64,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
   }, {
     onSuccess(data) {
       console.log('create job', data.data)
+      onClose()
+      onOpen3()
       //   toast.success("Job Created Successfully")
     },
     onError(error, variables, context) {
@@ -154,8 +156,8 @@ export default function RemoveAlreadyFromHomeOwnerSignUpForm({
             Cookies.set('refreshToken', refresh_token)
             Cookies.set('userData', JSON.stringify(data.data.data.user))
             createJobMutation.mutate(formData)
-            onClose()
-            onOpen3()
+            // onClose()
+            // onOpen3()
           }
           else {
             toast.error('Account Is Not A HomeOwner')
