@@ -124,7 +124,7 @@ export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
   const [availableTimess,setAvailableTimes]=useState<any>([])
   const [formError, setFromError] = useState<string>("");
   const [defaultDay,setDefaultDay]=useState<any>(null)
-
+  console.log('userrr',user)
 const queryClient=useQueryClient()
   const getUserInfoQuery=useQuery(['getAvailabity',user],({queryKey})=>axiosInstance.get(`/availability?userId=${queryKey[1]}`),{
     onSuccess(data) {

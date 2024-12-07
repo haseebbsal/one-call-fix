@@ -39,6 +39,7 @@ interface JobListSectionProps {
   setJob?:any
   savedCard?:any,
   job?:any
+  user:any
 }
 
 export default function JobListSection({
@@ -52,6 +53,7 @@ export default function JobListSection({
   loadMoreData,
   savedCard,
   job,
+  user,
   onJobClick, // <-- Added this prop
 }: JobListSectionProps) {
   // const dispatch = useAppDispatch();
@@ -101,8 +103,9 @@ console.log('card',savedCard)
 
   return (
     <div className="w-full flex-[2] flex flex-col mb-8 lg:mb-0 h-fit max-h-[670px] overflow-y-auto overflow-x-hidden">
-      <BidFormModel setQuoteModal={setQuoteModal} openModal={quoteModal} />
-      <SchedulePickerModal setSceduleModal={setSceduleModal} isOpen={sceduleModal} />
+      {user && <>
+        <BidFormModel setQuoteModal={setQuoteModal} openModal={quoteModal} />
+        <SchedulePickerModal user={user?._id} setSceduleModal={setSceduleModal} isOpen={sceduleModal} /></>}
       {isOpen ? (
         <BaseModal
           isOpen={isOpen}
