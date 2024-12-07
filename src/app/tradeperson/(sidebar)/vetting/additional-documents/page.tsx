@@ -82,7 +82,7 @@ export default function AdditionalDocuments() {
       </BaseModal>
       <LayoutWrapper
         sectionOneTitle="Additional Documents"
-        sectionOneHeading="Electrician"
+        sectionOneHeading={getUserQuery.data?.data.data.profile.trade==2?"Electrician":"Plumber"}
         sectionOneChildren={
           <>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,14 +97,24 @@ export default function AdditionalDocuments() {
              
               
 
-              <InputWrapper
+              {/* <InputWrapper
                 className="mb-8"
                 title="EAL Qualification"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.ealQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="ealQualification"  labelClass="h-20"></BaseVettingFileUpload>
-              </InputWrapper>
+              </InputWrapper> */}
               </>
+
+              {/* <InputWrapper
+                className="mb-8"
+                title="Professional indemnity insurance"
+                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              >
+                <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.professionalIndemnityInsurance,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="professionalIndemnityInsurance"  labelClass="h-20"></BaseVettingFileUpload>
+              </InputWrapper> */}
+
+              
 
               {
                 !getUserQuery.data?.data.data.profile.gasSafeRegistered && getUserQuery.data?.data.data.profile.trade==1 && <>
@@ -118,14 +128,15 @@ export default function AdditionalDocuments() {
              
               
 
-              <InputWrapper
+              {/* <InputWrapper
                 className="mb-8"
-                title="City Guild Qualification"
+                title="WRAS Certificate"
                 // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <BaseVettingFileUpload setValue={setValue} currentValue={{imgSrc:getUserQuery.data?.data.data.profile.documents.additional.cityGuildQualification,isVerified:true}} extraClass="!bg-[#357EEC29] !border-[#357EEC]" register={register} name="cityGuildQualification"  labelClass="h-20"></BaseVettingFileUpload>
-              </InputWrapper>
-                </>}
+              </InputWrapper> */}
+                </>
+                }
               <InputWrapper
                 className="mb-8"
                 title="NVQ Level 3 Qualification"

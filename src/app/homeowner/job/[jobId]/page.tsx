@@ -27,32 +27,32 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-export default function Jobs(datas:any) {
+export default function Jobs(datas: any) {
   // const queryParams = useParams();
   // const [jobId, setJobId] = useState(queryParams.jobId as String);
   // const dispatch = useAppDispatch();
   // const { job, loading, error }: any = useAppSelector((state) => state.job);
-  const {isOpen,onOpen,onClose}=useDisclosure()
-  const router=useRouter()
-  const queryCient=useQueryClient()
-  const getMoreLeadsMutation=useMutation(()=>axiosInstance.put(`/job/request-quote?jobId=${datas.params.jobId}`),{
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const router = useRouter()
+  const queryCient = useQueryClient()
+  const getMoreLeadsMutation = useMutation(() => axiosInstance.put(`/job/request-quote?jobId=${datas.params.jobId}`), {
     onSuccess(data) {
-      console.log('more leads',data.data)
+      console.log('more leads', data.data)
     },
-    onError(error:any) {
+    onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     },
   })
   const [jobId, setJobId] = useState(datas.params.jobId as String);
-  const individualJob=useQuery(['individualJob',datas.params.jobId],({queryKey})=>axiosInstance.get(`/job?jobId=${queryKey[1]}`))
-  const bidsQuery=useQuery(['bids',datas.params.jobId],({queryKey})=>axiosInstance.get(`/bid/all?page=1&limit=10&jobId=${queryKey[1]}`))
-  const deleteJob=useMutation(()=>axiosInstance.delete(`/job?jobId=${datas.params.jobId}`),{
+  const individualJob = useQuery(['individualJob', datas.params.jobId], ({ queryKey }) => axiosInstance.get(`/job?jobId=${queryKey[1]}`))
+  const bidsQuery = useQuery(['bids', datas.params.jobId], ({ queryKey }) => axiosInstance.get(`/bid/all?page=1&limit=10&jobId=${queryKey[1]}`))
+  const deleteJob = useMutation(() => axiosInstance.delete(`/job?jobId=${datas.params.jobId}`), {
     onSuccess(data, variables, context) {
-      console.log('deleted',data.data)
+      console.log('deleted', data.data)
       onClose()
       queryCient.invalidateQueries('homeOwnerJobs')
       router.replace('/homeowner/jobs')
@@ -119,14 +119,14 @@ export default function Jobs(datas:any) {
                   {individualJob.data?.data?.data.completion}
                 </p>
               </div>
-              <div className="flex gap-2 flex-wrap items-end ">
+              <div className="flex gap-2 flex-wrap items-end mt-4 ">
                 <h6 className="flex-1 text-color-6 text-[16px] font-[300]">
                   Issue:
                 </h6>
-               
-            <p className="flex-1 text-color-6 font-semibold text-[15px]">
-              {individualJob.data?.data?.data.chat.issue}
-            </p>
+
+                <p className="flex-1 text-black font-bold text-[15px]">
+                  {individualJob.data?.data?.data.chat.issue}
+                </p>
               </div>
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function Jobs(datas:any) {
                 </li>
               ))}
             </ul>
-            
+
           </div>
           <div className="mb-2">
             <h6 className="text-black py-2.5 font-[500] text-[18px]">
@@ -163,37 +163,37 @@ export default function Jobs(datas:any) {
               Attachments
             </h6>
             <div className="flex justify-between flex-wrap gap-2 items-center">
-            <Swiper
-      className="w-full"
-      modules={[Pagination,Autoplay]}
-       autoplay={{
-        delay: 2500,
-        disableOnInteraction: false,
-      }}
-      pagination={{clickable:true}}
-      spaceBetween={0}
-      slidesPerView={1}
-      breakpoints={{
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 100,
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 100,
-        },
-      }}
-    //   onSlideChange={() => console.log('slide change')}
-    //   onSwiper={(swiper) => console.log(swiper)}
-    >
-      {individualJob.data?.data?.data.media.map((item: any, index: any) =>
+              <Swiper
+                className="w-full"
+                modules={[Pagination, Autoplay]}
+                autoplay={{
+                  delay: 2500,
+                  disableOnInteraction: false,
+                }}
+                pagination={{ clickable: true }}
+                spaceBetween={0}
+                slidesPerView={1}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  768: {
+                    slidesPerView: 3,
+                    spaceBetween: 100,
+                  },
+                  1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 100,
+                  },
+                }}
+              //   onSlideChange={() => console.log('slide change')}
+              //   onSwiper={(swiper) => console.log(swiper)}
+              >
+                {individualJob.data?.data?.data.media.map((item: any, index: any) =>
                   item.isVideo ? (
                     <SwiperSlide className="sm:p-0 ">
-                      
+
                       <video
                         key={index}
                         src={`${config.mediaURL}/${item.name}`}
@@ -218,7 +218,7 @@ export default function Jobs(datas:any) {
                     </SwiperSlide>
                   ),
                 )}
-          {/* {STEPS.map((step, index) => (
+                {/* {STEPS.map((step, index) => (
             <SwiperSlide className="sm:p-0 ">
        <div key={index} className="">
               <div className=" h-72 bg-white rounded-3xl flex justify-center items-center">
@@ -232,7 +232,7 @@ export default function Jobs(datas:any) {
               </SwiperSlide>
             
           ))} */}
-          </Swiper>
+              </Swiper>
 
               {/* <div className="flex items-center gap-2.5">
                 {individualJob.data?.data?.data.media.map((item: any, index: any) =>
@@ -256,7 +256,7 @@ export default function Jobs(datas:any) {
                   ),
                 )}
               </div> */}
-              <BaseButton onClick={()=>{
+              <BaseButton onClick={() => {
                 getMoreLeadsMutation.mutate()
               }} extraClass="!underline !m-auto bg-transparent !text-color-9 !mr-4 !text-medium">
                 Need More Leads
@@ -267,19 +267,19 @@ export default function Jobs(datas:any) {
             Trade People Who Applied For this Job
           </h6>
           <div className="flex gap-2">
-            {bidsQuery.data?.data.data.map((e:any)=><LeadCard bidId={e._id} jobId={datas.params.jobId} id={e.user._id} imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`}/>)}
+            {bidsQuery.data?.data.data.map((e: any) => <LeadCard bidId={e._id} jobId={datas.params.jobId} id={e.user._id} imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`} />)}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
           </div>
           <div className="flex gap-4 mt-12 sm:flex-nowrap justify-center sm:justify-start flex-wrap">
             <BaseButton
-            as={'link'}
-            link={`/homeowner/job/edit?id=${datas.params.jobId}`}
-            extraClass="!min-w-[12rem] !text-lg"
-              // variant="solid"
-              // radius="full"
-              // className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
+              as={'link'}
+              link={`/homeowner/job/edit?id=${datas.params.jobId}`}
+              extraClass="!min-w-[12rem] !text-lg"
+            // variant="solid"
+            // radius="full"
+            // className="border bg-[#3571EC] text-white text-lg w-fit px-16 py-6"
             >
               Edit Job Post
             </BaseButton>
@@ -288,7 +288,7 @@ export default function Jobs(datas:any) {
               // radius="full"
               isLoading={deleteJob.isLoading}
               disabled={deleteJob.isLoading}
-              onClick={()=>{
+              onClick={() => {
                 onOpen()
               }}
               extraClass="border border-color-6 text-color-6 text-lg w-fit !min-w-[12rem] bg-transparent"
@@ -298,15 +298,15 @@ export default function Jobs(datas:any) {
           </div>
 
           <BaseModal header="Delete Job Confirmation" isOpen={isOpen} onClose={onClose}>
-          <div className="flex flex-col gap-4 items-center">
-            <p className="text-center">Are you sure you want to delete this job?</p>
-            <div className="flex gap-4">
-            <BaseButton type="button" onClick={()=>{
-                deleteJob.mutate()
-              }}>Yes</BaseButton>
-            <BaseButton type="button" onClick={()=>onClose()}>No</BaseButton>
+            <div className="flex flex-col gap-4 items-center">
+              <p className="text-center">Are you sure you want to delete this job?</p>
+              <div className="flex gap-4">
+                <BaseButton type="button" onClick={() => {
+                  deleteJob.mutate()
+                }}>Yes</BaseButton>
+                <BaseButton type="button" onClick={() => onClose()}>No</BaseButton>
+              </div>
             </div>
-          </div>
           </BaseModal>
         </div>
       )}

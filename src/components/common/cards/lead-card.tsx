@@ -21,6 +21,8 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
   const shortlistMutation=useMutation((data:string)=>axiosInstance.put(`/bid/assign?bidId=${data}`),{
     onSuccess(data, variables, context) {
         console.log('shortlist',data.data)
+        toast.success('TradePerson Shortlisted')
+
     },
     onError(error:any) {
       if (Array.isArray(error.response.data.message)) {
@@ -62,7 +64,7 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
           radius="full"
           className="border border-[#3571EC] text-[#3571EC] text-lg h-14 w-fit px-10 mt-4"
         >
-          Assign The Job
+          ShortList Tradesperson
         </Button>
       </div>
     </div>

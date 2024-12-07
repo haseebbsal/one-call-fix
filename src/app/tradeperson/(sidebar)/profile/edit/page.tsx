@@ -148,7 +148,7 @@ export default function EditProfile(datas: any) {
 
     console.log('filtered data', filteredData)
     console.log('services', services)
-    console.log('dataaaaaa',data)
+    console.log('dataaaaaa', data)
 
     if (!Object.keys(filteredData).length && !services.length && !profileFile) {
       let err: any = ["No Data to Update"];
@@ -164,6 +164,10 @@ export default function EditProfile(datas: any) {
       const formData = new FormData()
       formData.append('profileImage', profileFile)
       Object.entries(filteredData).forEach(([key, value]: any) => {
+        if (key == 'gasSafeRegistered') {
+          formData.append(key, value == 'No' ? false : true as any)
+          return
+        }
         if (key != 'previousJobs') {
           formData.append(key, value)
         }
@@ -204,6 +208,10 @@ export default function EditProfile(datas: any) {
       //  formData.append('servicesOffered', ' ');
 
       Object.entries(filteredData).forEach(([key, value]: any) => {
+        if (key == 'gasSafeRegistered') {
+          formData.append(key, value == 'No' ? false : true as any)
+          return
+        }
         if (key != 'previousJobs') {
           formData.append(key, value)
         }
@@ -229,15 +237,15 @@ export default function EditProfile(datas: any) {
       const formData = new FormData()
       // formData.append('servicesOffered',services as any)
       Object.entries(filteredData).forEach(([key, value]: any) => {
-        if(key=='gasSafeRegistered'){
-          formData.append(key,value=='No'?false:true as any)
+        if (key == 'gasSafeRegistered') {
+          formData.append(key, value == 'No' ? false : true as any)
           return
         }
         if (key != 'previousJobs') {
           formData.append(key, value)
         }
       })
-      console.log('payload4',[...formData.entries()])
+      console.log('payload4', [...formData.entries()])
       editTradepersonMutation.mutate(formData)
       return
     }
@@ -257,6 +265,10 @@ export default function EditProfile(datas: any) {
     // formData.append('servicesOffered',services as any)
     formData.append('profileImage', profileFile!)
     Object.entries(filteredData).forEach(([key, value]: any) => {
+      if (key == 'gasSafeRegistered') {
+        formData.append(key, value == 'No' ? false : true as any)
+        return
+      }
       if (key != 'previousJobs') {
         formData.append(key, value)
       }
@@ -284,7 +296,7 @@ export default function EditProfile(datas: any) {
       console.log('edit profile', data.data)
       queryClient.invalidateQueries('tradePerson')
       // router.refresh()
-      Cookies.set('userData',JSON.stringify(data.data.data.user))
+      Cookies.set('userData', JSON.stringify(data.data.data.user))
       router.refresh()
       setNewWork(null)
 
@@ -306,7 +318,7 @@ export default function EditProfile(datas: any) {
     // let newfile:any=''
     cropper.getCanvas()?.toBlob((blob) => {
       const file = new File([blob!], 'croppedImage.png', { type: 'image/png' });
-      console.log('new file',file)
+      console.log('new file', file)
       // newfile=file
       console.log('new', file)
       setProfileFile(file)
@@ -359,10 +371,10 @@ export default function EditProfile(datas: any) {
           />
           <BaseButton onClick={() => {
             setNewImage(null)
-            if(!imageSrc){
+            if (!imageSrc) {
               setProfilePic(newImage)
             }
-            else{
+            else {
               setProfilePic(imageSrc)
             }
             onClose1()

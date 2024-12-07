@@ -21,6 +21,7 @@ export default function Tradeperson(datas:any){
     const shortlistMutation=useMutation((data:string)=>axiosInstance.put(`/bid/assign?bidId=${data}`),{
         onSuccess(data, variables, context) {
             console.log('shortlist',data.data)
+            toast.success('TradePerson Shortlisted')
         },
         onError(error:any) {
             if (Array.isArray(error.response.data.message)) {
