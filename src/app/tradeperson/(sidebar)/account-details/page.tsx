@@ -17,95 +17,95 @@ import toast from "react-hot-toast";
 import BaseInput from "@/components/common/form/base-input";
 import NewGoogleMaps from "@/components/common/form/new-google-places";
 export default function AccountDetails() {
-  const { control,setValue ,handleSubmit,watch,getValues} = useForm();
-  const [notMatch,setNotMatch]=useState(false)
-  const [user,setUser]=useState<any>(null)
-  useEffect(()=>{
-    const user=JSON.parse(Cookies.get('userData')!)
+  const { control, setValue, handleSubmit, watch, getValues } = useForm();
+  const [notMatch, setNotMatch] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  useEffect(() => {
+    const user = JSON.parse(Cookies.get('userData')!)
     console.log(user)
     setUser(user)
-  },[])
-  
-  useEffect(()=>{
-    const oldValue=getValues('oldPassword')
-    const value=getValues('newPassword')
-    if(value){
-      if(value!=oldValue){
+  }, [])
+
+  useEffect(() => {
+    const oldValue = getValues('oldPassword')
+    const value = getValues('newPassword')
+    if (value) {
+      if (value != oldValue) {
         setNotMatch(true)
       }
       setNotMatch(false)
     }
-  },[watch('oldPassword')])
+  }, [watch('oldPassword')])
 
-  const getUserQuery=useQuery(['tradePerson',user?._id],({queryKey})=>axiosInstance.get(`/user/?userId=${queryKey[1]}`),{
-    enabled:!!user,
+  const getUserQuery = useQuery(['tradePerson', user?._id], ({ queryKey }) => axiosInstance.get(`/user/?userId=${queryKey[1]}`), {
+    enabled: !!user,
     onSuccess(data) {
-      setValue('businessName',data.data.data.profile.companyName)
-      setValue('accountFirstName',data.data.data.user.firstName)
-      setValue('accountLastName',data.data.data.user.lastName)
-      setValue('phoneNumber',data.data.data.user.phone)
-      setValue('addressText',data.data.data.profile.address.text)
-      setValue('city',data.data.data.profile.address.city)
-      setValue('address',{
-        city:data.data.data.profile.address.city,
-        country:data.data.data.profile.address.country,
-        postalCode:data.data.data.profile.address.postalCode,
-        latitude:data.data.data.profile.address.location.coordinates[0],
-        longitude:data.data.data.profile.address.location.coordinates[1]
+      setValue('businessName', data.data.data.profile.companyName)
+      setValue('accountFirstName', data.data.data.user.firstName)
+      setValue('accountLastName', data.data.data.user.lastName)
+      setValue('phoneNumber', data.data.data.user.phone)
+      setValue('addressText', data.data.data.profile.address.text)
+      setValue('city', data.data.data.profile.address.city)
+      setValue('address', {
+        city: data.data.data.profile.address.city,
+        country: data.data.data.profile.address.country,
+        postalCode: data.data.data.profile.address.postalCode,
+        latitude: data.data.data.profile.address.location.coordinates[0],
+        longitude: data.data.data.profile.address.location.coordinates[1]
 
-    })
+      })
     },
   })
 
-  const updateProfileMutation=useMutation((data:any)=>axiosInstance.putForm('/trades-person',data),{
+  const updateProfileMutation = useMutation((data: any) => axiosInstance.putForm('/trades-person', data), {
     onSuccess(data, variables, context) {
-      console.log('update profile',data.data)
+      console.log('update profile', data.data)
     },
-    onError(error:any) {
+    onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     },
   })
 
-  const updatePassword=useMutation((data:any)=>axiosInstance.put('/user/password',data),{
+  const updatePassword = useMutation((data: any) => axiosInstance.put('/user/password', data), {
     onSuccess(data, variables, context) {
-      console.log('update password',data.data)
+      console.log('update password', data.data)
     },
-    onError(error:any) {
+    onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     },
   })
 
-  const submit=(data:FieldValues)=>{
-    console.log('submit data',data)
-    if(data.oldPassword && data.confirmPassword){
-    //   updatePassword.mutate({
-    //     "oldPassword": data.oldPassword,
-    //     "newPassword": data.confirmPassword
-    // })
+  const submit = (data: FieldValues) => {
+    console.log('submit data', data)
+    if (data.oldPassword && data.confirmPassword) {
+      //   updatePassword.mutate({
+      //     "oldPassword": data.oldPassword,
+      //     "newPassword": data.confirmPassword
+      // })
     }
-    const formData=new FormData()
-    formData.append('companyName',data.businessName)
-    formData.append('firstName',data.accountFirstName)
-    formData.append('lastName',data.accountLastName)
+    const formData = new FormData()
+    formData.append('companyName', data.businessName)
+    formData.append('firstName', data.accountFirstName)
+    formData.append('lastName', data.accountLastName)
     formData.append("address[postalCode]", (data.address as any).postalCode);
     formData.append("address[text]", (data.addressText as any));
     formData.append("address[latitude]", (data.address as any).latitude);
     formData.append("address[longitude]", (data.address as any).longitude);
     formData.append("address[city]", (data.city as any));
     formData.append("address[country]", (data.address as any).country);
-    formData.append('phone',data.phoneNumber)
+    formData.append('phone', data.phoneNumber)
     // console.log("payload",[...formData.entries()])
     updateProfileMutation.mutate(formData)
   }
-  
+
   return (
     <>
       <LayoutWrapper
@@ -116,7 +116,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Business Name"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="businessName"
@@ -151,7 +151,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Account First Name"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="accountFirstName"
@@ -168,7 +168,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Account Last Name"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="accountLastName"
@@ -184,7 +184,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Phone Number"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="phoneNumber"
@@ -199,38 +199,38 @@ export default function AccountDetails() {
               </InputWrapper>
               <InputWrapper className="mb-8"
                 title="Address">
-              <BaseInput
-              name="addressText"
-              type="text"
-              control={control}
-              // defaultValue={'addressText'}
-              placeholder="Address"
-              // rules={{ required: "Address is required" }}
-            />
+                <BaseInput
+                  name="addressText"
+                  type="text"
+                  control={control}
+                  // defaultValue={'addressText'}
+                  placeholder="Address"
+                // rules={{ required: "Address is required" }}
+                />
               </InputWrapper>
               <InputWrapper className="mb-8"
                 title="City">
-      <BaseInput
-        name="city"
-        type="text"
-        // defaultValue={'yessir'}
-        control={control}
-        placeholder="City"
-        // rules={{ required: "City is required" }}
-      />
+                <BaseInput
+                  name="city"
+                  type="text"
+                  // defaultValue={'yessir'}
+                  control={control}
+                  placeholder="City"
+                // rules={{ required: "City is required" }}
+                />
               </InputWrapper>
 
               <InputWrapper
                 className="mb-8"
                 title="Postal Code"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
-                
-                      <NewGoogleMaps extraClass="pb-0" classNames={{inputWrapper:"bg-white data-[open]:border-color-3 data-[focus]:border-color-3 rounded-full  border border-color-7 !py-3.5 !min-h-[57px]",input:"ml-4"}} name="address"
-                                          control={control}
-                                          placeholder="Postcode"
-                                          // rules={{ required: "Post Code is required" }}
-                                          />
+
+                <NewGoogleMaps extraClass="pb-0" classNames={{ inputWrapper: "bg-white data-[open]:border-color-3 data-[focus]:border-color-3 rounded-full  border border-color-7 !py-3.5 !min-h-[57px]", input: "ml-4" }} name="address"
+                  control={control}
+                  placeholder="Postcode"
+                // rules={{ required: "Post Code is required" }}
+                />
                 {/* <EditGooglePlacesInput
                     // changeAddressKey={setMandatoryAnswers}
                       name="address"
@@ -246,7 +246,7 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Old Password"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
                   name="oldPassword"
@@ -254,10 +254,10 @@ export default function AccountDetails() {
                   control={control}
                   rules={
                     {
-                    required:"Enter Old Password",
+                      required: "Enter Old Password",
                       pattern: {
                         value: /^.{8,30}$/,
-                        message:"Password must contain at least 8 to 30 characters",
+                        message: "Password must contain at least 8 to 30 characters",
                       },
                     }
                   }
@@ -271,19 +271,19 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="New Password"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
-               
+
                   name="newPassword"
                   type="password"
                   rules={
                     {
-                    // required:"Enter New Password",
+                      // required:"Enter New Password",
 
                       pattern: {
                         value: /^.{8,30}$/,
-                        message:"Password must contain at least 8 to 30 characters",
+                        message: "Password must contain at least 8 to 30 characters",
                       },
                     }
                   }
@@ -299,20 +299,20 @@ export default function AccountDetails() {
               <InputWrapper
                 className="mb-8"
                 title="Confirm Password"
-                // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
+              // description="Lorem ipsum dolor sit amet,cons tetuer lorem ipsum."
               >
                 <TradepersonCustomInput
-               
+
                   name="confirmPassword"
                   type="password"
                   rules={{
                     // required:"Enter Confirm Password",
                     pattern: {
                       value: /^.{8,30}$/,
-                      message:"Password must contain at least 8 to 30 characters",
+                      message: "Password must contain at least 8 to 30 characters",
                     },
-                      
-  
+
+
                     // required: "Please confirm your password",
                     validate: (value) =>
                       value === watch("newPassword") || "Passwords do not match",
@@ -338,7 +338,7 @@ export default function AccountDetails() {
           </>
         }
         sectionTwoTitle="Profile"
-        sectionTwoChildren={<ProfileCompletion data={getUserQuery.data?.data.data}/>}
+        sectionTwoChildren={<ProfileCompletion data={getUserQuery.data?.data.data} />}
       ></LayoutWrapper>
     </>
   );

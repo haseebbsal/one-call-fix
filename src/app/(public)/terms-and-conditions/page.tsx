@@ -3,7 +3,7 @@ import PoliciesSection from "@/components/modules/public/policies-section";
 import PageTopSection from "@/components/modules/widgets/page-top-section";
 
 const pageTopSection = {
-  title: "COOKIES POLICY",
+  title: "Terms & Conditions",
   text: "",
 };
 

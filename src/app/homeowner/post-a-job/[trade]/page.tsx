@@ -59,7 +59,20 @@ const options:any=[
 // mandatory questions to ask
 const mandatoryQuestionsInitial: QuestionAnswer[] = [
   {
+    question: "Is your job gas-related?",
+    answerIndex: -1,
+    name: "gasSafeRelated",
+    ownValue: true,
+    _id: "1",
+    options: [
+      "Yes",
+      "No",
+      "Not Sure",
+    ],
+  },
+  {
     question: "What is your estimated budget?",
+    note: "Sharing your budget doesn’t mean you’re committing to anything. We only ask this as providing a reasonable estimate can encourage more tradespeople to offer you quotes.",
     answerIndex: -1,
     name: "estimatedBudget",
     ownValue: true,
@@ -177,15 +190,23 @@ console.log('id',)
 
       setIsFormCompleted(isCompleted)
       // setMandatoryQuestionsCompleted(!!questions.find((e:any)=>e.name=='completion'))
-      if(isCompleted){
-        setQuestions((prev:any):any=>{
-            return(
+      if (isCompleted) {
+        setQuestions((prev: any): any => {
+          if(trade==1){
+            return (
               [
                 ...prev,
                 mandatoryQuestionsInitial[0]
               ]
             )
-          
+          }
+          return (
+            [
+              ...prev,
+              mandatoryQuestionsInitial[1]
+            ]
+          )
+
         })
       }
     },
@@ -283,8 +304,8 @@ console.log('id',)
   };
   
   const handleContinue = () => {
-    if(isFormCompleted && !questions.find((e:any)=>e.name=='completion')){
-      setQuestions((prev:any):any=>{
+    if (isFormCompleted && !questions.find((e: any) => e.name == 'estimatedBudget') ) {
+      setQuestions((prev: any): any => {
         return (
           [
             ...prev,
@@ -294,10 +315,16 @@ console.log('id',)
       })
       // setMandatoryQuestionsCompleted(true)
     }
-    else if (isFormCompleted && questions.find((e:any)=>e.name=='completion')
-    ){
-      setMandatoryQuestionsCompleted(true)
-
+    else if (isFormCompleted && !questions.find((e: any) => e.name == 'completion')) {
+      setQuestions((prev: any): any => {
+        return (
+          [
+            ...prev,
+            mandatoryQuestionsInitial[2]
+          ]
+        )
+      })
+      // setMandatoryQuestionsCompleted(true)
     }
     else{
       answerMutation.mutate({chatId:chatId!,answerIndex:currentQuestionValuee})
@@ -378,9 +405,12 @@ console.log('ref',headlineForm.current)
             {/* questions */}
               {questions.map((question:any, index) => (
               <div key={index} className="mb-20 questions">
-                <h3 className="text-xl lg:text-2xl font-bold text-color-6 pb-6">
-                  {question.question} {/* Dynamically display the question */}
-                </h3>
+                <div className="pb-6 flex flex-col gap-2">
+                  <h3 className="text-xl lg:text-2xl font-bold text-color-6 ">
+                    {question.question} {/* Dynamically display the question */}
+                  </h3>
+                  <h2>{question.note}</h2>
+                </div>
                 
                 <BaseRadioGroup
                 value={currentQuestionValuee}

@@ -98,6 +98,7 @@ export interface QuestionAnswer {
   _id: string;
   name?: string;
   ownValue?: boolean;
+  note?:string
 }
 
 export interface ChatState {

@@ -31,20 +31,21 @@ const formatTime = (time: string) => {
   return `${String(formattedHour).padStart(2, "0")}:${minute} ${period}`;
 };
 export default function JobDetailsPage(datas: any) {
-  const getUserQuery = useQuery(['individualJob', datas.params.jobId], ({ queryKey }) => axiosInstance.get(`/job?jobId=${queryKey[1]}`))
+  const getUserQuery = useQuery(['individualJob', datas.params.jobId], ({ queryKey }) => axiosInstance.get(`/job?jobId=${queryKey[1]}`),
+    {
+      onSuccess(data) {
+        console.log('dataaaa', data.data.data)
+        setShowAvailabilityOnQuote(data.data.data.completion == "As Soon As Possible" || data.data.data.completion == "This Week")
+      },
+    })
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
   const [quoteModal, setQuoteModal] = useState(false);
   const [sceduleModal, setSceduleModal] = useState(false);
   const [dataPayment, setDataPayment] = useState<any>(false)
   const [payment, setPayment] = useState(false)
+  const [showAvailabilityOnQuote, setShowAvailabilityOnQuote] = useState<boolean>(false)
   const router = useRouter()
   const qouteCecern = (type: any) => {
-    // dispatch(
-    //   setFormData({
-    //     jobId: selectedJob?.jobId,
-    //     quoteType: type,
-    //   }),
-    // );
     onClose();
     if (type == QuoteType.Direct) {
       setQuoteModal(true);
@@ -57,23 +58,10 @@ export default function JobDetailsPage(datas: any) {
   const [user, setUser] = useState<any>(null)
 
   const { handleSubmit, control } = useForm()
-  const { handleSubmit: handleSubmit2, control: control2, register, watch } = useForm({
-    defaultValues: {
-      payment: "card",
-      wallet: false
-    }
-  })
 
-  const { field, fieldState } = useController(
-    {
-      control: control2,
-      name: 'payment',
-      rules: { required: "Select Payment Method" }
-    }
-  )
   useEffect(() => {
     const user = JSON.parse(Cookies.get('userData')!)
-    console.log(user)
+    // console.log(user)
     setUser(user)
   }, [])
 
@@ -92,87 +80,24 @@ export default function JobDetailsPage(datas: any) {
     },
   })
 
-  //   const queryParams = useParams();
-  //   const [jobId, setJobId] = useState(queryParams.jobId as String);
-  //   const dispatch = useAppDispatch();
-  //   const { job, loading, error }: any = useAppSelector((state) => state.job);
-  //   useEffect(() => {
-  //     if (!job && jobId && !loading) {
-  //       dispatch(getJobById(jobId));
-  //     }
 
-  //     return () => {
-  //       dispatch(resetJob());
-  //     };
-  //   }, [jobId, job, loading, dispatch]);
 
   const submitForm = (data: FieldValues) => {
     console.log('values', data)
     setDataPayment({ ...dataPayment, ...data })
-    paymentMutation.mutate({ ...dataPayment, ...data })
-    console.log('checkkkkk',{ ...dataPayment, ...data })
-    // setPayment(true)
+    // paymentMutation.mutate({ ...dataPayment, ...data })
+    console.log('checkkkkk', { ...dataPayment, ...data })
   }
 
-  const paymentForm = (data: FieldValues) => {
-    //   {
-    //     "jobId": "66cf4642147298d0e1648376",
-    // "quoteType": 2,
-    // "directQuote": {
-    //     "quote": 60,
-    //     "vatIncluded": true,
-    //     "depositAmount": 12,
-    //     "timelineType": 1,
-    //     "timelineValue": 2
-    // },
-    // "message": "Hi, I'm a good trades-person, will resolve this issue",
-    //     "useWalletCredits": false
-    // }
 
-    let payload: any;
-    if (dataPayment.quoteType == 2) {
-      payload = {
-        jobId: datas.params.jobId,
-        "quoteType": dataPayment.quoteType,
-        "directQuote": dataPayment.directQuote,
-        "message": dataPayment.message,
-        "useWalletCredits": data.wallet
-
-      }
-    }
-    else {
-      payload = {
-        jobId: datas.params.jobId,
-        "quoteType": dataPayment.quoteType,
-        // "directQuote":dataPayment.directQuote ,
-        "message": dataPayment.message,
-        "useWalletCredits": data.wallet
-
-      }
-    }
-
-    // console.log('penisss',data)
-
-    paymentMutation.mutate(payload)
-
-    // const payload={
-    //   jobId:datas.params.jobId,
-
-    //   ...dataPayment,
-
-    // }
-
-
-    console.log('payment form', data)
-  }
 
 
   console.log('data payment', dataPayment)
   return (
 
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <BidFormModel dataPayment={getUserQuery} setDataPayment={setDataPayment} jobid={datas.params.jobId} setQuoteModal={setQuoteModal} openModal={quoteModal} />
-      <SchedulePickerModal setDataPayment={setDataPayment} setSceduleModal={setSceduleModal} user={user?._id} isOpen={sceduleModal} />
+      <BidFormModel dataPayment={getUserQuery} setSceduleModal={setSceduleModal} showAvailabilityOnQuote={showAvailabilityOnQuote} setDataPayment={setDataPayment} jobid={datas.params.jobId} setQuoteModal={setQuoteModal} openModal={quoteModal} />
+      <SchedulePickerModal setDataPayment={setDataPayment} dataPayment={dataPayment} setSceduleModal={setSceduleModal} user={user?._id} isOpen={sceduleModal} />
       <BaseModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -328,80 +253,19 @@ export default function JobDetailsPage(datas: any) {
                       return e.times.map((f: any) => <p className="font-semibold">{e.day} ({formatTime(f.start)}- {formatTime(f.end)})</p>)
 
                     })}
-                    {/* <p className="font-semibold">Thursday (12:00 pm - 01:00 pm)</p> */}
                   </div>
                 }
 
                 <BaseTextArea rules={{ required: "Enter Message" }} control={control} name="message" label="Want to leave a message for lead?" extraClass={{ label: "font-semibold text-lg ml-0" }} />
               </div>
               <div className="flex gap-4 flex-wrap mt-4">
-                <BaseButton disabled={paymentMutation.isLoading} isLoading={paymentMutation.isLoading}  type="submit">Submit</BaseButton>
+                <BaseButton disabled={paymentMutation.isLoading} isLoading={paymentMutation.isLoading} type="submit">Submit</BaseButton>
                 <BaseButton onClick={() => setDataPayment(null)} type="button">Back</BaseButton>
               </div>
 
             </form>
           </>
         }
-        {/* {
-          payment && < form onSubmit={handleSubmit2(paymentForm)}>
-            <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-              Payment Method
-            </h1>
-
-            <div className="bg-white shadow-lg p-8 rounded-lg">
-              {savedCardQuery.data?.data?.data && Object.keys(savedCardQuery.data.data.data).length > 0 ? (
-                <RadioGroup
-                  {...field}
-                >
-                  <Radio value={'card'}><SavedPaymentCard card={savedCardQuery.data.data.data} /></Radio>
-                </RadioGroup>
-
-
-
-              ) : (
-                <p className="text-center">No saved payment method found.</p>
-              )}
-
-
-              <div className="flex items-center w-max p-4 border-2 rounded-lg">
-                <div className="w-[3rem] h-[3rem]">
-                  <Image alt="logo" src={'/logos/Original Logo (1) 2.svg'} className="w-full h-full object-contain" width={50} height={50} />
-                </div>
-                <p><span className="font-light">OneCallFix Credits :</span> £{getCreditsQuery.data?.data.data.amount}</p>
-
-              </div>
-     
-              <div className="flex flex-col mt-8 gap-2">
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between border-b-[0.1rem] border-dashed border-[#c9c9c9] pb-4">
-                      <p className="text-[#c9c9c9] ">Price</p>
-                      <p className="font-semibold">£{getUserQuery.data?.data.data.price}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <Switch {...register('wallet')} >
-                      Use Wallet Credits
-                    </Switch>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between">
-                      <p className="text-[#c9c9c9] ">Subtotal (Incl.VAT)</p>
-                      <p className="font-semibold">£{watch('wallet') ? getUserQuery.data?.data.data.price - getCreditsQuery.data?.data.data.amount : getUserQuery.data?.data.data.price}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-4 flex-wrap items-center mt-4">
-                <BaseButton isLoading={paymentMutation.isLoading} disabled={paymentMutation.isLoading} type="submit" onClick={() => {
-                }} >Pay Now</BaseButton>
-                <BaseButton onClick={() => setPayment(false)}>Back</BaseButton>
-              </div>
-
-            </div>
-
-          </form>
-        } */}
       </div>
     </div>
   );

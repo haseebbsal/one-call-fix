@@ -24,7 +24,7 @@ enum Verified {
   gasSafeId = 'isGasSafeVerified',
   partPQualification="isPartPQualified",
   eicrDocumentation="isEicrDocumentationVerified",
-  wiringRegulationsCertificate="IsWiringRegulationsCertified"
+  wiringRegulationsCertificate="isWiringRegulationsCertified"
 }
 
 
