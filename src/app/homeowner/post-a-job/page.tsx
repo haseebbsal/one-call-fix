@@ -59,18 +59,18 @@ const options: any = [
 
 // mandatory questions to ask
 const mandatoryQuestionsInitial: QuestionAnswer[] = [
-  {
-    question: "Is your job gas-related?",
-    answerIndex: -1,
-    name: "gasSafeRelated",
-    ownValue: true,
-    _id: "1",
-    options: [
-      "Yes",
-      "No",
-      "Not Sure",
-    ],
-  },
+  // {
+  //   question: "Is your job gas-related?",
+  //   answerIndex: -1,
+  //   name: "gasSafeRelated",
+  //   ownValue: true,
+  //   _id: "1",
+  //   options: [
+  //     "Yes",
+  //     "No",
+  //     "Not Sure",
+  //   ],
+  // },
   {
     question: "What is your estimated budget?",
     note: "Sharing your budget doesn’t mean you’re committing to anything. We only ask this as providing a reasonable estimate can encourage more tradespeople to offer you quotes.",
@@ -192,21 +192,33 @@ export default function PostAJob() {
       setIsFormCompleted(isCompleted)
       // setMandatoryQuestionsCompleted(!!questions.find((e:any)=>e.name=='completion'))
       if (isCompleted) {
+        // setQuestions((prev: any): any => {
+        //   if(trade==1){
+        //     return (
+        //       [
+        //         ...prev,
+        //         mandatoryQuestionsInitial[0]
+        //       ]
+        //     )
+        //   }
+        //   return (
+        //     [
+        //       ...prev,
+        //       mandatoryQuestionsInitial[1]
+        //     ]
+        //   )
+
+        // })
+
         setQuestions((prev: any): any => {
-          if(trade==1){
-            return (
-              [
-                ...prev,
-                mandatoryQuestionsInitial[0]
-              ]
-            )
-          }
+
           return (
             [
               ...prev,
-              mandatoryQuestionsInitial[1]
+              mandatoryQuestionsInitial[0]
             ]
           )
+
 
         })
       }
@@ -286,23 +298,39 @@ export default function PostAJob() {
 
 
   const handleContinue = () => {
-    if (isFormCompleted && !questions.find((e: any) => e.name == 'estimatedBudget') ) {
+    // if (isFormCompleted && !questions.find((e: any) => e.name == 'estimatedBudget') ) {
+    //   setQuestions((prev: any): any => {
+    //     return (
+    //       [
+    //         ...prev,
+    //         mandatoryQuestionsInitial[1]
+    //       ]
+    //     )
+    //   })
+    //   // setMandatoryQuestionsCompleted(true)
+    // }
+    // else if (isFormCompleted && !questions.find((e: any) => e.name == 'completion')) {
+    //   setQuestions((prev: any): any => {
+    //     return (
+    //       [
+    //         ...prev,
+    //         mandatoryQuestionsInitial[2]
+    //       ]
+    //     )
+    //   })
+    //   // setMandatoryQuestionsCompleted(true)
+    // }
+    // else if (isFormCompleted && questions.find((e: any) => e.name == 'completion')
+    // ) {
+    //   setMandatoryQuestionsCompleted(true)
+
+    // }
+    if (isFormCompleted && !questions.find((e: any) => e.name == 'completion')) {
       setQuestions((prev: any): any => {
         return (
           [
             ...prev,
             mandatoryQuestionsInitial[1]
-          ]
-        )
-      })
-      // setMandatoryQuestionsCompleted(true)
-    }
-    else if (isFormCompleted && !questions.find((e: any) => e.name == 'completion')) {
-      setQuestions((prev: any): any => {
-        return (
-          [
-            ...prev,
-            mandatoryQuestionsInitial[2]
           ]
         )
       })
@@ -314,6 +342,7 @@ export default function PostAJob() {
 
     }
     else {
+      console.log('checkkk',{ chatId: chatId!, answerIndex: currentQuestionValuee })
       answerMutation.mutate({ chatId: chatId!, answerIndex: currentQuestionValuee })
     }
   }
