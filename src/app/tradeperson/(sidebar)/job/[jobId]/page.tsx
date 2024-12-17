@@ -85,7 +85,7 @@ export default function JobDetailsPage(datas: any) {
   const submitForm = (data: FieldValues) => {
     console.log('values', data)
     setDataPayment({ ...dataPayment, ...data })
-    // paymentMutation.mutate({ ...dataPayment, ...data })
+    paymentMutation.mutate({ ...dataPayment, ...data })
     console.log('checkkkkk', { ...dataPayment, ...data })
   }
 
@@ -97,7 +97,7 @@ export default function JobDetailsPage(datas: any) {
 
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <BidFormModel dataPayment={getUserQuery} setSceduleModal={setSceduleModal} showAvailabilityOnQuote={showAvailabilityOnQuote} setDataPayment={setDataPayment} jobid={datas.params.jobId} setQuoteModal={setQuoteModal} openModal={quoteModal} />
-      <SchedulePickerModal setDataPayment={setDataPayment} dataPayment={dataPayment} setSceduleModal={setSceduleModal} user={user?._id} isOpen={sceduleModal} />
+      <SchedulePickerModal jobId={datas.params.jobId} setDataPayment={setDataPayment} dataPayment={dataPayment} setSceduleModal={setSceduleModal} user={user?._id} isOpen={sceduleModal} />
       <BaseModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
@@ -247,9 +247,9 @@ export default function JobDetailsPage(datas: any) {
                   <p className="font-semibold">£{dataPayment.directQuote.depositAmount}</p>
                 </div>}
                 {
-                  dataPayment.quoteType == 1 && <div className="flex flex-col gap-1 w-1/3">
+                 <div className="flex flex-col gap-1 w-1/3">
                     <p className="font-light">Available Time</p>
-                    {dataPayment.availability.map((e: any) => {
+                    {dataPayment.availability?.map((e: any) => {
                       return e.times.map((f: any) => <p className="font-semibold">{e.day} ({formatTime(f.start)}- {formatTime(f.end)})</p>)
 
                     })}

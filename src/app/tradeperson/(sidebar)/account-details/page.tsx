@@ -102,7 +102,8 @@ export default function AccountDetails() {
     formData.append("address[city]", (data.city as any));
     formData.append("address[country]", (data.address as any).country);
     formData.append('phone', data.phoneNumber)
-    // console.log("payload",[...formData.entries()])
+
+    console.log("payload",[...formData.entries()])
     updateProfileMutation.mutate(formData)
   }
 
@@ -254,7 +255,6 @@ export default function AccountDetails() {
                   control={control}
                   rules={
                     {
-                      required: "Enter Old Password",
                       pattern: {
                         value: /^.{8,30}$/,
                         message: "Password must contain at least 8 to 30 characters",

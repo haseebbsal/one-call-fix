@@ -99,7 +99,8 @@ interface SchedulePickerModalProps {
   user?: string
   setDataPayment?: any,
   setSceduleModal: any
-  dataPayment: any
+  dataPayment: any,
+  jobId:string
 }
 
 const formatTime = (time: string) => {
@@ -119,7 +120,7 @@ const formatTimeForApi = (time: string) => {
 };
 
 export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
-  isOpen, user, setDataPayment, setSceduleModal, dataPayment
+  isOpen, user, setDataPayment, setSceduleModal, dataPayment,jobId
 }) => {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [daysOfWeekk, setDaysOfWeek] = useState<any>([])
@@ -249,12 +250,13 @@ export const SchedulePickerModal: React.FC<SchedulePickerModalProps> = ({
 
       const payload = {
         "quoteType": 1,
-        availability: times
+        availability: times,
+        jobId
       }
 
       createAvailabilityMutation.mutate(payload)
       if (dataPayment?.directQuote) {
-        setDataPayment({...dataPayment,...payload})
+        setDataPayment({...dataPayment,availability:payload.availability})
       }
       else {
         setDataPayment(payload)
