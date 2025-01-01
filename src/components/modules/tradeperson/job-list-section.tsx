@@ -138,7 +138,7 @@ export default function JobListSection({
             <BaseButton
               type="button"
               onClick={() => router.push('/tradeperson/vetting/required-documents')}
-              extraClass="bg-color-9 w-[220px] text-white"
+              extraClass="bg-color-9 !max-w-full w-max text-white"
             >
               Submit Required Documents
             </BaseButton>
