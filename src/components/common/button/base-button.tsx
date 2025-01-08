@@ -27,6 +27,7 @@ type ButtonProps = {
 type Props = {
   children: React.ReactNode;
   extraClass?: string;
+  target?:string
 } & (LinkProps | ButtonProps);
 
 const spinner = (
@@ -60,7 +61,8 @@ export default function BaseButton({
   variant = "solid",
   as = "button",
   isLoading = false,
-  disabled=false
+  disabled=false,
+  target
 }: Props) {
   if (as === "button") {
     return (
@@ -82,6 +84,7 @@ export default function BaseButton({
     return (
       <Link
         href={link!}
+        target={target}
         className={`flex items-center justify-center text-white bg-color-5 px-4 md:px-8 text-xs  md:text-sm 2xl:text-base h-10 md:h-12 rounded-full max-w-[200px] transition-all duration-400 hover:opacity-50 ${extraClass}`}
       >
         {children}

@@ -49,7 +49,6 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
             {TRADES[1]}
           </h2> 
         </div>
-        <Link className="absolute top-0 left-0 w-full h-full" href={`/homeowner/tradeperson?id=${id}&jobId=${jobId}`}></Link>
       </div>
       <div className="flex flex-col gap-2">
         {/* <p className="mt-2 text-base text-color-6 text-[14px] w-4/5">
@@ -66,6 +65,9 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
         >
           ShortList Tradesperson
         </Button>
+
+        <Link className="border border-[#3571EC] text-[#3571EC] text-lg h-14 px-10 mt-4 rounded-full flex items-center w-full justify-center" href={`/homeowner/tradeperson?id=${id}&jobId=${jobId}`}>View Profile</Link>
+
       </div>
     </div>
   );
