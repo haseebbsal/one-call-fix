@@ -2,24 +2,34 @@
 import { Link } from "@nextui-org/link";
 
 
-enum Verified {
-  identification = 'isIdVerified',
-  gasSafeId = 'isGasSafeVerified',
-  partPQualification = "isPartPQualified",
-  eicrDocumentation = "isEicrDocumentationVerified",
-  wiringRegulationsCertificate = "isWiringRegulationsCertified"
+
+
+enum ElectricianVerified {
+  'Identification' = 'isIdVerified',
+  "Part P Qualification" = "isPartPQualified",
+  "EICR Documentation" = "isEicrDocumentationVerified",
+  "Wiring Regulations Certificate"= "isWiringRegulationsCertified"
+}
+
+enum NonGasPluberVerified {
+  'Identification' = 'isIdVerified',
+}
+
+enum GasPlumberVerified {
+  'Identification' = 'isIdVerified',
+  'Gas safe ID' = 'isGasSafeVerified',
 }
 
 
-function CheckVerified(check:any,task:String,index:number) {
-  return check ? <li
+function CheckVerified(check: any, keys: any) {
+  return keys.map(([task, verified]: any,index:number) => check[verified] ? <li
     key={index}
     className={`flex  line-through decoration-color-4`}
   >
     <p
       className={` text-base font-normal leading-tight text-color-4`}
     >
-      {VerifiedNames[task as 'identification']}
+      {task}
     </p>
   </li> : (
 
@@ -31,23 +41,17 @@ function CheckVerified(check:any,task:String,index:number) {
         href="/tradeperson/vetting/required-documents"
         className={`text-base font-normal leading-tight"`}
       >
-        {VerifiedNames[task as 'identification']}
+        {task}
       </Link>
-    </li>
+    </li>)
   )
 }
 
-enum VerifiedNames {
-  identification = 'Identification',
-  gasSafeId = 'Gas safe ID',
-  partPQualification = "Part P Qualification",
-  eicrDocumentation = "EICR Documentation",
-  wiringRegulationsCertificate = "Wiring Regulations Certificate"
+
+function displayVerified(data: any) {
+  return data.trade == 1 ? data.gasSafeRegistered ? CheckVerified(data, Object.entries(GasPlumberVerified)) : CheckVerified(data, Object.entries(NonGasPluberVerified)) : CheckVerified(data, Object.entries(ElectricianVerified))
 }
 
-// partPQualification
-// wiringRegulationsCertificate
-// eicrDocumentation
 
 export default function ProfileCompletion({ data }: { data: any }) {
   console.log('completion', data)
@@ -67,16 +71,7 @@ export default function ProfileCompletion({ data }: { data: any }) {
         </p>
       </div>
       <ul className="space-y-5 my-7">
-        {data && Object.keys(data?.profile.documents.required).filter((e) => e != '_id').map((task, index) => {
-          if (task == 'gasSafeId') {
-            if (data.profile.gasSafeRegistered) {
-              return CheckVerified(data?.profile[Verified[task as 'identification']],task,index)
-            }
-          }
-          else{
-            return CheckVerified(data?.profile[Verified[task as 'identification']],task,index)
-          }
-        })}
+        {data && displayVerified(data.profile)}
         {
           data?.profile.servicesOffered.length > 0 ? <li
             className={`flex line-through decoration-color-4`}
