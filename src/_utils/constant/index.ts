@@ -645,7 +645,7 @@ export const DASHBOARD_ITEMS = [
     title: "Leads Purchased",
     icon: "/icons/leads.png",
     value: "$150",
-    symbol:"pound"
+    symbol:"none"
   },
   {
     slug:"leadsWon",
@@ -673,7 +673,7 @@ export const DASHBOARD_ITEMS = [
     title: "Total Spent On Leads",
     icon: "/icons/revenue.png",
     value: "90%",
-    symbol:"percent"
+    symbol:"pound"
   },
 ];
 

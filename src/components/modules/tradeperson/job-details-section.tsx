@@ -310,7 +310,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
             <Input
               type="number"
               id="input1"
-              placeholder="$53"
+              placeholder="£53"
               isRequired
               {...register("finalQuote", { required: true })}
             />
@@ -325,27 +325,12 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
             <Input
               type="number"
               id="input2"
-              placeholder="$53"
+              placeholder="£53"
               isRequired
               {...register("tip", { required: true })}
             />
           </div>
-          <div>
-            <label
-              htmlFor="input4"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              How Much Tip (Optional)
-            </label>
-            <Input
-              type="text"
-              id="input4"
-              placeholder="mm/dd/yyyy"
-              isRequired
-              // {...field}
-              {...register("completionDate", { required: true })}
-            />
-          </div>
+          
           {/* <DateInput {...field} onChange={()=>{}} label={"Job Completion Date"} labelPlacement="outside" classNames={{label:"text-gray-700 text-sm font-bold"}} className="max-w-sm" /> */}
             <BaseButton type="submit">Submit Form</BaseButton>
               </form>
