@@ -21,7 +21,11 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
   const shortlistMutation=useMutation((data:string)=>axiosInstance.put(`/bid/assign?bidId=${data}`),{
     onSuccess(data, variables, context) {
         console.log('shortlist',data.data)
-        toast.success('TradePerson Shortlisted')
+        toast.custom(<div className="flex bg-green-600 w-[16rem] p-4 text-white rounded-lg flex-col gap-2">
+          <h1 className="font-bold">Tradesperson Shortlisted!</h1>
+          <h2 className="font-light">Your details have been shared with the tradesperson who should be in contact shortly.</h2>
+        </div>)
+        // toast.success('TradePerson Shortlisted')
 
     },
     onError(error:any) {
@@ -55,6 +59,10 @@ export default function LeadCard({ lead ,name,quoteType,imageSrc,id,jobId,bidId}
           Lorem ipsum dolor sit amet, cons tetuer Lorem ipsum dolor sit amet,
           cons
         </p> */}
+        {/* <button onClick={()=>toast.custom(<div className="flex bg-green-600 w-[16rem] p-4 text-white rounded-lg flex-col gap-2">
+          <h1 className="font-bold">Tradesperson Shortlisted!</h1>
+          <h2 className="font-light">Your details have been shared with the tradesperson who should be in contact shortly.</h2>
+        </div>)}>Click</button> */}
         <Button
         onClick={()=>{
           shortlistMutation.mutate(bidId)

@@ -33,49 +33,49 @@ type JobType = "pending" | "shortlisted" | "myJobs";
 interface JobDetailsProps {
   jobType: JobType;
   job: Job;
-  actualJob:any
+  actualJob: any
 }
 
 
-enum Status{
-  Pending=1,
+enum Status {
+  Pending = 1,
   Approved,
   Declined
 }
 
-enum Sstatus{
-  Pending='2',
+enum Sstatus {
+  Pending = '2',
 }
 
-type Accept={
-  status:Status
+type Accept = {
+  status: Status
 }
-type Acceptt={
-  status:Sstatus
+type Acceptt = {
+  status: Sstatus
 }
 
 // const obj:Acceptt={status:'2'}
 
 
-export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetailsProps) {
-  console.log('job data',actualJob)
+export default function JobDetailsSection({ jobType, job, actualJob }: JobDetailsProps) {
+  console.log('job data', actualJob)
 
-  const queryClient=useQueryClient()
+  const queryClient = useQueryClient()
 
-  const {isOpen,onOpen,onClose}=useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const router=useRouter()
+  const router = useRouter()
 
-  const acceptJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
+  const acceptJobMutation = useMutation((data: Accept) => axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`, data), {
     onSuccess(data) {
-      console.log('accepted',data.data)
+      console.log('accepted', data.data)
       queryClient.invalidateQueries('allJobs')
     },
   })
 
-  const declineJobMutation=useMutation((data:Accept)=>axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`,data),{
+  const declineJobMutation = useMutation((data: Accept) => axiosInstance.put(`/bid/status?bidId=${actualJob.bidId}`, data), {
     onSuccess(data) {
-      console.log('declined',data.data)
+      console.log('declined', data.data)
       queryClient.invalidateQueries('allJobs')
 
     },
@@ -88,10 +88,10 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
     formState: { errors },
     control
   } = useForm({
-    defaultValues:{
-      completionDate:"",
-      finalQuote:"",
-      tip:""
+    defaultValues: {
+      completionDate: "",
+      finalQuote: "",
+      tip: ""
 
     }
   });
@@ -113,14 +113,14 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={()=>{
+              <BaseButton isLoading={acceptJobMutation.isLoading} disabled={acceptJobMutation.isLoading} onClick={() => {
                 router.push(`/tradeperson/payment?id=${actualJob?._id}&bidId=${actualJob?.bidId}`)
                 // acceptJobMutation.mutate({status:2})
               }} extraClass="bg-color-12 text-white w-max px-2 sm:px-7">
                 Accept Job
               </BaseButton>
-              <BaseButton isLoading={declineJobMutation.isLoading} disabled={declineJobMutation.isLoading} onClick={()=>{
-                declineJobMutation.mutate({status:3})
+              <BaseButton isLoading={declineJobMutation.isLoading} disabled={declineJobMutation.isLoading} onClick={() => {
+                declineJobMutation.mutate({ status: 3 })
               }} extraClass="bg-color-21 text-white w-max px-2 sm:px-7">
                 Decline
               </BaseButton>
@@ -135,7 +135,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Lead Price</span>
             </div>
             <div className="flex flex-wrap flex-col justify-center items-center">
-              <BaseButton onClick={()=>onOpen()} extraClass="!px-4 !text-sm !max-w-full">Mark This Job As Completed</BaseButton>
+              <BaseButton onClick={() => onOpen()} extraClass="!px-4 !text-sm !max-w-full">Mark This Job As Completed</BaseButton>
             </div>
           </div>
         );
@@ -145,37 +145,41 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
     }
   };
 
-  // const {field,fieldState}=useController({
-  //   control,name:"completionDate",rules:{
-  //     required:true
-  //   }
-  // })
+  const { field, fieldState } = useController({
+    control, name: "completionDate", rules: {
+      required: true
+    },
+  })
 
   // console.log('errors',errors)
-  const markCompletedMutation=useMutation((data:any)=>axiosInstance.post(`/job/completion?jobId=${actualJob._id}`,data),{
+  const markCompletedMutation = useMutation((data: any) => axiosInstance.post(`/job/completion?jobId=${actualJob._id}`, data), {
     onSuccess(data, variables, context) {
-      console.log('mark completed ',data.data)
+      console.log('mark completed ', data.data)
       onClose()
     },
-    onError(error:any) {
+    onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
         toast.error(error.response.data.message[0]);
-    } else {
+      } else {
         toast.error(error.response.data.message);
-    }
+      }
     },
   })
-  
-  const submit=(data:FieldValues)=>{
-    console.log('penisss')
+
+  const submit = (data: FieldValues) => {
+    console.log('fielddwsss',{
+      "finalQuote": Number(data.finalQuote),
+      "completionDate": data.completionDate,
+      tip:data.tip?data.tip:0
+    })
     markCompletedMutation.mutate({
       "finalQuote": Number(data.finalQuote),
-      "tip": Number(data.tip),
-      "completionDate": data.completionDate
-  })
+      "completionDate": data.completionDate,
+      tip:data.tip?data.tip:0
+    })
   }
 
-  console.log('fucker see this',actualJob)
+  console.log('fucker see this', actualJob)
 
   return (
     <div className="sm:min-w-[30rem] w-full flex-1 flex flex-col">
@@ -195,9 +199,9 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
             {renderJobDetails()}
           </div>
 
-          
-        {jobType!='pending' && <div className="py-2 px-5 sm:py-4 sm:px-8 border-b border-color-19 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-14">
-          {jobType=='myJobs' && <div className="flex flex-col justify-between text-gray-600">
+
+          {jobType != 'pending' && <div className="py-2 px-5 sm:py-4 sm:px-8 border-b border-color-19 flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-14">
+            {jobType == 'myJobs' && <div className="flex flex-col justify-between text-gray-600">
               <span className="text-sm text-color-14 mb-3">
                 Contact Details
               </span>
@@ -211,17 +215,17 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
               <span className="text-xs text-color-14">Email:</span>
               <h3 className="font-semibold text-md mb-2">{actualJob.user.email}</h3>
             </div>}
-            
 
-            {jobType=='shortlisted' && <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+
+            {jobType == 'shortlisted' && <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <img src="/icons/warning.png" alt="warning" className="w-5 h-5" />
               <span className="text-xs font-medium text-center sm:text-left">
                 Purchase Job to Reveal Contact Info.
               </span>
             </div>}
-            
+
           </div>}
-          
+
 
           <div className="py-2 px-5 sm:py-4 sm:px-8">
             <div className="flex flex-col justify-between text-gray-600">
@@ -236,7 +240,7 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
 
               <span className="text-sm text-color-14 mb-3">Attachments</span>
               <div className="flex items-center gap-2 mb-5">
-                {actualJob.media.map((attachment:any, index:any) => (
+                {actualJob.media.map((attachment: any, index: any) => (
                   <Image
                     src={`${config.mediaURL}/${attachment}`}
                     alt={`attachment-${index + 1}`}
@@ -262,80 +266,80 @@ export default function JobDetailsSection({ jobType, job ,actualJob}: JobDetails
       </section>
 
       <BaseModal onClose={onClose} header="Job Completion Form" isOpen={isOpen}>
-      <div>
-      <React.Fragment>
-              
-              {/* job div */}
-              <div
-                className={`mb-8 last:mb-0 flex  flex-col sm:flex-row items-start border-b border-color-19`}
-                
-              >
-                <Image
-                  className="mr-4 h-8 w-8 sm:h-16 sm:w-16"
-                  src="/images/job-bell.png"
-                  alt="bellProfile Picture"
-                />
-                <div className="flex flex-col w-full">
-                  <div className="mb-1 flex flex-col sm:flex-row justify-between text-gray-600">
-                    <div className="flex flex-col gap-1">
-                      <h3 className="font-medium">{toTitleCase(actualJob.headline)}</h3>
-                      <span className="text-xs sm:text-sm text-color-14">
-                        {Number(actualJob.distance).toFixed(2)} miles away
-                      </span>
-                    </div>
-                   
-                    
-                  </div>
-                  <p className="mt-1 text-sm">{actualJob.issue}</p>
-                  <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
+        <div>
+          <React.Fragment>
+
+            {/* job div */}
+            <div
+              className={`mb-8 last:mb-0 flex  flex-col sm:flex-row items-start border-b border-color-19`}
+
+            >
+              <Image
+                className="mr-4 h-8 w-8 sm:h-16 sm:w-16"
+                src="/images/job-bell.png"
+                alt="bellProfile Picture"
+              />
+              <div className="flex flex-col w-full">
+                <div className="mb-1 flex flex-col sm:flex-row justify-between text-gray-600">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-medium">{toTitleCase(actualJob.headline)}</h3>
                     <span className="text-xs sm:text-sm text-color-14">
-                      Posted {((new Date().getMonth()-new Date(actualJob.createdAt).getMonth())*30 + (new Date().getDate()-new Date(actualJob.createdAt).getDate()))} days ago
-                      {/* {item.posted} */}
+                      {Number(actualJob.distance).toFixed(2)} miles away
                     </span>
-                    <div className="py-1 px-9 border-2 rounded-lg text-sm font-semibold text-color-15">
-                      £{actualJob.price}
-                    </div>
+                  </div>
+
+
+                </div>
+                <p className="mt-1 text-sm">{actualJob.issue}</p>
+                <div className="mt-1 mb-5 flex items-center justify-between text-gray-600">
+                  <span className="text-xs sm:text-sm text-color-14">
+                    Posted {((new Date().getMonth() - new Date(actualJob.createdAt).getMonth()) * 30 + (new Date().getDate() - new Date(actualJob.createdAt).getDate()))} days ago
+                    {/* {item.posted} */}
+                  </span>
+                  <div className="py-1 px-9 border-2 rounded-lg text-sm font-semibold text-color-15">
+                    £{actualJob.price}
                   </div>
                 </div>
               </div>
+            </div>
 
-              <form onSubmit={handleSubmit(submit)} className="flex gap-4 flex-wrap">
+            <form onSubmit={handleSubmit(submit)} className="flex gap-4 flex-wrap">
               <div>
-            <label
-              htmlFor="input1"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Final Quote
-            </label>
-            <Input
-              type="number"
-              id="input1"
-              placeholder="£53"
-              isRequired
-              {...register("finalQuote", { required: true })}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="input2"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              How Much Tip (Optional)
-            </label>
-            <Input
-              type="number"
-              id="input2"
-              placeholder="£53"
-              isRequired
-              {...register("tip", { required: true })}
-            />
-          </div>
-          
-          {/* <DateInput {...field} onChange={()=>{}} label={"Job Completion Date"} labelPlacement="outside" classNames={{label:"text-gray-700 text-sm font-bold"}} className="max-w-sm" /> */}
-            <BaseButton type="submit">Submit Form</BaseButton>
-              </form>
-            </React.Fragment>
-      </div>
+                <label
+                  htmlFor="input1"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  Final Quote
+                </label>
+                <Input
+                  type="number"
+                  id="input1"
+                  placeholder="£53"
+                  isInvalid={!!errors.finalQuote}
+                  errorMessage={errors.finalQuote?.message}
+                  {...register("finalQuote", { required: true })}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="input2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                >
+                  How Much Tip (Optional)
+                </label>
+                <Input
+                  type="number"
+                  id="input2"
+                  placeholder="£53"
+                  {...register("tip")}
+                />
+              </div>
+
+              <DateInput {...field} value={undefined} onChange={(e:any)=>field.onChange(`${e.day.toString().padStart(2,'0')}/${e.month.toString().padStart(2,'0')}/${e.year}`)} isInvalid={!!fieldState.error} errorMessage={fieldState.error?.message}  label={"Job Completion Date"} labelPlacement="outside" classNames={{ label: "text-gray-700 text-sm font-bold" }} className="max-w-sm" />
+              <BaseButton type="submit">Submit Form</BaseButton>
+            </form>
+          </React.Fragment>
+        </div>
       </BaseModal>
     </div>
   );

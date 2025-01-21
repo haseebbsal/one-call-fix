@@ -70,7 +70,7 @@ export default function Jobs() {
   }
   return (
     <>
-      <section className="sm:mt-20 mt-8 sm:mb-16 sm:px-16 p-4  flex flex-col gap-5">
+      <section className="sm:mt-20  mt-8 sm:mb-16 sm:px-16 p-4  flex flex-col gap-5">
         <div>
           <h5 className="capitalize text-lg lg:text-xl font-semibold text-color-17 pb-10">
             list of jobs

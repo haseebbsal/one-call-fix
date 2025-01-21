@@ -55,7 +55,7 @@ export default function Tradeperson(datas: any) {
             Tradepeople Profile
           </h5>
         </div>
-        <div className="px-8 py-4 flex flex-col gap-4 border-2 border-gray-100 rounded-md">
+        {!getTradePersonQuery.isLoading && <div className="px-8 py-4 flex flex-col gap-4 border-2 border-gray-100 rounded-md">
           <div className="flex justify-between items-center">
             <div className="flex gap-2">
               <div className="h-[8rem] w-[5rem]">
@@ -124,7 +124,7 @@ export default function Tradeperson(datas: any) {
                       <p className="font-semibold text-lg">Services Offered</p>
                       <ul className="list-disc pl-4 flex flex-col gap-2">
                         {getTradePersonQuery.data?.data.data.profile.servicesOffered.map((e: string) =>
-                          <li className="font-light text-sm">{e}</li>
+                          <li key={e} className="font-light text-sm">{e}</li>
                         )}
 
 
@@ -135,10 +135,10 @@ export default function Tradeperson(datas: any) {
                       <p className="font-semibold text-lg">Work Gallery</p>
                       <div className="flex gap-2">
                         {getTradePersonQuery.data?.data.data.profile.previousJobs.map((e: any) =>
-                          <div className="h-[8rem] w-[5rem]">
+                          <div key={e} className="h-[8rem] w-[5rem]">
                             <Image
                               onClick={(e) => {
-                                const element:any = e.target
+                                const element: any = e.target
                                 if (element.requestFullscreen) {
                                   element.requestFullscreen();
                                 } else if (element.mozRequestFullScreen) { // Firefox
@@ -186,7 +186,7 @@ export default function Tradeperson(datas: any) {
                   <Loader />
                 ) : (
                   <div className="flex flex-col gap-5">
-                    {getTradePersonReviewsQuery.data?.data.data.map((e: any) => <div className="flex flex-col gap-2 px-4 py-2 pb-4 border-b-2 ">
+                    {getTradePersonReviewsQuery.data?.data.data.map((e: any) => <div key={e} className="flex flex-col gap-2 px-4 py-2 pb-4 border-b-2 ">
                       <p className="font-semibold">Leaked Kitchen Sinks</p>
                       <ReactStars
                         value={e.rating}
@@ -278,7 +278,7 @@ export default function Tradeperson(datas: any) {
                         {getTradePersonAvailabilityQuery.data?.data.data && <div className="flex flex-col p-2 border-2 rounded-lg gap-2">
                           <p className="font-semibold">Availability This Week</p>
                           {getTradePersonAvailabilityQuery.data?.data.data.availability.map((e: any) => {
-                            return e.times.map((j: any) => <p className="text-[#3571EC] font-semibold">{e.day} {`${parseInt(j.start.split(':')[0]) % 12 || 12}:${j.start.split(':')[1]}${parseInt(j.start.split(':')[0]) < 12 ? "AM" : "PM"} - 
+                            return e.times.map((j: any) => <p key={e} className="text-[#3571EC] font-semibold">{e.day} {`${parseInt(j.start.split(':')[0]) % 12 || 12}:${j.start.split(':')[1]}${parseInt(j.start.split(':')[0]) < 12 ? "AM" : "PM"} - 
                                 ${parseInt(j.end.split(':')[0]) % 12 || 12}:${j.end.split(':')[1]}${parseInt(j.end.split(':')[0]) < 12 ? "AM" : "PM"}`}</p>)
                           })}
                         </div>}
@@ -311,7 +311,8 @@ export default function Tradeperson(datas: any) {
             </BaseButton>
           </div>
 
-        </div>
+        </div>}
+
       </section>
       <Modal
         size={"xl"}
