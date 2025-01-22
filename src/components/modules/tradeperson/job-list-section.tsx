@@ -243,23 +243,11 @@ export default function JobListSection({
                           onClick={() => {
 
                             if (getUserQuery.data?.data.data) {
-                              const { trade, isIdVerified, isGasSafeVerified, isPartPQualified, isEicrDocumentationVerified, isWiringRegulationsCertified, gasSafeRegistered } = getUserQuery.data?.data.data.profile
-                              if (trade == 2) {
-                                if (isIdVerified && isWiringRegulationsCertified && isPartPQualified && isEicrDocumentationVerified) {
-                                  router.push(`/tradeperson/job/${e._id}`)
-                                }
-                                else {
-                                  onOpen()
-                                }
+                              if(getUserQuery.data.data.data.profileCompletion>=75){
+                                router.push(`/tradeperson/job/${e._id}`)
+                                return 
                               }
-                              else {
-                                if (isIdVerified && (!gasSafeRegistered || (isGasSafeVerified && gasSafeRegistered))) {
-                                  router.push(`/tradeperson/job/${e._id}`)
-                                }
-                                else {
-                                  onOpen()
-                                }
-                              }
+                              onOpen()
                             }
                           }}
                           // link={`/tradeperson/job/${e._id}`}
