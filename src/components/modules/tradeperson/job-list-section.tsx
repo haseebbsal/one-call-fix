@@ -146,46 +146,6 @@ export default function JobListSection({
         </div>
       </BaseModal>
       <div className="w-full flex-[2] flex flex-col mb-8 lg:mb-0 h-fit max-h-[670px] relative overflow-y-auto overflow-x-hidden">
-        {/* {user && <>
-        <BidFormModel setQuoteModal={setQuoteModal} openModal={quoteModal} />
-        <SchedulePickerModal user={user?._id} setSceduleModal={setSceduleModal} isOpen={sceduleModal} /></>}
-      {isOpen ? (
-        <BaseModal
-          isOpen={isOpen}
-          onOpenChange={onOpenChange}
-          size="lg"
-          header=""
-          modalHeaderImage="/images/modal-danger.png"
-        >
-          <div className="flex flex-col items-center mb-7">
-            <h1 className="font-bold text-[23px]">
-              Would you like to provide a quote?
-            </h1>
-            <h5 className="text-color-20 text-sm lg:text-base pb-4 text-center">
-              Offering an estimated quote is more likely to get you shortlisted
-            </h5>
-            <div className="flex justify-center gap-4">
-              <BaseButton
-                type="button"
-                onClick={() => qouteCecern(QuoteType.Direct)}
-                extraClass="bg-color-9 w-[220px] text-white"
-              >
-                Yes
-              </BaseButton>
-              <BaseButton
-                type="button"
-                variant="bordered"
-                onClick={() => qouteCecern(QuoteType.HomeVisit)}
-                extraClass="w-[220px] text-blue"
-              >
-                No
-              </BaseButton>
-            </div>
-          </div>
-        </BaseModal>
-      ) : (
-        ""
-      )} */}
         <h2 className="text-xl font-semibold mb-4 text-color-17 sticky top-0 left-0 bg-gray-100 ">{title}</h2>
         <section className="flex-1  rounded-md border bg-color-16 text-left text-gray-600">
           {innerTitle && (
@@ -243,11 +203,34 @@ export default function JobListSection({
                           onClick={() => {
 
                             if (getUserQuery.data?.data.data) {
-                              if(getUserQuery.data.data.data.profileCompletion>=75){
-                                router.push(`/tradeperson/job/${e._id}`)
-                                return 
+                              // if(getUserQuery.data.data.data.profileCompletion>=75){
+                              //   router.push(`/tradeperson/job/${e._id}`)
+                              //   return 
+                              // }
+
+
+                              const { trade, isIdVerified, isGasSafeVerified, isPartPQualified, isEicrDocumentationVerified, isWiringRegulationsCertified, gasSafeRegistered } = getUserQuery.data?.data.data.profile
+                              if (trade == 2) {
+                                if (isIdVerified && isWiringRegulationsCertified && isPartPQualified && isEicrDocumentationVerified) {
+                                  router.push(`/tradeperson/job/${e._id}`)
+                                }
+                                else {
+                                  onOpen()
+                                }
                               }
-                              onOpen()
+                              else {
+                                if (isIdVerified && (!gasSafeRegistered || (isGasSafeVerified && gasSafeRegistered))) {
+                                  router.push(`/tradeperson/job/${e._id}`)
+                                }
+                                else {
+                                  onOpen()
+                                }
+                                // if (getUserQuery.data.data.data.profileCompletion >= 75) {
+                                //   router.push(`/tradeperson/job/${e._id}`)
+                                //   return
+                                // }
+                              }
+                              // onOpen()
                             }
                           }}
                           // link={`/tradeperson/job/${e._id}`}

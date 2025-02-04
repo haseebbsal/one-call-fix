@@ -2,7 +2,7 @@
 
 import { Image } from "@nextui-org/image";
 import { useDisclosure } from "@nextui-org/modal";
-import React from "react";
+import React, { useState } from "react";
 
 import BaseButton from "@/components/common/button/base-button";
 import BaseModal from "@/components/common/modal/base-modal";
@@ -11,6 +11,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import axiosInstance from "@/_utils/helpers/axiosInstance";
 import { TRADES } from "@/_utils/enums";
 import { config } from "@/_utils/helpers/config";
+import { FieldValues, useForm } from "react-hook-form";
+import BaseTextArea from "@/components/common/form/base-textarea";
 
 // {
 //   "verifyId": false, done
@@ -21,6 +23,23 @@ import { config } from "@/_utils/helpers/config";
 //   "verifyWaterSafe": false, not there
 //   "verifyNVQQualified": false, there done
 //   "verifyEALQualified": false there
+// }
+
+
+enum ElectricianVerified {
+  'Identification' = 'isIdVerified',
+  "Part P Qualification" = "isPartPQualified",
+  "EICR Documentation" = "isEicrDocumentationVerified",
+  "Wiring Regulations Certificate" = "isWiringRegulationsCertified"
+}
+
+// enum NonGasPluberVerified {
+//   'Identification' = 'isIdVerified',
+// }
+
+// enum GasPlumberVerified {
+//   'Identification' = 'isIdVerified',
+//   'Gas safe ID' = 'isGasSafeVerified',
 // }
 
 
@@ -36,20 +55,15 @@ import { config } from "@/_utils/helpers/config";
 // }
 
 
-// wiringRegulationsCertificate done
-// eicrDocumentation done
-// competentPersonRegister: "" done
-// nvqQualification: "" done
-// ealQualification: "" done
-// publicLiabilityInsurance: "" done
-// trustMark done
-// identification: "" done
-// gasSafeId done 
-// diploma done
-// partPQualification done
-// cityGuildQualification done
 export default function VerificationDocument(datas: any) {
   const { isOpen, onOpenChange, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpen1, onOpenChange: onOpenChange1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
+  const { isOpen: isOpen2, onOpenChange: onOpenChange2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+  const [verifyState,setVerifyState]=useState<any>()
+
+  const {handleSubmit,control}=useForm()
+
+
   const queryClient = useQueryClient()
   const verifyMutation = useMutation((data: any) => axiosInstance.put(`/trades-person/verify?userId=${datas.params.documentId}`, data), {
     onSuccess(data, variables, context) {
@@ -57,6 +71,22 @@ export default function VerificationDocument(datas: any) {
       queryClient.invalidateQueries('individualAdminTrade')
     },
   })
+
+  const verifyMutation1 = useMutation((data: any) => axiosInstance.put(`/trades-person/verify?userId=${datas.params.documentId}`, data), {
+    onSuccess(data, variables, context) {
+      onClose2()
+      queryClient.invalidateQueries('individualAdminTrade')
+    },
+  })
+
+  function rejectSubmit(e:FieldValues){
+    const data={
+      ...e,
+      ...verifyState
+    }
+    verifyMutation1.mutate(data)
+    console.log('valuesfgegdgg',data)
+  }
   const getUserQuery = useQuery(['individualAdminTrade', datas.params.documentId], ({ queryKey }) => axiosInstance.get(`/user/?userId=${queryKey[1]}`))
 
   return (
@@ -80,6 +110,51 @@ export default function VerificationDocument(datas: any) {
             Okay
           </BaseButton>
         </div>
+      </BaseModal>
+
+      <BaseModal
+        isOpen={isOpen1}
+        onOpenChange={onOpenChange1}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <div className="flex flex-col items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Verification has been rejected.
+          </h5>
+          <BaseButton
+            type="button"
+            onClick={() => onClose1()}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Okay
+          </BaseButton>
+        </div>
+      </BaseModal>
+
+      <BaseModal
+        isOpen={isOpen2}
+        onOpenChange={onOpenChange2}
+        size="md"
+        header="System Generated Request"
+        modalHeaderImage="/images/modal-success.png"
+      >
+        <form onSubmit={handleSubmit(rejectSubmit)} className="flex flex-col gap-4 items-center mb-7">
+          <h5 className="text-color-20 text-sm lg:text-base pb-4">
+            Reject Document
+          </h5>
+          <BaseTextArea label="Description" placeholder="Enter Description"  name="description" control={control} rules={{required:"Enter Description"}}/>
+          <BaseButton
+            type="submit"
+            // onClick={() => onClose2()}
+            isLoading={verifyMutation.isLoading}
+            disabled={verifyMutation.isLoading}
+            extraClass="bg-color-9 !max-w-[350px] w-full text-white"
+          >
+            Reject Document
+          </BaseButton>
+        </form>
       </BaseModal>
       <LayoutWrapper
         sectionOneTitle="Verifications Requests"
@@ -107,23 +182,28 @@ export default function VerificationDocument(datas: any) {
                       className="object-contain"
                     />
                   </a>
-                  <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+                  <div className="flex sm:items-center gap-2.5 flex-col lg:flex-row mt-10">
                     <BaseButton
                       type="button"
                       onClick={() => verifyMutation.mutate({
-                        "verifyId": true
+                        "verifyId": 1
                       })}
                       extraClass="max-w-[190px] bg-color-9 "
                     >
                       Accept
                     </BaseButton>
-                    {/* <BaseButton
-                type="button"
-                onClick={() => onOpen()}
-                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
-              >
-                Reject
-              </BaseButton> */}
+                    <BaseButton
+                      type="button"
+                      onClick={() => {
+                        setVerifyState({
+                          "verifyId": 2
+                        })
+                        onOpen2()
+                      }}
+                      extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+                    >
+                      Reject
+                    </BaseButton>
                   </div>
                 </div>}
                 {getUserQuery.data?.data.data.profile.documents.required.gasSafeId && !getUserQuery.data?.data.data.profile.isGasSafeVerified && TRADES[getUserQuery.data?.data.data.profile.trade] == 'PLUMBER' && <div className="mb-8">
@@ -139,23 +219,29 @@ export default function VerificationDocument(datas: any) {
                       className="object-contain"
                     />
                   </a>
-                  <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+                  <div className="flex sm:items-center gap-2.5 flex-col lg:flex-row mt-10">
                     <BaseButton
                       type="button"
                       onClick={() => verifyMutation.mutate({
-                        "verifyGasSafe": true
+                        "verifyGasSafe": 1
                       })}
                       extraClass="max-w-[190px] bg-color-9 "
                     >
                       Accept
                     </BaseButton>
-                    {/* <BaseButton
-                type="button"
-                onClick={() => onOpen()}
-                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
-              >
-                Reject
-              </BaseButton> */}
+                    <BaseButton
+                      type="button"
+                      onClick={() => {
+                        setVerifyState({
+                          "verifyGasSafe": 2
+                        })
+                        onOpen2()
+                      }}
+                      extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+                    >
+                      Reject
+                    </BaseButton>
+
                   </div>
                 </div>}
                 {getUserQuery.data?.data.data.profile.documents.required.partPQualification && !getUserQuery.data?.data.data.profile.isPartPQualified && <div className="mb-8">
@@ -171,23 +257,28 @@ export default function VerificationDocument(datas: any) {
                       className="object-contain"
                     />
                   </a>
-                  <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+                  <div className="flex sm:items-center gap-2.5 flex-col lg:flex-row mt-10">
                     <BaseButton
                       type="button"
                       onClick={() => verifyMutation.mutate({
-                        "verifyPartPQualification": true
+                        "verifyPartPQualification": 1
                       })}
                       extraClass="max-w-[190px] bg-color-9 "
                     >
                       Accept
                     </BaseButton>
-                    {/* <BaseButton
-                type="button"
-                onClick={() => onOpen()}
-                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
-              >
-                Reject
-              </BaseButton> */}
+                    <BaseButton
+                      type="button"
+                      onClick={() => {
+                        setVerifyState({
+                          "verifyPartPQualification": 2
+                        })
+                        onOpen2()
+                      }}
+                      extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+                    >
+                      Reject
+                    </BaseButton>
                   </div>
                 </div>}
                 {getUserQuery.data?.data.data.profile.documents.required.wiringRegulationsCertificate && !getUserQuery.data?.data.data.profile.IsWiringRegulationsCertified && <div className="mb-8">
@@ -203,23 +294,28 @@ export default function VerificationDocument(datas: any) {
                       className="object-contain"
                     />
                   </a>
-                  <div className="flex items-center gap-2.5 flex-col lg:flex-row mt-10">
+                  <div className="flex sm:items-center gap-2.5 flex-col lg:flex-row mt-10">
                     <BaseButton
                       type="button"
                       onClick={() => verifyMutation.mutate({
-                        "verifyWiringRegulationsCertificate": true
+                        "verifyWiringRegulationsCertificate":1
                       })}
                       extraClass="max-w-[190px] bg-color-9 "
                     >
                       Accept
                     </BaseButton>
-                    {/* <BaseButton
-                type="button"
-                onClick={() => onOpen()}
-                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
-              >
-                Reject
-              </BaseButton> */}
+                    <BaseButton
+                      type="button"
+                      onClick={() => {
+                        setVerifyState({
+                          "verifyWiringRegulationsCertificate": 2
+                        })
+                        onOpen2()
+                      }}
+                      extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+                    >
+                      Reject
+                    </BaseButton>
                   </div>
                 </div>}
                 {getUserQuery.data?.data.data.profile.documents.required.eicrDocumentation && !getUserQuery.data?.data.data.profile.isEicrDocumentationVerified && <div>
@@ -239,19 +335,24 @@ export default function VerificationDocument(datas: any) {
                     <BaseButton
                       type="button"
                       onClick={() => verifyMutation.mutate({
-                        "verifyEicrDocumentation": true
+                        "verifyEicrDocumentation": 1
                       })}
                       extraClass="max-w-[190px] bg-color-9 "
                     >
                       Accept
                     </BaseButton>
-                    {/* <BaseButton
-                type="button"
-                onClick={() => onOpen()}
-                extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
-              >
-                Reject
-              </BaseButton> */}
+                    <BaseButton
+                      type="button"
+                      onClick={() => {
+                        setVerifyState({
+                          "verifyEicrDocumentation": 2
+                        })
+                        onOpen2()
+                      }}
+                      extraClass="max-w-[190px] text-color-9 border bg-transparent border-color-9 "
+                    >
+                      Reject
+                    </BaseButton>
                   </div>
                 </div>}
 

@@ -19,6 +19,9 @@ const column: columnType[] = [
     title: "S.no",
   },
   {
+    title: "Email",
+  },
+  {
     title: "Full Name",
   },
   {
@@ -152,6 +155,12 @@ export default function TradePersonManagement() {
                   <td onClick={()=>router.push(`/admin/trade-person/${el._id}`)} className={` cursor-pointer p-2.5 xl:p-5`}>
                     <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
                       {index+1<10?`0${index+1}`:index+1}
+                    </span>
+                  </td>
+
+                  <td className={` p-2.5 xl:p-5`}>
+                    <span className=" truncate text-graydark flex justify-start text-xs 2xl:text-sm">
+                      {el.email} 
                     </span>
                   </td>
                   <td className={` p-2.5 xl:p-5`}>

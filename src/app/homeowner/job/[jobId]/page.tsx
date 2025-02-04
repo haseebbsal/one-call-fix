@@ -38,6 +38,7 @@ export default function Jobs(datas: any) {
   const getMoreLeadsMutation = useMutation(() => axiosInstance.put(`/job/request-quote?jobId=${datas.params.jobId}`), {
     onSuccess(data) {
       console.log('more leads', data.data)
+      toast.success('Your request has been submitted. Additional tradespeople are now able to submit interest in your job!')
     },
     onError(error: any) {
       if (Array.isArray(error.response.data.message)) {
@@ -192,7 +193,7 @@ export default function Jobs(datas: any) {
               >
                 {individualJob.data?.data?.data.media.map((item: any, index: any) =>
                   item.isVideo ? (
-                    <SwiperSlide className="sm:p-0 ">
+                    <SwiperSlide key={item} className="sm:p-0 ">
 
                       <video
                         key={index}
@@ -205,7 +206,7 @@ export default function Jobs(datas: any) {
                       />
                     </SwiperSlide>
                   ) : (
-                    <SwiperSlide className="sm:p-0 ">
+                    <SwiperSlide key={item} className="sm:p-0 ">
 
                       <Image
                         key={index}
@@ -256,18 +257,19 @@ export default function Jobs(datas: any) {
                   ),
                 )}
               </div> */}
-              <BaseButton onClick={() => {
+              {bidsQuery.data?.data.data.length / 3 == individualJob.data?.data?.data.bidsBatch && <BaseButton onClick={() => {
                 getMoreLeadsMutation.mutate()
               }} extraClass="!underline !m-auto bg-transparent !text-color-9 !mr-4 !text-medium">
-                Need More Leads
-              </BaseButton>
+                Request More Quotes
+              </BaseButton>}
+
             </div>
           </div>
           <h6 className="text-black py-2.5 font-[700] text-[18px]">
             Trade People Who Applied For this Job
           </h6>
           <div className="flex gap-2">
-            {bidsQuery.data?.data.data.map((e: any) => <LeadCard bidId={e._id} jobId={datas.params.jobId} id={e.user._id} imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`} />)}
+            {bidsQuery.data?.data.data.map((e: any) => <LeadCard key={e} bidId={e._id} jobId={datas.params.jobId} id={e.user._id} imageSrc={e.user.profilePicture} name={`${e.user.firstName} ${e.user.lastName}`} />)}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}
             {/* <LeadCard /> */}

@@ -23,6 +23,22 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Switch } from "@nextui-org/react";
 
+
+// options: [
+//   "As Soon As Possible",
+//   "This Week",
+//   "Within Two Weeks",
+//   "Within This Month",
+//   "Within The Next Two Months",
+//   "Flexible",
+// ],
+
+const noScheduleOptions=[
+  "Within Two Weeks",
+  "Within This Month",
+  "Within The Next Two Months",
+]
+
 const formatTime = (time: string) => {
   const [hour, minute] = time.split(":");
   const hours = parseInt(hour);
@@ -205,6 +221,10 @@ export default function JobDetailsPage(datas: any) {
               <div className="flex flex-col gap-2">
                 <p className="text-sm">Submitting interest is free! You only have to pay once the homeowner has shortlisted you and you have confirmed that you would like their details</p>
                 <button onClick={() => {
+                  if(noScheduleOptions.includes(getUserQuery.data?.data.data.completion)){
+                    setQuoteModal(true)
+                    return
+                  }
                   onOpen()
                 }} className="bg-blue-500  w-max hover:bg-blue-700 text-white py-2 px-6 rounded-full focus:outline-none focus:shadow-outline">
                   Submit Interest
